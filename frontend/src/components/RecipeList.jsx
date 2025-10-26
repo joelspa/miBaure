@@ -72,14 +72,16 @@ function RecipeList() {
                 </div>
 
                 {/* Category Filters */}
-                <div className="category-filters">
+                <div className="category-filters" role="group" aria-label="Filtrar recetas por categoría">
                     {categories.map(cat => (
                         <button
                             key={cat.value}
-                            className={selectedCategory === cat.value ? 'chip chip-primary' : 'chip'}
+                            className={selectedCategory === cat.value ? 'tag tag-primary' : 'tag'}
                             onClick={() => setSelectedCategory(cat.value)}
+                            aria-label={`Filtrar recetas: ${cat.label}`}
+                            aria-pressed={selectedCategory === cat.value}
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>
+                            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }} aria-hidden="true">
                                 {cat.icon}
                             </span>
                             {cat.label}
@@ -118,7 +120,7 @@ function RecipeList() {
                                     {recipe.imageUrl ? (
                                         <img 
                                             src={recipe.imageUrl} 
-                                            alt={recipe.name}
+                                            alt={`Plato tradicional Baure: ${recipe.name}${recipe.baureTranslation ? ` (${recipe.baureTranslation})` : ''}`}
                                             onError={(e) => {
                                                 e.target.style.display = 'none';
                                                 e.target.parentElement.innerHTML = '<span class="material-symbols-outlined">restaurant_menu</span>';

@@ -82,7 +82,7 @@ export default function BaureCulture() {
                     {CULTURAL_CATEGORIES.map((cat) => (
                         <button
                             key={cat.value}
-                            className={selectedCategory === cat.value ? 'chip chip-primary' : 'chip'}
+                            className={selectedCategory === cat.value ? 'tag tag-primary' : 'tag'}
                             onClick={() => setSelectedCategory(cat.value)}
                         >
                             <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>
@@ -126,7 +126,7 @@ export default function BaureCulture() {
                                                 <figure key={index} className="cultural-image">
                                                     <img 
                                                         src={image.url} 
-                                                        alt={image.caption}
+                                                        alt={image.caption || `Imagen ilustrativa de ${item.title}, categoría ${item.category} de la cultura Baure`}
                                                         onError={(e) => {
                                                             e.target.style.display = 'none';
                                                         }}
@@ -143,7 +143,7 @@ export default function BaureCulture() {
                                         <div className="cultural-topics">
                                             <span className="topics-label">Temas relacionados:</span>
                                             {item.relatedTopics.map((topic, index) => (
-                                                <span key={index} className="chip chip-accent">
+                                                <span key={index} className="tag tag-accent">
                                                     {topic}
                                                 </span>
                                             ))}

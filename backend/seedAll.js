@@ -224,12 +224,7 @@ const culturalData = [
                 text: "Actualmente, la población Baure se estima en varios cientos de personas, distribuidas en diferentes comunidades. Muchos han migrado a centros urbanos, pero mantienen vínculos estrechos con sus comunidades de origen y participan en festividades y actividades tradicionales."
             }
         ],
-        images: [
-            {
-                url: "/images/culture/territorio-baure.jpg",
-                caption: "Vista del río Baures y su territorio"
-            }
-        ],
+        images: [],
         sources: ["Investigación de campo - Proyecto Archivo Baure", "Testimonios comunitarios", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Territorio", "Historia colonial", "Geografía amazónica"]
     },
@@ -271,12 +266,7 @@ La yuca no solo se consume hervida o asada. Los Baure han desarrollado múltiple
                 text: "En el tiempo precolonial, el hombre Baure cazaba y pescaba, mientras la mujer se quedaba a preparar comida, acarrear leña, hacer chicha, tejer, y fabricar utensilios como ollas y tinajas."
             }
         ],
-        images: [
-            {
-                url: "/images/culture/cultivo-yuca.jpg",
-                caption: "Cultivo tradicional de yuca en chaco Baure"
-            }
-        ],
+        images: [],
         sources: ["Conocimiento tradicional comunitario", "Observación participante", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Agricultura tradicional", "Soberanía alimentaria", "Etnobotánica"]
     },
@@ -296,12 +286,7 @@ Un método de pesca tradicional implicaba usar un bejuco llamado coropi, que al 
                 text: "El caracol (turo) era consumido asado o sancochado con chivé, y se hacía tamal de turo. Algunos, como Rosalia Pinaicobo, comían turo en tamal (con maíz y manteca) pero temían al gusano de tierra sabayón (To Sakopi), aunque otros decían que era lo mejor para no enfermarse."
             }
         ],
-        images: [
-            {
-                url: "/images/culture/rio-baures.jpg",
-                caption: "El río Baures en época de aguas altas"
-            }
-        ],
+        images: [],
         sources: ["Testimonios de pescadores tradicionales", "Observación etnográfica", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Pesca tradicional", "Ecología de ríos", "Cosmovisión indígena"]
     },
@@ -323,12 +308,7 @@ Un método de pesca tradicional implicaba usar un bejuco llamado coropi, que al 
                 text: "Baures es una de las zonas más turísticas del Beni, muy conocida por los famosos Chocolates Baures, uno de los insumos más connotados y apreciados del país."
             }
         ],
-        images: [
-            {
-                url: "/images/culture/fiesta-comunitaria.jpg",
-                caption: "Preparación colectiva de comida en festividad tradicional"
-            }
-        ],
+        images: [],
         sources: ["Observación participante en festividades", "Testimonios comunitarios", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Organización social", "Rituales y festividades", "Economía de la reciprocidad"]
     },

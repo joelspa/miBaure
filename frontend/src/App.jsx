@@ -12,6 +12,7 @@ import LifeStoryEdit from './components/LifeStoryEdit';
 import CulturalDataCreate from './components/CulturalDataCreate';
 import CulturalDataEdit from './components/CulturalDataEdit';
 import AdminPanel from './components/AdminPanel';
+import NotFound from './components/NotFound';
 
 import './styles/App.css';
 
@@ -26,7 +27,7 @@ function AppHeader({ darkMode, toggleDarkMode }) {
       <header className="header">
         <div className="header-container">
           <div className="header-brand">
-            <span className="material-symbols-outlined brand-icon">outdoor_grill</span>
+            <span className="material-symbols-outlined brand-icon" aria-hidden="true">outdoor_grill</span>
             <div className="brand-text">
               <h1>Archivo Baure</h1>
               <p>Cocina, memoria y territorio</p>
@@ -37,34 +38,34 @@ function AppHeader({ darkMode, toggleDarkMode }) {
             <button
               className="btn btn-outline"
               onClick={toggleDarkMode}
-              aria-label="Cambiar modo de color"
+              aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
               title={darkMode ? 'Modo claro' : 'Modo oscuro'}
             >
-              <span className="material-symbols-outlined">
+              <span className="material-symbols-outlined" aria-hidden="true">
                 {darkMode ? 'light_mode' : 'dark_mode'}
               </span>
             </button>
             {isAdmin && (
-              <Link to="/admin-panel-baure" className="btn btn-primary">
-                <span className="material-symbols-outlined">admin_panel_settings</span>
+              <Link to="/admin-panel-baure" className="btn btn-primary" aria-label="Ir al panel de administración">
+                <span className="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
                 Panel Admin
               </Link>
             )}
-            <Link to="/" className="btn btn-outline">
-              <span className="material-symbols-outlined">home</span>
+            <Link to="/" className="btn btn-outline" aria-label="Ir a la página de inicio">
+              <span className="material-symbols-outlined" aria-hidden="true">home</span>
               Inicio
             </Link>
           </div>
         </div>
-        <div className="motif-bar"></div>
+        <div className="motif-bar" aria-hidden="true"></div>
       </header>
 
       {/* Navigation */}
-      <nav className="navbar">
+      <nav className="navbar" aria-label="Navegación principal">
         <ul className="nav-links">
           <li>
             <Link to="/" className={isActive('/')}>
-              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }} aria-hidden="true">
                 restaurant_menu
               </span>
               Recetas
@@ -72,7 +73,7 @@ function AppHeader({ darkMode, toggleDarkMode }) {
           </li>
           <li>
             <Link to="/recuentos" className={isActive('/recuentos')}>
-              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }} aria-hidden="true">
                 history_edu
               </span>
               Recuentos de Vida
@@ -80,7 +81,7 @@ function AppHeader({ darkMode, toggleDarkMode }) {
           </li>
           <li>
             <Link to="/cultura" className={isActive('/cultura')}>
-              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }} aria-hidden="true">
                 account_balance
               </span>
               Cultura Baure
@@ -109,10 +110,15 @@ function App() {
   return (
     <Router>
       <div className="App">
+        {/* Skip to main content link for accessibility */}
+        <a href="#main-content" className="skip-to-main">
+          Saltar al contenido principal
+        </a>
+
         <AppHeader darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
         {/* Main Content */}
-        <main className="main-content">
+        <main id="main-content" className="main-content">
           <div className="content-wrapper">
             <Routes>
               <Route path="/" element={<RecipeList />} />
@@ -126,6 +132,8 @@ function App() {
               <Route path="/cultura/crear" element={<CulturalDataCreate />} />
               <Route path="/crear" element={<RecipeCreate />} />
               <Route path="/admin-panel-baure" element={<AdminPanel />} />
+              {/* Ruta 404 - Debe ir al final */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </main>

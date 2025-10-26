@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
-import ChipInput from './ui/ChipInput';
+import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 
 function MultiImagePicker({ onFilesSelected }) {
@@ -164,7 +164,7 @@ export default function LifeStoryCreate() {
                 />
               </div>
 
-              <ChipInput
+              <TagInput
                 label="Temas relacionados"
                 placeholder="Ej. Río"
                 values={relatedThemes}

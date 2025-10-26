@@ -76,7 +76,7 @@ function RecipeDetail() {
                     {recipe.imageUrl ? (
                         <img 
                             src={recipe.imageUrl} 
-                            alt={recipe.name}
+                            alt={`Fotografía de ${recipe.name}${recipe.baureTranslation ? ` (${recipe.baureTranslation} en lengua Baure)` : ''}, receta tradicional del pueblo Baure`}
                             onError={(e) => {
                                 e.target.style.display = 'none';
                                 e.target.parentElement.innerHTML = '<span class="material-symbols-outlined" style="font-size: 5rem;">outdoor_grill</span>';
