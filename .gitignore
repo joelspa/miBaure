@@ -1,5 +1,6 @@
 # Ignorar archivos y reportes generados por Unlighthouse / Lighthouse
 .unlighthouse/
+.unlighthouse/localhost/937c
 unlighthouse/
 unlighthouse-report*.html
 unlighthouse-*.json
