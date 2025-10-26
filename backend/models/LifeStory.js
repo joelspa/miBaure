@@ -36,6 +36,14 @@ const lifeStorySchema = new mongoose.Schema({
     url: String,
     caption: String
   }],
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+    deletedAt: {
+        type: Date,
+        default: null
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('LifeStory', lifeStorySchema);

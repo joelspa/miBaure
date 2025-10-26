@@ -257,4 +257,71 @@ router.get('/', lifeStoryController.getAllLifeStories);
  */
 router.get('/:id', lifeStoryController.getLifeStoryById);
 
+/**
+ * @openapi
+ * /api/life-stories/{id}:
+ *   put:
+ *     tags: [Life Stories]
+ *     summary: Actualizar recuento de vida completo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               personName:
+ *                 type: string
+ *               age:
+ *                 type: number
+ *               community:
+ *                 type: string
+ *               story:
+ *                 type: string
+ *               relatedThemes:
+ *                 type: string
+ *               recordedDate:
+ *                 type: string
+ *                 format: date
+ *               recordedBy:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Recuento actualizado exitosamente
+ *       404:
+ *         description: Recuento no encontrado
+ */
+router.put('/:id', upload.single('image'), lifeStoryController.updateLifeStory);
+
+/**
+ * @openapi
+ * /api/life-stories/{id}:
+ *   delete:
+ *     summary: Eliminar un recuento de vida
+ *     tags: [Life Stories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Recuento eliminado exitosamente
+ *       404:
+ *         description: Recuento no encontrado
+ */
+router.delete('/:id', lifeStoryController.deleteLifeStory);
+
 module.exports = router;

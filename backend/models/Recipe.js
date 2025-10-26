@@ -16,7 +16,9 @@ const recipeSchema = new mongoose.Schema({
     images: [{ // Array de imágenes adicionales
         url: String,
         caption: String
-    }]
+    }],
+    deleted: { type: Boolean, default: false }, // Soft delete
+    deletedAt: { type: Date, default: null }
 });
 
 module.exports = mongoose.model('Recipe', recipeSchema);

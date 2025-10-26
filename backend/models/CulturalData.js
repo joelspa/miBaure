@@ -28,7 +28,15 @@ const culturalDataSchema = new mongoose.Schema({
     }],
     relatedTopics: [{
         type: String
-    }]
+    }],
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+    deletedAt: {
+        type: Date,
+        default: null
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('CulturalData', culturalDataSchema);

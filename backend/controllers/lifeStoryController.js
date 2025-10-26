@@ -14,7 +14,7 @@ const toArray = v => Array.isArray(v) ? v : (typeof v === 'string' && v ? [v] : 
 // GET /api/life-stories - Obtener todos
 exports.getAllLifeStories = async (req, res) => {
   try {
-    const stories = await LifeStory.find().sort({ createdAt: -1 });
+    const stories = await LifeStory.find({ deleted: false }).sort({ createdAt: -1 });
     res.json(stories);
   } catch (error) {
     console.error('Error al obtener recuentos de vida:', error);
@@ -104,5 +104,50 @@ exports.addExtraImages = async (req, res) => {
   } catch (error) {
     console.error('Error al agregar imágenes:', error);
     res.status(400).json({ message: error.message });
+  }
+};
+
+// PUT /api/life-stories/:id - Actualizar recuento completo
+exports.updateLifeStory = async (req, res) => {
+  try {
+    const story = await LifeStory.findById(req.params.id);
+    if (!story) return res.status(404).json({ message: 'Recuento no encontrado' });
+
+    if (req.body.title) story.title = req.body.title.trim();
+    if (req.body.personName) story.personName = req.body.personName.trim();
+    if (req.body.age !== undefined) story.age = req.body.age;
+    if (req.body.community !== undefined) story.community = req.body.community;
+    if (req.body.story) story.story = req.body.story.trim();
+    if (req.body.recordedBy !== undefined) story.recordedBy = req.body.recordedBy;
+    
+    if (req.body.relatedThemes) story.relatedThemes = toArray(parseMaybe(req.body.relatedThemes));
+    if (req.body.recordedDate) story.recordedDate = new Date(req.body.recordedDate);
+    
+    if (req.file) {
+      story.photoUrl = buildPublicUrl(req, req.file.path);
+    }
+
+    await story.save();
+    res.json(story);
+  } catch (error) {
+    console.error('Error al actualizar recuento:', error);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// DELETE /api/life-stories/:id - Eliminar recuento (soft delete)
+exports.deleteLifeStory = async (req, res) => {
+  try {
+    const story = await LifeStory.findById(req.params.id);
+    if (!story) return res.status(404).json({ message: 'Recuento no encontrado' });
+
+    story.deleted = true;
+    story.deletedAt = new Date();
+    await story.save();
+
+    res.json({ message: 'Recuento eliminado con éxito', deletedId: req.params.id });
+  } catch (error) {
+    console.error('Error al eliminar recuento:', error);
+    res.status(500).json({ message: error.message });
   }
 };

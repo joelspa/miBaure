@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 const MAX_MB = 5;
 const MAX_BYTES = MAX_MB * 1024 * 1024;
 
-export default function ImageDropzone({ label = 'Imagen principal', onFileSelected, preview, setPreview }) {
+export default function ImageDropzone({ label = 'Imagen principal', onFileSelected, preview, setPreview, currentImage }) {
   const inputRef = useRef(null);
   const [dragOver, setDragOver] = useState(false);
 
@@ -42,6 +42,9 @@ export default function ImageDropzone({ label = 'Imagen principal', onFileSelect
     setPreview(null);
   };
 
+  // Show preview if we have one, otherwise show current image, otherwise show placeholder
+  const displayImage = preview || currentImage;
+
   return (
     <div className="field">
       <label className="label">{label}</label>
@@ -61,9 +64,9 @@ export default function ImageDropzone({ label = 'Imagen principal', onFileSelect
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click(); }}
         aria-label="Subir imagen arrastrando o haciendo click"
       >
-        {preview ? (
+        {displayImage ? (
           <div className="dropzone-preview-wrap">
-            <img src={preview} alt="Vista previa" className="dropzone-preview" />
+            <img src={displayImage} alt="Vista previa" className="dropzone-preview" />
             <div className="dropzone-actions" aria-hidden="false">
               <button
                 type="button"

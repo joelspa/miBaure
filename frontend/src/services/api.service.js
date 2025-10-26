@@ -15,10 +15,28 @@ const apiService = {
     });
   },
 
+  // NEW: actualizar receta
+  updateRecipe: (id, formData, onUploadProgress) => {
+    return axios.put(`${API_URL}/api/recipes/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress
+    });
+  },
+
+  // NEW: eliminar receta
+  deleteRecipe: (id) => axios.delete(`${API_URL}/api/recipes/${id}`),
+
   // Life Stories
   getAllStories: () => axios.get(`${API_URL}/api/life-stories`),
+  getLifeStoryById: (id) => axios.get(`${API_URL}/api/life-stories/${id}`),
   createLifeStory: (formData, onUploadProgress) =>
     axios.post(`${API_URL}/api/life-stories`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress,
+    }),
+
+  updateLifeStory: (id, formData, onUploadProgress) =>
+    axios.put(`${API_URL}/api/life-stories/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress,
     }),
@@ -27,12 +45,32 @@ const apiService = {
     axios.patch(`${API_URL}/api/life-stories/${id}/images`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }),
+
+  deleteLifeStory: (id) => axios.delete(`${API_URL}/api/life-stories/${id}`),
+
   // Cultural Data
   getAllCulturalData: () => axios.get(`${API_URL}/api/cultural-data`),
+  getCulturalDataById: (id) => axios.get(`${API_URL}/api/cultural-data/${id}`),
   getCulturalDataByCategory: (category) => axios.get(`${API_URL}/api/cultural-data/category/${category}`),
+  createCulturalData: (formData, onUploadProgress) =>
+    axios.post(`${API_URL}/api/cultural-data`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress,
+    }),
+
+  updateCulturalData: (id, formData, onUploadProgress) =>
+    axios.put(`${API_URL}/api/cultural-data/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress,
+    }),
+
+  deleteCulturalData: (id) => axios.delete(`${API_URL}/api/cultural-data/${id}`),
 
   // AI Chat
-  askAI: (question, recipeData = null) => axios.post(`${API_URL}/api/chat`, { question, recipeData })
+  askAI: (question, recipeData = null) => axios.post(`${API_URL}/api/chat`, { question, recipeData }),
+
+  // Admin
+  validateAdminPassword: (password) => axios.post(`${API_URL}/api/admin/validate`, { password })
 };
 
 export default apiService;

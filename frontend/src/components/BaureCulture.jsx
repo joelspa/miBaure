@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import apiService from '../services/api.service';
 import Loading from './Loading';
@@ -9,6 +10,22 @@ export default function BaureCulture() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
+
+    const handleDelete = async (item) => {
+        if (!window.confirm(`¿Estás seguro de que quieres eliminar "${item.title}"? Esta acción no se puede deshacer.`)) {
+            return;
+        }
+
+        try {
+            await apiService.deleteCulturalData(item._id);
+            setCulturalData(culturalData.filter(cd => cd._id !== item._id));
+            alert('Dato cultural eliminado con éxito');
+        } catch (err) {
+            console.error(err);
+            alert('Error al eliminar el dato cultural: ' + (err.response?.data?.message || err.message));
+        }
+    };
 
     useEffect(() => {
         apiService.getAllCulturalData()
@@ -130,6 +147,27 @@ export default function BaureCulture() {
                                                     {topic}
                                                 </span>
                                             ))}
+                                        </div>
+                                    )}
+
+                                    {isAdmin && (
+                                        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+                                            <Link 
+                                                to={`/cultura/${item._id}/edit`} 
+                                                className="btn btn-outline"
+                                                style={{ flex: 1 }}
+                                            >
+                                                <span className="material-symbols-outlined">edit</span>
+                                                Editar
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(item)}
+                                                className="btn btn-outline"
+                                                style={{ flex: 1, color: 'var(--color-error, #dc2626)' }}
+                                            >
+                                                <span className="material-symbols-outlined">delete</span>
+                                                Eliminar
+                                            </button>
                                         </div>
                                     )}
                                 </article>
