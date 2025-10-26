@@ -26,6 +26,10 @@ mongoose.connect(config.mongoUri, {
 
 // Rutas
 app.use('/api/recipes', require('./routes/recipes'));
+app.use('/api/chat', require('./routes/ai'));
+app.use('/api/life-stories', require('./routes/lifeStories'));
+app.use('/api/cultural-data', require('./routes/culturalData'));
+
 
 // Manejo de errores de Multer y otros
 app.use((err, req, res, next) => {

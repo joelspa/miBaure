@@ -17,7 +17,16 @@ const apiService = {
 
   // Life Stories
   getAllStories: () => axios.get(`${API_URL}/api/life-stories`),
+  createLifeStory: (formData, onUploadProgress) =>
+    axios.post(`${API_URL}/api/life-stories`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress,
+    }),
 
+  addLifeStoryImages: (id, formData) =>
+    axios.patch(`${API_URL}/api/life-stories/${id}/images`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
   // Cultural Data
   getAllCulturalData: () => axios.get(`${API_URL}/api/cultural-data`),
   getCulturalDataByCategory: (category) => axios.get(`${API_URL}/api/cultural-data/category/${category}`),

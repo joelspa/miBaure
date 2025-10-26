@@ -6,6 +6,8 @@ import RecipeDetail from './components/RecipeDetail';
 import LifeStories from './components/LifeStories';
 import BaureCulture from './components/BaureCulture';
 import RecipeCreate from './components/RecipeCreate';
+import LifeStoryCreate from './components/LifeStoryCreate';
+
 import './App.css';
 
 function AppHeader({ darkMode, toggleDarkMode }) {
@@ -29,6 +31,10 @@ function AppHeader({ darkMode, toggleDarkMode }) {
             <Link to="/crear" className="btn btn-primary">
               <span className="material-symbols-outlined">add</span>
               Nueva receta
+            </Link>
+            <Link to="/recuentos/crear" className="btn btn-primary">
+              <span className="material-symbols-outlined">add</span>
+              Nuevo recuento
             </Link>
             <button
               className="btn btn-outline"
@@ -108,6 +114,7 @@ function App() {
               <Route path="/" element={<RecipeList />} />
               <Route path="/recipe/:id" element={<RecipeDetail />} />
               <Route path="/recuentos" element={<LifeStories />} />
+              <Route path="/recuentos/crear" element={<LifeStoryCreate />} />
               <Route path="/cultura" element={<BaureCulture />} />
               <Route path="/crear" element={<RecipeCreate />} />
             </Routes>

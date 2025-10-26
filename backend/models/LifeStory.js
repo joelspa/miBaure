@@ -31,7 +31,11 @@ const lifeStorySchema = new mongoose.Schema({
     },
     recordedBy: {
         type: String
-    }
+    },
+    images: [{                        // Galería extra
+    url: String,
+    caption: String
+  }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('LifeStory', lifeStorySchema);
