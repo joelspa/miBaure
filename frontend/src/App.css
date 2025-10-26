@@ -50,6 +50,52 @@
   
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+:root {
+  /* Escalas */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Tipografía fluida */
+  --fs-xs: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem);
+  --fs-sm: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+  --fs-base: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  --fs-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --fs-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --fs-2xl: clamp(1.75rem, 1.4rem + 1.8vw, 2.5rem);
+
+  /* Elevaciones unificadas */
+  --elev-0: 0 0 0 rgba(0,0,0,0);
+  --elev-1: 0 1px 2px rgb(0 0 0 / 0.06);
+  --elev-2: 0 2px 6px rgb(0 0 0 / 0.08);
+  --elev-3: 0 8px 18px rgb(0 0 0 / 0.12);
+
+  /* Motion y easing */
+  --easing: cubic-bezier(.2,.8,.2,1);
+  --transition-fast: 120ms var(--easing);
+  --transition: 240ms var(--easing);
+}
+
+/* Dark mode: sombras más sutiles para no “flotar” de más */
+body.dark {
+  --shadow-sm: 0 1px 2px rgba(0 0 0 / 0.3);
+  --shadow: 0 2px 6px rgba(0 0 0 / 0.35);
+  --shadow-md: 0 6px 14px rgba(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 24px rgba(0 0 0 / 0.45);
+}
+
+/* Tipografía base fluida */
+html { font-size: 16px; }
+body { font-size: var(--fs-base); }
+.section-title { font-size: var(--fs-xl); }
+.recipe-hero-title { font-size: var(--fs-2xl); }
+.recipe-title { font-size: var(--fs-lg); }
+
 
 /* Material Symbols Configuration */
 .material-symbols-outlined {
@@ -2052,3 +2098,215 @@ input:focus-visible {
   margin-right: 0.5rem;
 }
 
+/* Cards y formulario */
+.card.form {
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+.field { margin-bottom: 1rem; }
+.label {
+  display: block; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text);
+}
+.input, .textarea {
+  width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--color-border);
+  border-radius: var(--radius); background: var(--color-bg); color: var(--color-text);
+  transition: border .2s ease, box-shadow .2s ease;
+}
+.input:focus, .textarea:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+}
+.input-error { border-color: #ef4444; }
+.error { color: #b91c1c; font-size: 0.875rem; margin-top: 0.25rem; }
+.hint { color: var(--color-text-muted); font-size: 0.8125rem; margin-top: 0.25rem; }
+
+.form-actions {
+  display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;
+}
+
+/* Chips */
+.chip-input { display: flex; gap: 0.5rem; align-items: center; }
+.chip-list {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; background: var(--color-bg);
+  border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.5rem;
+  flex: 1;
+}
+.chip-text {
+  border: none; min-width: 140px; padding: 0.25rem 0.5rem; background: transparent; color: var(--color-text);
+}
+.chip-text:focus { outline: none; }
+.tag { display: inline-flex; gap: 0.5rem; align-items: center; }
+.tag-remove {
+  background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1rem;
+}
+
+/* Dropzone */
+.dropzone {
+  background: var(--color-bg); border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg); padding: 1rem; min-height: 220px; display: grid; place-items: center;
+  text-align: center; cursor: pointer; transition: border-color .2s ease, background .2s ease;
+}
+.dropzone-over { border-color: var(--color-primary); background: var(--color-surface); }
+.dropzone-placeholder p { margin-top: 0.5rem; margin-bottom: 0.25rem; color: var(--color-text); }
+.dropzone-preview { width: 100%; height: 280px; object-fit: cover; border-radius: var(--radius); }
+
+/* Progreso */
+.progress { background: var(--color-surface); border-radius: var(--radius-full); height: 8px; overflow: hidden; margin: 1rem 0; }
+.progress-bar { background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); height: 100%; width: 0; transition: width .2s ease; }
+
+/* Toasts */
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; display: inline-flex; gap: 0.5rem;
+  align-items: center; padding: 0.75rem 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  color: white; z-index: 9999;
+}
+.toast-success { background: #16a34a; }
+.toast-error { background: #dc2626; }
+
+.chip-input { display: flex; gap: 0.5rem; align-items: center; }
+.chip-list {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; background: var(--color-bg);
+  border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.5rem;
+  flex: 1; cursor: text;
+}
+.chip-text {
+  border: none; min-width: 140px; padding: 0.375rem 0.5rem; background: transparent; color: var(--color-text);
+}
+.chip-text::placeholder { color: var(--color-text-light); }
+.chip-text:focus { outline: none; }
+
+.chip-pill {
+  display: inline-flex; align-items: center; gap: 0.375rem;
+  background: #fef3c7; color: #78350f; border: 1px solid #fbbf24;
+  padding: 0.25rem 0.5rem; border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 600;
+}
+.chip-pill:focus-within { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+.chip-remove {
+  background: transparent; border: none; cursor: pointer; color: #a16207;
+  font-size: 1rem; line-height: 1; padding: 0; display: inline-flex; align-items: center;
+}
+.chip-remove:hover { color: #78350f; }
+
+.chip-counter { font-size: 0.75rem; color: var(--color-text-muted); }
+
+/* === Dropzone mejoras === */
+.dropzone:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.dropzone-over { border-color: var(--color-primary); background: var(--color-surface); transform: scale(0.998); }
+
+.dropzone-preview-wrap { position: relative; width: 100%; }
+.dropzone-preview {
+  width: 100%; height: 280px; object-fit: cover; border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+.dropzone-actions {
+  position: absolute; right: 0.5rem; top: 0.5rem; display: flex; gap: 0.5rem;
+}
+.dropzone-btn {
+  background: rgba(0,0,0,.55); color: #fff; border: 1px solid rgba(255,255,255,.2);
+  backdrop-filter: blur(2px);
+  padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; cursor: pointer;
+}
+.dropzone-btn:hover { background: rgba(0,0,0,.7); }
+
+/* === Loading: que se note el error === */
+.loading.error { color: #b91c1c; }
+/* Respeta reduce-motion, y agrupa transiciones */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+}
+
+:where(a, button, .chip, .recipe-card, .btn, .nav-link) {
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+/* Evita salto al usar header sticky en anclas */
+:root { scroll-padding-top: 80px; }
+
+/* Enfasis de foco más visible y consistente */
+:where(button, a, input, .chip, .btn, .nav-link):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 70%, white);
+  outline-offset: 2px;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+/* Área táctil mínima */
+:where(button, .btn, .chip, .nav-link) { min-height: 40px; }
+
+/* Estados coherentes */
+.btn-primary:is(:hover, :focus-visible):not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--elev-2);
+}
+.btn-outline:is(:hover, :focus-visible):not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+/* Chips: feedback sutil y accesible */
+.chip:hover { box-shadow: var(--elev-1); transform: translateY(-1px); }
+.chip:active { transform: translateY(0); }
+.chip-primary:is(:hover, :focus-visible) { filter: brightness(0.95); }
+
+/* Cards: elevación progresiva */
+.recipe-card { box-shadow: var(--elev-1); }
+.recipe-card:hover { box-shadow: var(--elev-3); transform: translateY(-4px); }
+/* Habilita contenedor para layout interno */
+.content-wrapper { container-type: inline-size; }
+
+/* Grilla receptiva por contenedor */
+@container (min-width: 560px) {
+  .recipes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@container (min-width: 960px) {
+  .recipes-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@container (min-width: 1300px) {
+  .recipes-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.header { backdrop-filter: saturate(1.2) blur(6px); background-color: color-mix(in srgb, var(--color-bg-alt) 85%, transparent); }
+.nav-link { padding: var(--space-3) var(--space-5); border-radius: var(--radius-full); }
+.nav-link.active { background-color: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface)); }
+.search-input {
+  border-radius: var(--radius-full);
+  padding: 0.75rem 2.75rem;
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+.search-input:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary), 0 0 0 4px rgba(217,119,6,.12);
+}
+.search-clear { padding: 0.4rem; border-radius: var(--radius-full); }
+.search-clear:is(:hover,:focus-visible) { background: var(--color-surface); }
+body.dark .content-assistant { background-color: color-mix(in srgb, var(--color-surface) 70%, black); }
+body.dark .recipe-card,
+body.dark .cultural-article,
+body.dark .stories-content { border-color: color-mix(in srgb, var(--color-border) 70%, #000); }
+body.dark .nav-link.active { color: var(--color-primary-light); }
+.chatbot-messages { scroll-behavior: smooth; }
+.message-content { border: 1px solid var(--color-border); }
+.content-assistant { background: color-mix(in srgb, var(--color-surface) 85%, transparent); }
+.content-user { background: color-mix(in srgb, var(--color-accent) 85%, transparent); }
+.chatbot-send:is(:hover,:focus-visible):not(:disabled) { transform: translateY(-1px); box-shadow: var(--elev-2); }
+/* Imagenes: evita “salto” y bleeding */
+.recipe-image img { will-change: transform; }
+
+/* Placeholders: pulso sutil (no mareo) */
+@keyframes shimmer { 0% {opacity:.9} 50% {opacity:.6} 100% {opacity:.9} }
+.recipe-image-placeholder { animation: shimmer 2.4s var(--easing) infinite; }
+
+/* Footer más ligero visualmente */
+.footer { background: color-mix(in srgb, var(--color-surface) 90%, white); }
