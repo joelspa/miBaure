@@ -12,10 +12,10 @@ export const ERROR_MESSAGES = {
 
 // Mensajes de carga
 export const LOADING_MESSAGES = {
-    RECIPES: 'Cargando recetas...',
-    RECIPE: 'Cargando receta...',
-    STORIES: 'Cargando recuentos de vida...',
-    CULTURAL: 'Cargando datos culturales...',
+    RECIPES: 'Cargando recetas tradicionales...',
+    RECIPE: 'Preparando la receta...',
+    STORIES: 'Cargando historias de nuestra gente...',
+    CULTURAL: 'Cargando sabiduría Baure...',
     AI: 'Generando respuesta...'
 };
 
@@ -24,8 +24,8 @@ export const PLACEHOLDERS = {
     NO_RECIPES: 'No se encontraron recetas',
     NO_STORIES: 'No hay recuentos de vida disponibles. Ejecuta el seed para agregar datos.',
     NO_CULTURAL: 'No hay datos culturales disponibles en esta categoría. Ejecuta el seed para agregar datos.',
-    SEARCH_RECIPE: 'Buscar por nombre o ingrediente...',
-    ASK_AI: 'Pregunta sobre esta receta...'
+    SEARCH_RECIPE: 'Buscar por nombre, ingrediente o palabra clave...',
+    ASK_AI: 'Escribe tu pregunta sobre esta receta...'
 };
 
 // Categorías de cultura
