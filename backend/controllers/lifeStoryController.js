@@ -14,7 +14,7 @@ const toArray = v => Array.isArray(v) ? v : (typeof v === 'string' && v ? [v] : 
 // GET /api/life-stories - Obtener todos
 exports.getAllLifeStories = async (req, res) => {
   try {
-    const stories = await LifeStory.find().sort({ createdAt: -1 });
+    const stories = await LifeStory.find({ deleted: false }).sort({ createdAt: -1 });
     res.json(stories);
   } catch (error) {
     console.error('Error al obtener recuentos de vida:', error);
@@ -132,5 +132,22 @@ exports.updateLifeStory = async (req, res) => {
   } catch (error) {
     console.error('Error al actualizar recuento:', error);
     res.status(400).json({ message: error.message });
+  }
+};
+
+// DELETE /api/life-stories/:id - Eliminar recuento (soft delete)
+exports.deleteLifeStory = async (req, res) => {
+  try {
+    const story = await LifeStory.findById(req.params.id);
+    if (!story) return res.status(404).json({ message: 'Recuento no encontrado' });
+
+    story.deleted = true;
+    story.deletedAt = new Date();
+    await story.save();
+
+    res.json({ message: 'Recuento eliminado con éxito', deletedId: req.params.id });
+  } catch (error) {
+    console.error('Error al eliminar recuento:', error);
+    res.status(500).json({ message: error.message });
   }
 };

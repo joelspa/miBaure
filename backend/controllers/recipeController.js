@@ -12,7 +12,7 @@ const toArray = v => Array.isArray(v) ? v : (typeof v === 'string' && v ? [v] : 
 // GET todas
 exports.getAllRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find().sort({ _id: -1 });
+    const recipes = await Recipe.find({ deleted: false }).sort({ _id: -1 });
     res.json(recipes);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -122,5 +122,21 @@ exports.updateRecipe = async (req, res) => {
     res.json(recipe);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+// DELETE eliminar receta (soft delete)
+exports.deleteRecipe = async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: 'Receta no encontrada' });
+    
+    recipe.deleted = true;
+    recipe.deletedAt = new Date();
+    await recipe.save();
+
+    res.json({ message: 'Receta eliminada con éxito', deletedId: req.params.id });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

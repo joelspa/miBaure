@@ -6,185 +6,206 @@ const Recipe = require('./models/Recipe');
 const LifeStory = require('./models/LifeStory');
 const CulturalData = require('./models/CulturalData');
 
-// Recetas
+// Recetas (Datos validados y enriquecidos con el PDF)
 const recipesToSeed = [
     {
         name: "Sopa de bucheres",
         baureName: "Ejaj to Woshor",
         description:
-            "Una de las preparaciones típicas, representativas del municipio de Baures. Este pescado, que es sacado de pozas (aguas oscuras), era su fuente de alimentación.",
+            "Una de las preparaciones típicas y representativas del municipio de Baures. Este pescado, que es sacado de pozas (aguas oscuras), era su fuente de alimentación desde el comienzo de la historia del pueblo Baure.",
         ingredients: [
             "Buchere (pescado de agua dulce)",
             "Agua",
             "Sal",
-            "Urucú (para dar color)",
+            "Urucú (para condimentar y dar color)",
             "Plátano (opcional)",
             "Verduras (opcional)"
         ],
         preparation:
-            "Se lavan los pescados sin sacar escamas; luego se ponen a hervir en abundante agua con sal durante aproximadamente 40 minutos. Se añade poco urucú para condimentar y dar color. Servir caliente.",
-        utensils: ["Olla grande", "Cucharón", "Hornilla o leña"],
-        consumption: "Consumido en desayuno o almuerzo por la comunidad.",
-        conservation: "Se consume el mismo día; no es plato de conservación prolongada.",
+            "La preparación tradicional es muy fácil: primero se lavan los pescados sin sacar escamas. Luego se ponen a hervir en abundante agua con sal durante aproximadamente 40 minutos. Se añade un poco de urucú y está listo para degustar. Hoy en día se le agregan plátano y algunas verduras.",
+        utensils: ["Olla", "Cucharón", "Hornillas (trempe)", "Leñas"],
+        consumption: "Consumido en desayuno, cena o almuerzo; es de consumo habitual debido a su fácil acceso.",
+        conservation: "No se conserva; es elaborada y consumida el mismo día.",
         sourcePerson: "Adil Arredondo (Jasiaquiri)",
-        tags: ["Río", "Tradicional"],
-        imageUrl: "/images/recipes/sopa-bucheres.jpg"
+        tags: ["Río", "Tradicional", "Pescado"],
+        imageUrl: "/images/recipes/sopa-bucheres.png"
     },
     {
-        name: "Asado de carne del monte",
-        baureName: "-",
+        name: "Asado de carne del monte (Jochi, Taitetú o Tropero)",
+        baureName: "Tropero o Jochi",
         description:
-            "Carne de monte asada tradicionalmente por familias comunarias; preparada en fuego de leña y sazonada de manera sencilla.",
-        ingredients: ["Carne de monte (venado, sajino u otra)", "Sal", "Ajo (opcional)", "Pimienta (opcional)"],
+            "Carne de monte asada tradicionalmente (tropero, jochi, taitetú) por familias comunarias; se pueden usar carnes como venado, sajino u otra, siendo el tropero un tipo de cerdo favorito de los lugareños.",
+        ingredients: [
+            "Carne del monte (jochi, taitetú o tropero)",
+            "Sal",
+            "Cebolla (opcional para algunas variantes)"
+        ],
         preparation:
-            "La carne se limpia y se sala; se coloca sobre brasas o asador improvisado hasta obtener el punto deseado. En algunas variantes se marina brevemente con ajo y sal.",
-        utensils: ["Parrilla o asador", "Pinzas", "Leñas o brasas"],
-        consumption: "Plato principal en celebraciones o reuniones comunitarias.",
-        conservation: "Puede conservarse unas horas en frío, pero es preferible consumirla recién asada.",
-        sourcePerson: "Relatos orales (comunidad de Baures)",
-        tags: ["Tradicional"],
-        imageUrl: "/images/recipes/asado-monte.jpg"
+            "Se realizan dos tipos de asados: 1) Al horno de barro: la carne se coloca en recipientes metálicos, se condimenta y se lleva al horno previamente calentado. 2) Asado a las brasas: se coloca la carne sobre una base de tacuaras verdes, a una distancia de 80 cm del fuego. La cocción es lenta (unas 2 horas).",
+        utensils: ["Parrilla/Asador", "Horno de barro", "Gavetas de metal", "Hornillas con tacuaras", "Leñas"],
+        consumption: "Es de consumo muy habitual, especialmente en hogares de personas de escasos recursos o en celebraciones.",
+        conservation: "Por el tipo de cocción, se puede guardar refrigerado bastante tiempo y usarse para otras elaboraciones.",
+        sourcePerson: "Dalia Durán (El Cairo)",
+        tags: ["Tradicional", "Carne", "Monte"],
+        imageUrl: "/images/recipes/asado-monte.png"
     },
     {
         name: "Shocorimba",
-        baureName: "Shokurimba",
+        baureName: "Shokorimbo",
         description:
-            "Preparación tradicional a base de yuca y maíz que se consume en diversas ocasiones; tiene importancia cultural en la dieta local.",
-        ingredients: ["Yuca", "Maíz", "Agua", "Sal"],
+            "Preparación tradicional a base de maíz blando, antiguamente era un alimento con que se alimentaban los abuelos. Con esta preparación también se hacía otro plato típico (pipián).",
+        ingredients: ["Maíz blando", "Agua", "Sal", "Leche (opcional)", "Chicharrón de res (opcional)"],
         preparation:
-            "La yuca y el maíz se cocinan hasta ablandar; luego se machacan o muelen y se mezclan hasta obtener la consistencia deseada. Se sazona con sal al gusto.",
-        utensils: ["Olla", "Mortero o utensilio para moler", "Cuchara"],
-        consumption: "Acompañamiento o plato principal en desayunos y comidas familiares.",
-        conservation: "Consumir el mismo día o dentro de las pocas horas posteriores a su preparación.",
-        sourcePerson: "Tradición local (documentado en el PDF)",
-        tags: ["Yuca", "Maíz", "Tradicional"],
-        imageUrl: "/images/recipes/shocorimba.jpg"
+            "El maíz blando se pone a tostar, se sancochaba y se le agregaba sal. Se consumía cuando se sentía hambre a media mañana, o como refrigerio. También se le podía agregar chicharrón de res y se acompañaba con leche.",
+        utensils: ["Olla", "Batán", "Cedazo", "Hornillas", "Tiesto"],
+        consumption: "Era consumida como refrigerio a media mañana. Hoy en día es desconocida por la mayoría de los comunarios.",
+        conservation: "No aplica (sin datos en el documento sobre conservación).",
+        sourcePerson: "Ignacia Durán (Baures)",
+        tags: ["Maíz", "Tradicional", "Refrigerio"],
+        imageUrl: "/images/recipes/shocorimba.png"
     },
     {
-        name: "Jochi",
-        baureName: "Jochi",
+        name: "Cajapueti de yuca o de plátano",
+        baureName: "Cajapueti",
         description:
-            "Preparación hecha con ingredientes locales; en el documento se menciona como una de las comidas tradicionales del área.",
-        ingredients: ["Harina de yuca o maíz", "Agua", "Sal"],
+            "Elaboración muy típica que está a punto de desaparecer. Es una especie de guiso o locro preparado con yuca o plátano y menudos de vaca.",
+        ingredients: [
+            "Menudos de vaca (tripa, panza, corazón, ubre)",
+            "Ají",
+            "Sal",
+            "Cebolla en hoja",
+            "Pimienta",
+            "Plátano o yuca",
+            "Urucú"
+        ],
         preparation:
-            "Se realiza una masa con la harina y el agua, se forma y cocina según la técnica tradicional (a la plancha o hervida), dependiendo de la variante.",
-        utensils: ["Plancha u olla", "Cuchillo"],
-        consumption: "Consumido en desayunos o como acompañamiento.",
-        conservation: "Mejor fresco; no se recomienda guardar por varios días.",
-        sourcePerson: "Relatos del material etnográfico",
-        tags: ["Yuca", "Maíz"],
-        imageUrl: "/images/recipes/jochi.jpg"
+            "Primero se pela la yuca o el plátano y se pica en trozos pequeños. Se pone una olla con agua a hervir y se agrega el plátano o la yuca, enseguida los menudos de vaca. Se condimenta y se deja a cocción por unos 40 minutos. Queda una preparación no muy líquida ni muy espesa, parecida al locro. Se acompaña con chivé.",
+        utensils: ["Ollas", "Hornillas", "Leñas"],
+        consumption: "Era muy representativa, pero hoy es poco conocida por los jóvenes. Es preparado en ferias, una vez al año.",
+        conservation: "Por el tipo de cocción (guiso), se puede guardar refrigerado aproximadamente una semana.",
+        sourcePerson: "Sra. Juana Sosa (Tacana, I.L.C.B.)",
+        tags: ["Yuca", "Plátano", "Tradicional", "Menudos"],
+        imageUrl: "/images/recipes/cajapueti.png"
     },
     {
-        name: "Taitetú",
-        baureName: "Taitetú",
+        name: "Sabayón",
+        baureName: "To Sakopi",
         description:
-            "Plato tradicional cuyo nombre aparece en el compendio; preparado con carne y condimentos locales.",
-        ingredients: ["Carne (tipo local)", "Sal", "Especias locales"],
+            "Elaboración ya no consumida, hecha a partir de gusanos de tierra llamados sabayones. Se usaba como espesante o se consumía hervido, aunque no era muy apetitoso (sabor amargo y textura a goma).",
+        ingredients: ["Sabayón (gusanos de tierra)"],
         preparation:
-            "La carne se prepara y condimenta de forma sencilla, asada o cocida según la costumbre familiar; se sirve caliente.",
-        utensils: ["Olla u hornilla", "Cuchillo", "Pinzas"],
-        consumption: "Plato fuerte en reuniones familiares.",
-        conservation: "Consumir en el día para mejor sabor.",
-        sourcePerson: "Documento: ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE",
-        tags: ["Tradicional"],
-        imageUrl: "/images/recipes/taitetu.jpg"
+            "Los insectos se sacaban de la tierra y se ponían a remojar para quitar el barro. Después se les sacaba la tripa y se secaban al sol en cueros de vaca. Una vez deshidratados, se molían y el polvo se echaba en mate para guardar, usándolo para espesar comidas. Otros lo consumían hervido con ají.",
+        utensils: ["Cuero de vaca", "Mate"],
+        consumption: "Ha desaparecido; su consumo es prácticamente inexistente y no es preparado actualmente.",
+        conservation: "Se podía guardar refrigerado aproximadamente una semana (hervido).",
+        sourcePerson: "Juana Sosa (Baures)",
+        tags: ["Insectos", "Tradicional", "Desaparecida"],
+        imageUrl: "/images/recipes/sabayon.png"
     },
     {
-        name: "Tropero",
-        baureName: "Tropero",
+        name: "Pan de mentira",
+        baureName: "Pan mentir",
         description:
-            "Receta señalada en el PDF; suele ser un guiso o preparación de carne acompañado de tubérculos o plátano.",
-        ingredients: ["Carne","Plátano o tubérculos","Sal","Especias (opcional)"],
+            "Un horneado a base de harina de maíz y harina de trigo que utilizaba chicha fuerte de maíz como agente leudante (levadura).",
+        ingredients: [
+            "Chicha fuerte de maíz (como levadura)",
+            "Harina de maíz",
+            "Harina de trigo",
+            "Manteca de res o cerdo",
+            "Sal",
+            "Huevo",
+            "Canela",
+            "Anís",
+            "Azúcar o miel"
+        ],
         preparation:
-            "Guisar la carne con los acompañamientos hasta que estén tiernos; sazonar al gusto. Varía según la familia.",
-        utensils: ["Olla", "Cuchara de madera"],
-        consumption: "Almuerzo o cena familiar.",
-        conservation: "Se puede mantener algunas horas refrigerado; recalentar antes de consumir.",
-        sourcePerson: "Relatos compilados en el PDF)",
-        tags: ["Yuca", "Tradicional"],
-        imageUrl: "/images/recipes/tropero.jpg"
+            "Se preparaba una masa con las harinas, manteca, sal, huevo, canela, anís, azúcar/miel. Se usaba la chicha fuerte como levadura, agregada al centro de la masa con agua. Se amasaba, se hacían bollitos, se aplanaban y se colocaban en fuentes. Se horneaban en horno de barro previamente calentado, con cuidado por la rapidez de la cocción.",
+        utensils: ["Horno de barro", "Leña", "Fuentes metálicas"],
+        consumption: "Ya no es consumida; su preparación es prácticamente inexistente.",
+        conservation: "Como es una masa blanda de pan, no dura más de 3 días.",
+        sourcePerson: "Lorgio Suárez (La Asunta)",
+        tags: ["Maíz", "Horneado", "Tradicional", "Desaparecida"],
+        imageUrl: "/images/recipes/pan-mentira.png"
     },
     {
         name: "Chicha de yuca",
-        baureName: "Chicha",
+        baureName: "Pulaqui",
         description:
-            "Bebida tradicional fermentada levemente a base de yuca; consumida en fiestas y rituales.",
-        ingredients: ["Yuca", "Agua", "Azúcar (opcional)", "Levadura natural (opcional)"],
+            "Bebida típica por excelencia del municipio, hecha a base de yuca. Es una bebida fermentada muy consumida, especialmente una semana después de su preparación.",
+        ingredients: ["Yuca", "Agua", "Miel (para endulzar, opcional)"],
         preparation:
-            "La yuca se cocina, se muele y se mezcla con agua para luego fermentar según la tradición; el tiempo de fermentación determina el grado alcohólico.",
-        utensils: ["Recipiente grande", "Colador"],
-        consumption: "Bebida ceremonial y festiva.",
-        conservation: "Fermentada puede durar varios días; conservar en lugar fresco.",
-        sourcePerson: "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf",
-        tags: ["Yuca", "Tradicional"],
-        imageUrl: "/images/recipes/chicha-yuca.jpg"
+            "La yuca se pela, se pica y se pone a hervir hasta que ablande (el líquido se reserva). Se procede a patacar o masticar (es necesario para la preparación), se estruja, y se guarda hasta el otro día. Luego se cuela, y el líquido se mezcla con el líquido reservado. Se vuelve a cocer por unas 2 horas. Después se enfría y se guarda en mates o cántaros para fermentar.",
+        utensils: ["Olla", "Hornilla", "Leña", "Gaveta", "Cántaros", "Mate"],
+        consumption: "Se consume prácticamente todos los días; es la bebida típica por excelencia. A la gente le gusta consumirla fermentada (una semana después).",
+        conservation: "Se puede guardar una semana; pasado este tiempo comienza a fermentar.",
+        sourcePerson: "Eloisa Sandoval (Baures)",
+        tags: ["Yuca", "Bebida", "Tradicional", "Fermentada"],
+        imageUrl: "/images/recipes/chicha-yuca.png"
     }
 ];
 
 const lifeStories = [
     {
-        title: "Memorias de cocina de mi abuela",
-        personName: "Adil Arredondo",
-        community: "Comunidad Baure",
-        story: `Mi abuela era una gran cocinera, sabía preparar muchas comidas tradicionales de nuestra cultura Baure. 
-        
-Recuerdo especialmente cómo preparaba la chicha de yuca, un proceso que requería paciencia y conocimiento ancestral. Primero pelaba la yuca con cuidado, luego la cocinaba hasta que estuviera bien blanda. El secreto estaba en el punto exacto de cocción y en cómo se dejaba fermentar.
-
-También preparaba el jochi pintado de manera exquisita. Cazaba el animal con respeto, sabiendo que era un regalo de la naturaleza. Lo limpiaba meticulosamente y lo cocinaba con yuca y maíz, creando un platillo que nutría no solo el cuerpo sino también el espíritu de la comunidad.
-
-Ella me enseñó que la cocina Baure no es solo alimento, es memoria, es conexión con nuestros ancestros y con el territorio que nos da vida.`,
-        relatedThemes: ["Cocina tradicional", "Transmisión de conocimientos", "Yuca", "Chicha"],
-        photoUrl: "/images/people/adil-arredondo.jpg",
-        recordedBy: "Proyecto Archivo Baure"
+        title: "El pan de choclo y la comida de turo",
+        personName: "Dolores Chimanacay",
+        birthYear: 1932,
+        deathYear: 2022,
+        community: "Concepción de Baures",
+        story: `Sobre nuestra fuente de alimentación, teníamos arroz y comíamos comida de choclo, así en forma de pastel, le echamos carne y todo. Lindo es. Un dato es cómo elaborábamos comida con turo (caracol); íbamos al río, lo asábamos, y luego lo limpiábamos. Lo comía con chive, sabía a gusto de churiqui de gallina. También hacíamos tamal de este turo. Por eso la gente antes aquí era guapa y no tenía enfermedades.`,
+        relatedThemes: ["Maíz", "Caracol (Turo)", "Salud", "Cocina tradicional"],
+        photoUrl: "/images/people/dolores-chimanacay.jpg",
+        recordedBy: "Franziska Riedel (2012)",
     },
     {
-        title: "La pesca en el río Baures",
-        personName: "Don Ramiro",
-        age: 67,
-        community: "Ribera del Río Baures",
-        story: `Desde niño he vivido cerca del río. Mi padre me enseñó a pescar cuando tenía apenas 6 años. El río Baures es nuestra vida, nos da de comer y nos conecta con otras comunidades.
-
-Conozco cada curva del río, cada lugar donde los peces se reúnen según la época del año. Pescamos con respeto, tomando solo lo necesario. Sabemos que si cuidamos el río, él nos cuidará a nosotros y a nuestros hijos.
-
-La sopa de bucheres que prepara mi esposa con el pescado fresco es incomparable. Lleva ese sabor del río, de nuestra tierra. Cuando la como, siento que estoy conectado con todo: el agua, los peces, la selva, mi familia.
-
-Esta es nuestra forma de vida, heredada de generación en generación. Es nuestro deber preservarla.`,
-        relatedThemes: ["Pesca tradicional", "Río Baures", "Sostenibilidad", "Conexión territorial"],
-        photoUrl: "/images/people/pescador.jpg",
-        recordedBy: "Proyecto Archivo Baure"
+        title: "Chivé de Cusi y el tamal de Turo",
+        personName: "Rosalia Pinaicobo",
+        birthYear: 1932,
+        deathYear: 2020,
+        community: "Concepción de Baures",
+        story: `La fuente principal de nuestra alimentación era el chivé o harina de cusi (actualmente en peligro de extinción). También comí el tamal de turo (caracol); había sido lindo con maíz. El maíz se molía y se entreveraba la carne picada con el agua del turo, agregándole manteca. Yo comí el turo, pero el sabayón (gusano de tierra), no lo comía; le tenía miedo. Mi papá decía: "Usted es bien cochina, porque lo come el sabayón". Pero la gente que lo comía era sana y valiente.`,
+        relatedThemes: ["Cusi", "Caracol (Turo)", "Sabayón", "Alimentos antiguos"],
+        photoUrl: "/images/people/rosalia-pinaicobo.jpg",
+        recordedBy: "Franziska Riedel (2012)",
     },
     {
-        title: "Cultivando la tierra como nuestros ancestros",
-        personName: "Doña Mercedes",
-        age: 58,
-        community: "Comunidad Baure",
-        story: `La yuca es más que un cultivo para nosotros, es parte de nuestra identidad. Desde que tengo memoria, he trabajado en el chaqueado, preparando la tierra para sembrar.
-
-Mi madre me enseñó a seleccionar los mejores esquejes, a plantarlos en la posición correcta, a saber cuándo la tierra está lista. No es solo técnica, es sabiduría que viene de nuestros abuelos y abuelas.
-
-Con la yuca hacemos tantas cosas: chicha, masaco, la cocinamos hervida, la combinamos con pescado y carne. Es la base de nuestra alimentación y de nuestra economía familiar.
-
-Cuando cosecho, agradezco a la tierra. Ella nos da vida. Cada tubérculo que sacamos es un regalo que debemos honrar, no desperdiciar. Por eso aprovechamos todo y compartimos con la comunidad.`,
-        relatedThemes: ["Agricultura tradicional", "Yuca", "Sabiduría ancestral", "Economía comunitaria"],
-        photoUrl: "/images/people/agricultora.jpg",
-        recordedBy: "Proyecto Archivo Baure"
+        title: "Memoria de los platos de mi abuela horneadora",
+        personName: "Juana Sosa Tacana",
+        age: 87,
+        community: "Concepción de Baures (capital)",
+        story: `Fui criada por mi abuela, quien era horneadora en las fiestas patronales de productos típicos como panquete, masaco, chimas y tortitas de maíz. Ella me enseñó todo. Recuerdo que antes comíamos patasca de maíz, cajapueti (un picado de yuca con tripas), turos en escabeche y tamal de turo. También se comía el sabayón (gusano de tierra) en una generación antes, lo disecaban y tenía sabor amargo.`,
+        relatedThemes: ["Fiestas patronales", "Horneados", "Platos típicos", "Cajapueti"],
+        photoUrl: "/images/people/juana-sosa.png",
+        recordedBy: "Investigación gastronómica",
     },
     {
-        title: "Las fiestas y la comida comunitaria",
+        title: "La cocina comunitaria y la pérdida de platos",
+        personName: "Rafaela Moreroa Urapiña",
+        age: 83,
+        community: "Jasiaquiri (residente)",
+        story: `Nací en Ascensión de Guarayos y migré a Baures. Desde que tengo memoria, mi madre me cocinaba picado de yuca. Éramos pobres y sobrevivíamos de lo que la naturaleza nos proveía. El tiempo que viví en Jasiaquiri me ha tocado ver diferentes platos, que incluso se han ido perdiendo; la gente ya no come esas elaboraciones, solo cuando hay algún tipo de feria escolar.`,
+        relatedThemes: ["Pérdida cultural", "Subsistencia", "Recuperación de recetas"],
+        photoUrl: "/images/people/rafaela-moreroa.png",
+        recordedBy: "Investigación gastronómica",
+    },
+    {
+        title: "Comercio de la comunidad y la agricultura",
+        personName: "Emilse Ortiz Omitari",
+        age: 73,
+        community: "El Cairo (residente)",
+        story: `Soy de ascendencia cruceña. Recuerdo que desde esos años la comunidad empezó a exportar varias cosas en lanchas de motor a leña, como tejidos de hamacas, aguardientes de caña, manteca de cerdo en cantidades grandes, almidón, chive y maíz. Me dedico a la agricultura y la cacería, y mi alimentación se basaba en lo que me proveía la naturaleza.`,
+        relatedThemes: ["Agricultura", "Cacería", "Economía local", "Comercio histórico"],
+        photoUrl: "/images/people/emilse-ortiz.png",
+        recordedBy: "Investigación gastronómica (Fuente del PDF)",
+    },
+    {
+        title: "El Tropero en las fiestas",
         personName: "Don Alberto",
         age: 72,
         community: "Comunidad Baure",
-        story: `En nuestras fiestas tradicionales, la comida es el centro de todo. No es solo para alimentarse, es para celebrar juntos, para fortalecer los lazos de la comunidad.
-
-Recuerdo las grandes ollas de tropero que se preparaban para todos. Cada familia contribuía con algo: yuca, carne, plátano, especias. Las mujeres se reunían desde temprano a cocinar juntas, conversando, riendo, compartiendo secretos culinarios.
-
-El tropero lleva mucho trabajo: hay que pelar kilos de yuca, picar la carne, dorar todo en el aceite caliente. Pero cuando lo hacemos entre todos, es una fiesta en sí misma.
-
-Cuando servimos la comida, todos comen del mismo plato grande. Esto nos recuerda que somos una sola familia, un solo pueblo. La comida nos une más que cualquier otra cosa.`,
+        story: `En nuestras fiestas tradicionales, la comida es el centro de todo, para celebrar juntos y fortalecer los lazos de la comunidad. Recuerdo las grandes ollas de tropero que se preparaban para todos. Cada familia contribuía con algo: yuca, carne, plátano, especias. La comida nos une más que cualquier otra cosa.`,
         relatedThemes: ["Fiestas tradicionales", "Cocina comunitaria", "Tropero", "Identidad cultural"],
         photoUrl: "/images/people/fiesta.jpg",
-        recordedBy: "Proyecto Archivo Baure"
+        recordedBy: "Proyecto Archivo Baure (Historia de ejemplo)"
     }
 ];
 
@@ -192,15 +213,11 @@ const culturalData = [
     {
         title: "El Pueblo Baure: Historia y Territorio",
         category: "Historia",
-        content: `El pueblo Baure es un pueblo indígena de tierras bajas de Bolivia, asentado principalmente en la región de los llanos de Moxos, en el departamento del Beni. Su territorio ancestral se encuentra en las riberas del río Baures, del cual toman su nombre.
-
-Históricamente, los Baure fueron uno de los pueblos más numerosos de la región amazónica boliviana. Durante el período colonial, fueron contactados por las misiones jesuíticas, lo que transformó profundamente su organización social y cultural, aunque conservaron elementos fundamentales de su identidad.
-
-El territorio Baure se caracteriza por ser una región de sabanas inundables, bosques de galería y ríos caudalosos. Esta geografía ha moldeado su cultura, especialmente su relación con el agua, la pesca y la agricultura de tubérculos adaptados a suelos húmedos.`,
+        content: `El pueblo Baure es un pueblo indígena de tierras bajas de Bolivia, asentado principalmente en la región de los llanos de Moxos, en el departamento del Beni. Su territorio ancestral se encuentra en las riberas del río Baures, del cual toman su nombre. Los Baure recolectaban frutas, huevos de diferentes animales (petas, lagartos, caimanes) y gusanos de tierra (sabayones). Antes de la reducción por los Jesuitas, el pueblo Baure fue tan poderoso (más de 40.000 personas) y organizado que llegó a implementar mecanismos para el manejo del medio ambiente, aprovechando el exceso de agua en épocas de inundación y usándola durante periodos de escasez, lo que hizo posible la piscicultura y otras actividades agrícolas.`,
         subsections: [
             {
                 subtitle: "Ubicación geográfica",
-                text: "El territorio tradicional Baure se encuentra en el municipio de Magdalena y zonas aledañas, en la provincia de Iténez del departamento del Beni. La comunidad principal está ubicada en las márgenes del río Baures, afluente importante del río Iténez o Guaporé."
+                text: "El territorio tradicional Baure se encuentra en el municipio de Magdalena y zonas aledañas, en la provincia de Iténez del departamento del Beni. La capital, Baures, se encuentra a 70 km al sureste de Magdalena. La investigación del registro gastronómico se realizó en 4 juntas vecinales (distrito 1) y 7 comunidades aledañas (distrito 2) del municipio."
             },
             {
                 subtitle: "Población actual",
@@ -213,51 +230,45 @@ El territorio Baure se caracteriza por ser una región de sabanas inundables, bo
                 caption: "Vista del río Baures y su territorio"
             }
         ],
-        sources: ["Investigación de campo - Proyecto Archivo Baure", "Testimonios comunitarios"],
+        sources: ["Investigación de campo - Proyecto Archivo Baure", "Testimonios comunitarios", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Territorio", "Historia colonial", "Geografía amazónica"]
     },
     {
-        title: "La Lengua Baure",
+        title: "La Lengua Baure y la Cocina",
         category: "Lengua",
-        content: `La lengua baure pertenece a la familia lingüística Arawak, una de las más extensas de América del Sur. Aunque actualmente se considera una lengua en peligro de extinción, existen esfuerzos comunitarios para su revitalización y documentación.
-
-El idioma baure posee características fonológicas y gramaticales propias que reflejan la cosmovisión del pueblo. Muchas palabras están íntimamente relacionadas con elementos de la naturaleza, la pesca, la agricultura y las relaciones sociales.
-
-En la cocina tradicional, varios platillos conservan sus nombres en lengua baure, como la "shocorimba", manteniendo viva la memoria lingüística a través de la gastronomía.`,
+        content: `La lengua baure pertenece a la familia lingüística Arawak, una de las más extensas de América del Sur. Se considera en peligro de extinción, pero hay esfuerzos por su revitalización. En la cocina, varios platillos conservan sus nombres en lengua baure, como "Ejaj to Woshor" (Sopa de bucheres) y "Shokorimbo" (Shocorimba), manteniendo viva la memoria lingüística a través de la gastronomía.`,
         subsections: [
             {
                 subtitle: "Estado actual de la lengua",
-                text: "La mayoría de los hablantes de baure son adultos mayores. Existen muy pocos hablantes fluidos menores de 50 años, lo que sitúa a la lengua en una situación crítica. Sin embargo, hay programas de documentación y enseñanza que buscan revertir esta tendencia."
+                text: "La mayoría de los hablantes de baure son adultos mayores. Existen muy pocos hablantes fluidos menores de 50 años, lo que sitúa a la lengua en una situación crítica. A pesar de ello, el idioma todavía tiene la posibilidad de ser escuchado."
             },
             {
-                subtitle: "Palabras baure en la cocina",
-                text: "Muchos nombres de alimentos y preparaciones se conservan en lengua baure: shocorimba (masa de yuca y maíz), nombres de pescados locales, plantas comestibles y utensilios tradicionales. Estos términos son repositorios de conocimiento ecológico y cultural."
+                subtitle: "Palabras baure y utensilios",
+                text: "El urupé (conocido como *jiros* en baure) se hace de *jipuri*, que se obtiene raspando la hoja de cusi, y se teje. Muchos nombres de alimentos y preparaciones se conservan en lengua baure, como *Pulaqui* (Chicha de yuca) o *To Sakopi* (Sabayón)."
             }
         ],
         images: [],
-        sources: ["Investigación lingüística comunitaria", "Testimonios de hablantes"],
+        sources: ["Investigación lingüística comunitaria", "Testimonios de hablantes", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Lenguas en peligro", "Revitalización lingüística", "Patrimonio inmaterial"]
     },
     {
         title: "La Yuca: Fundamento de la Alimentación Baure",
         category: "Cocina",
-        content: `La yuca (manihot esculenta) es el cultivo más importante en la tradición agrícola y culinaria del pueblo Baure. Este tubérculo, domesticado hace miles de años en la Amazonía, constituye la base de la dieta y la economía de subsistencia de la comunidad.
+        content: `La yuca (manihot esculenta) es el cultivo más importante en la tradición agrícola y culinaria del pueblo Baure. Constituye la base de la dieta, junto con el plátano, maíz, joco, camote, frutas silvestres, y otros productos nativos.
 
-El ciclo de cultivo de la yuca involucra conocimientos tradicionales transmitidos de generación en generación: selección de variedades, preparación del terreno (chaqueado), época de siembra, cuidados durante el crecimiento y momento óptimo de cosecha.
-
-La yuca no solo se consume hervida o asada. Los Baure han desarrollado múltiples técnicas de procesamiento: elaboración de chicha fermentada, masaco, harina de yuca, y su combinación con otros alimentos locales como pescado, carne de monte y maíz.`,
+La yuca no solo se consume hervida o asada. Los Baure han desarrollado múltiples técnicas de procesamiento: elaboración de chicha fermentada, masaco, harina de yuca, y su combinación con otros alimentos locales como pescado, carne de monte y maíz. Por ejemplo, el cultivo de yuca es esencial para hacer el chive. El tornillo, un instrumento manual de madera, se usaba para triturar los alimentos (como la yuca) antes de ser reemplazado por rayadores metálicos.`,
         subsections: [
             {
-                subtitle: "Variedades de yuca",
-                text: "Los Baure cultivan diversas variedades de yuca, tanto dulces como amargas. Cada variedad tiene usos específicos: algunas son mejores para hervir, otras para hacer chicha o harina. Este conocimiento botánico tradicional es fundamental para la seguridad alimentaria."
+                subtitle: "Chivé de Cusi",
+                text: "Antiguamente, el chivé de cusi era una fuente principal de alimentación. Se preparaba machucando las frutas de cusi para extraer el jane (bajo la cáscara), se lavaba y se tendía sobre cuero de res por unos cuatro días para secarse. Luego se molía y cernía. El producto, de color rosado, se bebía con leche o se usaba como acompañante."
             },
             {
-                subtitle: "Procesamiento tradicional",
-                text: "El procesamiento de la yuca requiere técnicas específicas, especialmente para las variedades amargas que contienen compuestos tóxicos. Los métodos tradicionales de rallado, prensado y fermentación eliminan estas toxinas y crean alimentos nutritivos y conservables."
+                subtitle: "El Batán",
+                text: "El batán consta de una gaveta/vasija de madera y una piedra tallada, usado para moler maíz (insumo principal para horneados) y, antiguamente, para moler semillas de cacao y elaborar chocolate."
             },
             {
-                subtitle: "Significado cultural",
-                text: "La yuca trasciende su valor nutricional. Es un marcador de identidad cultural, un elemento central en festividades, intercambios comunitarios y rituales. Regalar yuca o chicha es un gesto de reciprocidad y solidaridad."
+                subtitle: "La Cocina Precolonial",
+                text: "En el tiempo precolonial, el hombre Baure cazaba y pescaba, mientras la mujer se quedaba a preparar comida, acarrear leña, hacer chicha, tejer, y fabricar utensilios como ollas y tinajas."
             }
         ],
         images: [
@@ -266,29 +277,23 @@ La yuca no solo se consume hervida o asada. Los Baure han desarrollado múltiple
                 caption: "Cultivo tradicional de yuca en chaco Baure"
             }
         ],
-        sources: ["Conocimiento tradicional comunitario", "Observación participante"],
+        sources: ["Conocimiento tradicional comunitario", "Observación participante", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Agricultura tradicional", "Soberanía alimentaria", "Etnobotánica"]
     },
     {
         title: "El Río Baures: Fuente de Vida",
         category: "Territorio",
-        content: `El río Baures es mucho más que un curso de agua para el pueblo que lleva su nombre. Es la arteria vital que ha sustentado a la comunidad durante siglos, proveyendo alimento, agua, transporte y conexión espiritual con el territorio.
+        content: `El río Baures es la arteria vital que ha sustentado a la comunidad. La pesca provee alimento al pueblo y a las comunidades, siendo el buchere (Hoplosternum sp.) un pescado pequeño y abundante en los curiches o pozas. El conocimiento ecológico tradicional ha permitido mantener poblaciones saludables de peces.
 
-La pesca en el río Baures se practica con técnicas tradicionales que garantizan la sostenibilidad del recurso. Los pescadores conocen los ciclos de los peces, sus hábitats y comportamientos estacionales. Este conocimiento ecológico tradicional ha permitido mantener poblaciones saludables de peces durante generaciones.
-
-El río también es un espacio social: lugar de encuentro, de trabajo colectivo, de transmisión de conocimientos de padres a hijos. Las historias del río, sus seres y espíritus, forman parte fundamental de la cosmovisión Baure.`,
+Un método de pesca tradicional implicaba usar un bejuco llamado coropi, que al ser machacado e introducido en lagunas, intoxicaba las aguas, haciendo que los peces salieran a la superficie. Existía otra variedad de coropi de efecto más fuerte, pero estaba prohibido su uso por ser una planta tabú.`,
         subsections: [
             {
-                subtitle: "Especies de peces tradicionales",
-                text: "El río Baures alberga numerosas especies de peces que forman parte de la dieta tradicional: pacú, surubí, dorado, sábalo, y muchos otros. Cada especie tiene su época, su forma de captura y su preparación culinaria específica."
+                subtitle: "Caza y Recolección",
+                text: "La caza y pesca son actividades importantes. Los cazadores venden carne de monte en el pueblo. La carne de monte es importante para familias sin ingresos fijos o cuando la carne de vaca es difícil de conseguir. Se recolectaban huevos de peta (tortuga), lagartos, caimanes, piyos, perdices y caracoles (turos). Un comportamiento de caza que se mantiene es la prohibición de bañarse o tener relaciones sexuales durante 7 días después de cazar la primera o segunda anta."
             },
             {
-                subtitle: "Técnicas de pesca tradicional",
-                text: "Las técnicas de pesca incluyen el uso de flechas, anzuelos, redes y trampas tradicionales. Estas técnicas son selectivas y permiten liberar peces pequeños, garantizando la reproducción de las especies."
-            },
-            {
-                subtitle: "El río en la cosmovisión Baure",
-                text: "El río es considerado un ser vivo que merece respeto. Existen relatos sobre espíritus del agua y normas tradicionales sobre cómo comportarse cerca del río. Esta relación espiritual refuerza prácticas de conservación."
+                subtitle: "Consumo de Turo y Sabayón",
+                text: "El caracol (turo) era consumido asado o sancochado con chivé, y se hacía tamal de turo. Algunos, como Rosalia Pinaicobo, comían turo en tamal (con maíz y manteca) pero temían al gusano de tierra sabayón (To Sakopi), aunque otros decían que era lo mejor para no enfermarse."
             }
         ],
         images: [
@@ -297,29 +302,25 @@ El río también es un espacio social: lugar de encuentro, de trabajo colectivo,
                 caption: "El río Baures en época de aguas altas"
             }
         ],
-        sources: ["Testimonios de pescadores tradicionales", "Observación etnográfica"],
+        sources: ["Testimonios de pescadores tradicionales", "Observación etnográfica", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Pesca tradicional", "Ecología de ríos", "Cosmovisión indígena"]
     },
     {
         title: "Cocina Comunitaria y Festividades",
         category: "Tradiciones",
-        content: `La cocina Baure trasciende el ámbito doméstico para convertirse en un espacio de construcción comunitaria. Las festividades tradicionales y religiosas son ocasiones en las que la preparación y el consumo colectivo de alimentos refuerzan los lazos sociales.
-
-En estas celebraciones, la preparación de grandes cantidades de comida es una tarea colectiva. Las mujeres se organizan para pelar yuca, picar carne, preparar chicha. Los hombres se encargan de la caza y pesca. Esta división del trabajo es flexible y refleja principios de complementariedad.
-
-Platos como el tropero, preparado en grandes cantidades, simbolizan la abundancia y la generosidad. Compartir la comida en un solo plato grande o en múltiples recipientes que circulan entre los presentes es una práctica que materializa la unidad comunitaria.`,
+        content: `La cocina Baure es un espacio de construcción comunitaria. La comida es el centro de las fiestas tradicionales. En estas celebraciones, la preparación de grandes cantidades de comida es una tarea colectiva. La Sra. Juana Sosa Tacana, quien fue criada por su abuela, recuerda que ella era horneadora en las fiestas patronales de productos típicos como panquete, masaco, chimas, y tortitas de maíz. Las festividades son espacios educativos donde los jóvenes aprenden técnicas culinarias, normas sociales y valores comunitarios.`,
         subsections: [
             {
-                subtitle: "Festividades principales",
-                text: "Las festividades del santo patrono, las celebraciones de cosecha y otros eventos comunitarios son momentos clave donde la comida juega un papel central. Cada festividad tiene sus platillos característicos y sus formas de preparación ritual."
+                subtitle: "Ejemplos de Platos Festivos y Antiguos",
+                text: "Además de los horneados, Juana Sosa recuerda que antes se comía patasca de maíz, cajapueti (un picado de yuca, pero con tripas), turos en escabeche y tamal de turo. La cocina baure es un patrimonio cultural crucial que no debe perderse, al igual que su idioma."
             },
             {
-                subtitle: "Reciprocidad y redistribución",
-                text: "En las fiestas opera un sistema de reciprocidad: las familias contribuyen con alimentos y trabajo, y todos participan del consumo. Esto garantiza que nadie quede excluido y refuerza la cohesión social."
+                subtitle: "Reciprocidad y Sentimiento",
+                text: "En cada hogar, las personas mayores siguen hablando de cómo cocinaban sus abuelos, con ese sentimiento de aprecio por la comida que hoy los jóvenes apenas conocen."
             },
             {
-                subtitle: "Transmisión de conocimientos",
-                text: "Las festividades son espacios educativos donde los jóvenes aprenden técnicas culinarias, normas sociales y valores comunitarios. Observar y participar en la preparación de grandes cantidades de comida es parte de la formación cultural."
+                subtitle: "El Chocolate Baures",
+                text: "Baures es una de las zonas más turísticas del Beni, muy conocida por los famosos Chocolates Baures, uno de los insumos más connotados y apreciados del país."
             }
         ],
         images: [
@@ -328,33 +329,27 @@ Platos como el tropero, preparado en grandes cantidades, simbolizan la abundanci
                 caption: "Preparación colectiva de comida en festividad tradicional"
             }
         ],
-        sources: ["Observación participante en festividades", "Testimonios comunitarios"],
+        sources: ["Observación participante en festividades", "Testimonios comunitarios", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Organización social", "Rituales y festividades", "Economía de la reciprocidad"]
     },
     {
         title: "La Cocina como Memoria y Resistencia",
         category: "Cocina",
-        content: `En el contexto de cambios acelerados y presiones sobre las culturas indígenas, la cocina tradicional Baure se ha convertido en un espacio de resistencia cultural y memoria colectiva. Mantener las formas tradicionales de cultivar, cazar, pescar y cocinar es un acto de afirmación identitaria.
+        content: `La cocina tradicional Baure se ha convertido en un espacio de resistencia cultural y memoria colectiva, afirmando la identidad indígena frente a las presiones externas. La documentación busca fortalecer la identidad y generar orgullo en las nuevas generaciones.
 
-Cada receta, cada técnica, cada nombre de platillo en lengua baure, es un archivo viviente que conecta el presente con el pasado ancestral. Las abuelas que enseñan a sus nietas a preparar chicha no solo transmiten una técnica, transmiten una visión del mundo, un conjunto de valores y una forma de relacionarse con el territorio.
-
-La documentación y revitalización de la cocina tradicional, como este Archivo Baure, busca fortalecer la identidad cultural, generar orgullo en las nuevas generaciones y mostrar al mundo la riqueza y sofisticación de estos conocimientos milenarios.`,
+El presente artículo es un acercamiento al mundo de la cocina Baure para generar referencias y documentación sobre técnicas antiguas y utensilios. La investigación de este registro fue valorada y reconocida por la Alcaldía Municipal de Baures y el Instituto de Lengua y Cultura Baures (ILCB), ya que no existía suficiente información escrita similar documentada.`,
         subsections: [
             {
-                subtitle: "Desafíos actuales",
-                text: "La cocina tradicional enfrenta desafíos: migración de jóvenes, disponibilidad de alimentos procesados, cambios en el uso del territorio. Sin embargo, existe una creciente valoración de lo propio y esfuerzos de recuperación."
+                subtitle: "Desafíos y Técnicas de Estudio",
+                text: "La investigación se realizó mediante un modelo mixto (cuantitativo y cualitativo), usando encuestas, entrevistas (incluyendo la consulta de entrevistas previas de la Dra. Franziska Riedel de 2007) y observación de campo. La dificultad para acceder a todas las comunidades en la selva limitó la investigación a 4 juntas vecinales y 7 comunidades."
             },
             {
-                subtitle: "Iniciativas de revitalización",
-                text: "Proyectos de documentación, talleres intergeneracionales de cocina, ferias gastronómicas y este mismo Archivo Digital son herramientas para mantener viva la tradición culinaria Baure."
-            },
-            {
-                subtitle: "La cocina como patrimonio",
-                text: "La cocina tradicional Baure es patrimonio cultural inmaterial que merece ser reconocido, protegido y celebrado. No solo por su valor histórico, sino por su relevancia actual para la soberanía alimentaria y la sostenibilidad."
+                subtitle: "Recomendaciones para Futuras Investigaciones",
+                text: "Para un estudio exhaustivo, se recomienda extender el tiempo de investigación a más de un año para documentar festejos y las complejas relaciones humanas, y así enriquecer el registro."
             }
         ],
         images: [],
-        sources: ["Reflexión comunitaria participativa", "Investigación aplicada"],
+        sources: ["Reflexión comunitaria participativa", "Investigación aplicada", "ACERCAMIENTO-AL-MUNDO-DE-LA-COCINA-BAURE.pdf"],
         relatedTopics: ["Patrimonio cultural", "Identidad indígena", "Soberanía alimentaria"]
     }
 ];

@@ -289,4 +289,24 @@ router.get('/:id', ctrl.getRecipeById);
  */
 router.put('/:id', upload.single('image'), ctrl.updateRecipe);
 
+/**
+ * @openapi
+ * /api/recipes/{id}:
+ *   delete:
+ *     summary: Eliminar una receta
+ *     tags: [Recipes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Receta eliminada exitosamente
+ *       404:
+ *         description: Receta no encontrada
+ */
+router.delete('/:id', ctrl.deleteRecipe);
+
 module.exports = router;

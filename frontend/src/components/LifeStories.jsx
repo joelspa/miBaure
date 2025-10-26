@@ -10,6 +10,21 @@ export default function LifeStories() {
     const [error, setError] = useState(null);
     const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
 
+    const handleDelete = async (story) => {
+        if (!window.confirm(`¿Estás seguro de que quieres eliminar el recuento "${story.title}"? Esta acción no se puede deshacer.`)) {
+            return;
+        }
+
+        try {
+            await apiService.deleteLifeStory(story._id);
+            setStories(stories.filter(s => s._id !== story._id));
+            alert('Recuento eliminado con éxito');
+        } catch (err) {
+            console.error(err);
+            alert('Error al eliminar el recuento: ' + (err.response?.data?.message || err.message));
+        }
+    };
+
     useEffect(() => {
         apiService.getAllStories()
             .then(response => {
@@ -100,14 +115,24 @@ export default function LifeStories() {
                                             </div>
                                         )}
                                         {isAdmin && (
-                                            <Link 
-                                                to={`/recuentos/${story._id}/edit`} 
-                                                className="btn btn-outline"
-                                                style={{ marginTop: '1rem' }}
-                                            >
-                                                <span className="material-symbols-outlined">edit</span>
-                                                Editar
-                                            </Link>
+                                            <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+                                                <Link 
+                                                    to={`/recuentos/${story._id}/edit`} 
+                                                    className="btn btn-outline"
+                                                    style={{ flex: 1 }}
+                                                >
+                                                    <span className="material-symbols-outlined">edit</span>
+                                                    Editar
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(story)}
+                                                    className="btn btn-outline"
+                                                    style={{ flex: 1, color: 'var(--color-error, #dc2626)' }}
+                                                >
+                                                    <span className="material-symbols-outlined">delete</span>
+                                                    Eliminar
+                                                </button>
+                                            </div>
                                         )}
                                     </div>
                                 </article>

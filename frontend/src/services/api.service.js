@@ -23,6 +23,9 @@ const apiService = {
     });
   },
 
+  // NEW: eliminar receta
+  deleteRecipe: (id) => axios.delete(`${API_URL}/api/recipes/${id}`),
+
   // Life Stories
   getAllStories: () => axios.get(`${API_URL}/api/life-stories`),
   getLifeStoryById: (id) => axios.get(`${API_URL}/api/life-stories/${id}`),
@@ -42,6 +45,9 @@ const apiService = {
     axios.patch(`${API_URL}/api/life-stories/${id}/images`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }),
+
+  deleteLifeStory: (id) => axios.delete(`${API_URL}/api/life-stories/${id}`),
+
   // Cultural Data
   getAllCulturalData: () => axios.get(`${API_URL}/api/cultural-data`),
   getCulturalDataById: (id) => axios.get(`${API_URL}/api/cultural-data/${id}`),
@@ -57,6 +63,8 @@ const apiService = {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress,
     }),
+
+  deleteCulturalData: (id) => axios.delete(`${API_URL}/api/cultural-data/${id}`),
 
   // AI Chat
   askAI: (question, recipeData = null) => axios.post(`${API_URL}/api/chat`, { question, recipeData }),

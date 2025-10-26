@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
 import Loading from './Loading';
 import ChatSection from './ChatSection';
@@ -7,10 +7,26 @@ import { ERROR_MESSAGES, LOADING_MESSAGES } from '../config/constants';
 
 function RecipeDetail() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showChatbot, setShowChatbot] = useState(false);
     const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
+
+    const handleDelete = async () => {
+        if (!window.confirm(`¿Estás seguro de que quieres eliminar la receta "${recipe.name}"? Esta acción no se puede deshacer.`)) {
+            return;
+        }
+
+        try {
+            await apiService.deleteRecipe(id);
+            alert('Receta eliminada con éxito');
+            navigate('/');
+        } catch (err) {
+            console.error(err);
+            alert('Error al eliminar la receta: ' + (err.response?.data?.message || err.message));
+        }
+    };
 
     useEffect(() => {
         apiService.getRecipeById(id)
@@ -97,10 +113,16 @@ function RecipeDetail() {
                     {showChatbot ? 'Cerrar Asistente' : 'Crear Variante'}
                 </button>
                 {isAdmin && (
-                    <Link to={`/recipe/${id}/edit`} className="btn btn-outline">
-                        <span className="material-symbols-outlined">edit</span>
-                        Editar receta
-                    </Link>
+                    <>
+                        <Link to={`/recipe/${id}/edit`} className="btn btn-outline">
+                            <span className="material-symbols-outlined">edit</span>
+                            Editar receta
+                        </Link>
+                        <button onClick={handleDelete} className="btn btn-outline" style={{ color: 'var(--color-error, #dc2626)' }}>
+                            <span className="material-symbols-outlined">delete</span>
+                            Eliminar
+                        </button>
+                    </>
                 )}
             </div>
 

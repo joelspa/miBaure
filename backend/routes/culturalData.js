@@ -9,5 +9,6 @@ router.get('/category/:category', culturalDataController.getCulturalDataByCatego
 router.get('/:id', culturalDataController.getCulturalDataById);
 router.post('/', upload.single('image'), culturalDataController.createCulturalData);
 router.put('/:id', upload.single('image'), culturalDataController.updateCulturalData);
+router.delete('/:id', culturalDataController.deleteCulturalData);
 
 module.exports = router;

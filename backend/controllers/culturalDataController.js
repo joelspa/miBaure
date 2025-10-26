@@ -14,7 +14,7 @@ const toArray = v => Array.isArray(v) ? v : (typeof v === 'string' && v ? [v] : 
 // GET /api/cultural-data - Obtener todos los datos culturales
 exports.getAllCulturalData = async (req, res) => {
     try {
-        const data = await CulturalData.find().sort({ createdAt: -1 });
+        const data = await CulturalData.find({ deleted: false }).sort({ createdAt: -1 });
         res.json(data);
     } catch (error) {
         console.error('Error al obtener datos culturales:', error);
@@ -39,7 +39,7 @@ exports.getCulturalDataById = async (req, res) => {
 // GET /api/cultural-data/category/:category - Obtener datos por categoría
 exports.getCulturalDataByCategory = async (req, res) => {
     try {
-        const data = await CulturalData.find({ category: req.params.category });
+        const data = await CulturalData.find({ category: req.params.category, deleted: false });
         res.json(data);
     } catch (error) {
         console.error('Error al obtener datos por categoría:', error);
@@ -106,6 +106,23 @@ exports.updateCulturalData = async (req, res) => {
     } catch (error) {
         console.error('Error al actualizar dato cultural:', error);
         res.status(400).json({ message: error.message });
+    }
+};
+
+// DELETE /api/cultural-data/:id - Eliminar dato cultural (soft delete)
+exports.deleteCulturalData = async (req, res) => {
+    try {
+        const data = await CulturalData.findById(req.params.id);
+        if (!data) return res.status(404).json({ message: 'Dato cultural no encontrado' });
+
+        data.deleted = true;
+        data.deletedAt = new Date();
+        await data.save();
+
+        res.json({ message: 'Dato cultural eliminado con éxito', deletedId: req.params.id });
+    } catch (error) {
+        console.error('Error al eliminar dato cultural:', error);
+        res.status(500).json({ message: error.message });
     }
 };
 

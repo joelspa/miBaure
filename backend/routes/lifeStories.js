@@ -304,4 +304,24 @@ router.get('/:id', lifeStoryController.getLifeStoryById);
  */
 router.put('/:id', upload.single('image'), lifeStoryController.updateLifeStory);
 
+/**
+ * @openapi
+ * /api/life-stories/{id}:
+ *   delete:
+ *     summary: Eliminar un recuento de vida
+ *     tags: [Life Stories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Recuento eliminado exitosamente
+ *       404:
+ *         description: Recuento no encontrado
+ */
+router.delete('/:id', lifeStoryController.deleteLifeStory);
+
 module.exports = router;
