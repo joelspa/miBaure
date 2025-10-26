@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../config/multer');
 const lifeStoryController = require('../controllers/lifeStoryController');
+const { requireToken } = require('../middleware/adminAuth');
 
 /**
  * @openapi
@@ -129,7 +130,7 @@ const lifeStoryController = require('../controllers/lifeStoryController');
  *             schema:
  *               $ref: "#/components/schemas/ErrorResponse"
  */
-router.post('/', upload.single('image'), lifeStoryController.createLifeStory);
+router.post('/', requireToken, upload.single('image'), lifeStoryController.createLifeStory);
 
 /**
  * @openapi
@@ -168,7 +169,7 @@ router.post('/', upload.single('image'), lifeStoryController.createLifeStory);
  *       404:
  *         description: Recuento no encontrado
  */
-router.patch('/:id/image', upload.single('image'), lifeStoryController.updateMainImage);
+router.patch('/:id/image', requireToken, upload.single('image'), lifeStoryController.updateMainImage);
 
 /**
  * @openapi
@@ -210,7 +211,7 @@ router.patch('/:id/image', upload.single('image'), lifeStoryController.updateMai
  *       404:
  *         description: Recuento no encontrado
  */
-router.patch('/:id/images', upload.array('images', 10), lifeStoryController.addExtraImages);
+router.patch('/:id/images', requireToken, upload.array('images', 10), lifeStoryController.addExtraImages);
 
 /**
  * @openapi
@@ -302,7 +303,7 @@ router.get('/:id', lifeStoryController.getLifeStoryById);
  *       404:
  *         description: Recuento no encontrado
  */
-router.put('/:id', upload.single('image'), lifeStoryController.updateLifeStory);
+router.put('/:id', requireToken, upload.single('image'), lifeStoryController.updateLifeStory);
 
 /**
  * @openapi
@@ -322,6 +323,6 @@ router.put('/:id', upload.single('image'), lifeStoryController.updateLifeStory);
  *       404:
  *         description: Recuento no encontrado
  */
-router.delete('/:id', lifeStoryController.deleteLifeStory);
+router.delete('/:id', requireToken, lifeStoryController.deleteLifeStory);
 
 module.exports = router;

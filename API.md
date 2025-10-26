@@ -1,153 +1,208 @@
-# Documentación API - Archivo Baure
+# API del Proyecto - Archivo Baure
 
-Especificación completa de los endpoints REST del backend.
+Aquí está cómo funciona el backend y qué endpoints puedes usar.
 
-**Base URL**: `http://localhost:5000`
-
----
-
-## Tabla de Contenidos
-
-- [Autenticación](#autenticación)
-- [Endpoints de Recetas](#endpoints-de-recetas)
-- [Endpoints de IA](#endpoints-de-ia)
-- [Endpoints de Recuentos de Vida](#endpoints-de-recuentos-de-vida)
-- [Endpoints de Datos Culturales](#endpoints-de-datos-culturales)
-- [Códigos de Estado](#códigos-de-estado)
-- [Ejemplos de Uso](#ejemplos-de-uso)
+**URL Base**: `http://localhost:5000`
 
 ---
 
 ## Autenticación
 
-**Estado Actual**: No requiere autenticación (API pública)
+Para crear, editar o eliminar cosas necesitas un token. Ver: [AUTENTICACION-TOKEN.md](./AUTENTICACION-TOKEN.md)
 
-**Futuro**: Se implementará autenticación JWT para operaciones de escritura.
+Token por defecto: `baure-admin-token`
 
 ---
 
-## Endpoints de Recetas
+## Recetas
 
-### GET `/api/recipes`
+### Ver todas las recetas
+- **GET** `/api/recipes`
+- No necesita token
+- Devuelve un array con todas las recetas
 
-Obtiene todas las recetas disponibles.
+### Ver una receta específica
+- **GET** `/api/recipes/:id`
+- No necesita token
+- Cambia `:id` por el ID de la receta
 
-**Método**: `GET`
+### Crear receta
+- **POST** `/api/recipes`
+- **Necesita token** en header: `Authorization: Bearer baure-admin-token`
+- Body (form-data):
+  - `name` (obligatorio)
+  - `baureName` (opcional)
+  - `description` (opcional)
+  - `ingredients` (array como JSON string o repetir keys)
+  - `preparation` (opcional)
+  - `utensils` (array)
+  - `consumption` (opcional)
+  - `conservation` (opcional)
+  - `sourcePerson` (opcional)
+  - `tags` (array)
+  - `image` (archivo, opcional)
 
-**Headers**: Ninguno requerido
+### Actualizar receta
+- **PUT** `/api/recipes/:id`
+- **Necesita token**
+- Body: Los campos que quieras cambiar (mismo formato que crear)
 
-**Query Parameters**: Ninguno
+### Eliminar receta
+- **DELETE** `/api/recipes/:id`
+- **Necesita token**
+- No necesita body
 
-**Respuesta Exitosa** (200):
-```json
-[
+---
+
+## Recuentos de Vida
+
+### Ver todos los recuentos
+- **GET** `/api/life-stories`
+- No necesita token
+
+### Ver un recuento específico
+- **GET** `/api/life-stories/:id`
+- No necesita token
+
+### Crear recuento
+- **POST** `/api/life-stories`
+- **Necesita token**
+- Body (form-data):
+  - `title` (obligatorio)
+  - `personName` (obligatorio)
+  - `age` (número, opcional)
+  - `community` (opcional)
+  - `story` (obligatorio)
+  - `relatedThemes` (array)
+  - `recordedDate` (fecha ISO, opcional)
+  - `recordedBy` (opcional)
+  - `image` (archivo, opcional)
+
+### Actualizar recuento
+- **PUT** `/api/life-stories/:id`
+- **Necesita token**
+- Body: Campos a cambiar
+
+### Eliminar recuento
+- **DELETE** `/api/life-stories/:id`
+- **Necesita token**
+
+---
+
+## Datos Culturales
+
+### Ver todos los datos
+- **GET** `/api/cultural-data`
+- No necesita token
+
+### Ver por categoría
+- **GET** `/api/cultural-data/category/:category`
+- Categorías: Historia, Tradiciones, Lengua, Cosmovisión, Territorio, Organización Social, Cocina, Otro
+
+### Ver un dato específico
+- **GET** `/api/cultural-data/:id`
+- No necesita token
+
+### Crear dato cultural
+- **POST** `/api/cultural-data`
+- **Necesita token**
+- Body (form-data):
+  - `title` (obligatorio)
+  - `category` (obligatorio)
+  - `content` (obligatorio)
+  - `sources` (array JSON)
+  - `relatedTopics` (array JSON)
+  - `image` (archivo, opcional)
+
+### Actualizar dato
+- **PUT** `/api/cultural-data/:id`
+- **Necesita token**
+
+### Eliminar dato
+- **DELETE** `/api/cultural-data/:id`
+- **Necesita token**
+
+---
+
+## Chatbot IA
+
+### Hacer pregunta al chatbot
+- **POST** `/api/chat`
+- No necesita token
+- Body (JSON):
+  ```json
   {
-    "_id": "507f1f77bcf86cd799439011",
-    "name": "Sopa de bucheres",
-    "baureName": "Ejaj to Woshor",
-    "description": "Una de las preparaciones típicas...",
-    "ingredients": [
-      "Buchere (pescado de agua dulce)",
-      "Agua",
-      "Sal",
-      "Urucú (para dar color)"
-    ],
-    "preparation": "Se lavan los pescados sin sacar escamas...",
-    "utensils": ["Olla grande", "Cucharón", "Hornilla o leña"],
-    "consumption": "Consumido en desayuno o almuerzo...",
-    "conservation": "Se consume el mismo día...",
-    "sourcePerson": "Adil Arredondo (Jasiaquiri)",
-    "tags": ["Río", "Tradicional"],
-    "imageUrl": "/images/recipes/sopa-bucheres.jpg",
-    "images": [
-      {
-        "url": "/images/recipes/sopa-bucheres-prep.jpg",
-        "caption": "Preparación tradicional"
-      }
-    ],
-    "createdAt": "2025-10-24T00:00:00.000Z",
-    "updatedAt": "2025-10-24T00:00:00.000Z"
+    "question": "¿Cómo hacer esto vegano?",
+    "recipeData": {
+      "name": "Sopa de bucheres",
+      "ingredients": ["..."],
+      "preparation": "..."
+    }
   }
-]
-```
-
-**Errores**:
-- `500`: Error del servidor
+  ```
+- Respuesta:
+  ```json
+  {
+    "answer": "Respuesta del chatbot en markdown...",
+    "usedWebSearch": false
+  }
+  ```
 
 ---
 
-### GET `/api/recipes/:id`
+## Panel Admin
 
-Obtiene una receta específica por ID.
-
-**Método**: `GET`
-
-**URL Parameters**:
-- `id` (string, requerido): MongoDB ObjectId de la receta
-
-**Respuesta Exitosa** (200):
-```json
-{
-  "_id": "507f1f77bcf86cd799439011",
-  "name": "Sopa de bucheres",
-  "baureName": "Ejaj to Woshor",
-  "description": "Una de las preparaciones típicas...",
-  "ingredients": ["..."],
-  "preparation": "...",
-  "utensils": ["..."],
-  "consumption": "...",
-  "conservation": "...",
-  "sourcePerson": "Adil Arredondo (Jasiaquiri)",
-  "tags": ["Río", "Tradicional"],
-  "imageUrl": "/images/recipes/sopa-bucheres.jpg"
-}
-```
-
-**Errores**:
-- `404`: Receta no encontrada
-- `500`: Error del servidor
+### Validar contraseña
+- **POST** `/api/admin/validate`
+- Body (JSON):
+  ```json
+  {
+    "password": "admin123"
+  }
+  ```
+- Respuesta si es correcta:
+  ```json
+  {
+    "message": "Acceso concedido",
+    "valid": true,
+    "token": "baure-admin-token"
+  }
+  ```
 
 ---
 
-## Endpoints de IA
+## Códigos de Estado
 
-### POST `/api/chat`
+- **200**: Todo bien
+- **201**: Creado exitosamente
+- **400**: Faltan datos o están mal
+- **401**: No tienes autorización (falta token o es inválido)
+- **404**: No se encontró lo que buscas
+- **500**: Error del servidor
 
-Envía una pregunta al asistente IA (Gemini 2.0 Flash).
+---
 
-**Método**: `POST`
+## Ejemplo Completo (Postman)
 
-**Headers**:
-```
-Content-Type: application/json
-```
+Crear una receta:
 
-**Body**:
-```json
-{
-  "question": "¿Cómo hacer esta receta vegana?",
-  "recipeData": {
-    "name": "Sopa de bucheres",
-    "baureName": "Ejaj to Woshor",
-    "description": "...",
-    "ingredients": ["..."],
-    "preparation": "...",
-    "utensils": ["..."],
-    "consumption": "...",
-    "conservation": "...",
-    "sourcePerson": "..."
-  }
-}
-```
+1. Método: POST
+2. URL: `http://localhost:5000/api/recipes`
+3. Headers:
+   - `Authorization: Bearer baure-admin-token`
+4. Body (form-data):
+   - name: Masaco de yuca
+   - ingredients: ["yuca", "queso", "sal"]
+   - preparation: Rallar y mezclar
+   - image: (tu archivo)
 
-**Campos**:
-- `question` (string, requerido): Pregunta del usuario
-- `recipeData` (object, opcional): Datos de la receta para contexto
+Si todo sale bien, recibes un 201 con la receta creada que incluye el `_id` generado.
 
-**Respuesta Exitosa** (200):
-```json
-{
-  "answer": "**Alternativas Veganas**\n\nPara hacer esta receta vegana...",
+---
+
+## Nota
+
+Para más detalles sobre autenticación, ver [AUTENTICACION-TOKEN.md](./AUTENTICACION-TOKEN.md)
   "usedWebSearch": true
 }
 ```

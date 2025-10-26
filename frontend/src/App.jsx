@@ -1,6 +1,6 @@
 // src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
 import RecipeDetail from './components/RecipeDetail';
 import LifeStories from './components/LifeStories';
@@ -46,7 +46,7 @@ function AppHeader({ darkMode, toggleDarkMode }) {
               </span>
             </button>
             {isAdmin && (
-              <Link to="/admin-panel-baure" className="btn btn-primary" aria-label="Ir al panel de administración">
+              <Link to="/admin" className="btn btn-primary" aria-label="Ir al panel de administración">
                 <span className="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
                 Panel Admin
               </Link>
@@ -131,7 +131,7 @@ function App() {
               <Route path="/cultura/:id/edit" element={<CulturalDataEdit />} />
               <Route path="/cultura/crear" element={<CulturalDataCreate />} />
               <Route path="/crear" element={<RecipeCreate />} />
-              <Route path="/admin-panel-baure" element={<AdminPanel />} />
+              <Route path="/admin" element={<AdminPanel />} />
               {/* Ruta 404 - Debe ir al final */}
               <Route path="*" element={<NotFound />} />
             </Routes>

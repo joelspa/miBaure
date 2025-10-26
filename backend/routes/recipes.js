@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../config/multer');
 const ctrl = require('../controllers/recipeController');
+const { requireToken } = require('../middleware/adminAuth');
 
 /**
  * @openapi
@@ -159,7 +160,7 @@ const ctrl = require('../controllers/recipeController');
  *             schema:
  *               $ref: "#/components/schemas/ErrorResponse"
  */
-router.post('/', upload.single('image'), ctrl.createRecipe);
+router.post('/', requireToken, upload.single('image'), ctrl.createRecipe);
 
 /**
  * @openapi
@@ -198,7 +199,7 @@ router.post('/', upload.single('image'), ctrl.createRecipe);
  *       404:
  *         description: Receta no encontrada
  */
-router.patch('/:id/image', upload.single('image'), ctrl.updateMainImage);
+router.patch('/:id/image', requireToken, upload.single('image'), ctrl.updateMainImage);
 
 /**
  * @openapi
@@ -287,7 +288,7 @@ router.get('/:id', ctrl.getRecipeById);
  *       404:
  *         description: Receta no encontrada
  */
-router.put('/:id', upload.single('image'), ctrl.updateRecipe);
+router.put('/:id', requireToken, upload.single('image'), ctrl.updateRecipe);
 
 /**
  * @openapi
@@ -307,6 +308,6 @@ router.put('/:id', upload.single('image'), ctrl.updateRecipe);
  *       404:
  *         description: Receta no encontrada
  */
-router.delete('/:id', ctrl.deleteRecipe);
+router.delete('/:id', requireToken, ctrl.deleteRecipe);
 
 module.exports = router;
