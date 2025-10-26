@@ -30,6 +30,9 @@ function AdminPanel() {
             if (response.data.valid) {
                 // Guardar en sessionStorage (se borra al cerrar el navegador)
                 sessionStorage.setItem('adminAuth', 'true');
+                // Guardar token para Authorization header
+                const token = response.data.token || 'baure-admin-token';
+                sessionStorage.setItem('authToken', token);
                 setIsAuthenticated(true);
                 setPassword('');
             }
@@ -42,6 +45,7 @@ function AdminPanel() {
 
     const handleLogout = () => {
         sessionStorage.removeItem('adminAuth');
+        sessionStorage.removeItem('authToken');
         setIsAuthenticated(false);
         setPassword('');
     };

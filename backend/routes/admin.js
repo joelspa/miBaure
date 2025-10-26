@@ -1,4 +1,3 @@
-// routes/admin.js - Rutas de administración
 const express = require('express');
 const router = express.Router();
 const { validateAdminPassword } = require('../middleware/adminAuth');
@@ -41,7 +40,8 @@ const { validateAdminPassword } = require('../middleware/adminAuth');
  *         description: Falta contraseña
  */
 router.post('/validate', validateAdminPassword, (req, res) => {
-    res.json({ message: 'Acceso concedido', valid: true });
+    const token = process.env.ADMIN_TOKEN || 'baure-admin-token';
+    res.json({ message: 'Acceso concedido', valid: true, token });
 });
 
 module.exports = router;

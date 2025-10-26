@@ -1,0 +1,20 @@
+# Ignorar archivos y reportes generados por Unlighthouse / Lighthouse
+.unlighthouse/
+unlighthouse/
+unlighthouse-report*.html
+unlighthouse-*.json
+
+# Lighthouse / LHCI
+.lighthouseci/
+.lhci/
+.lighthouse/
+lighthouse-report*.html
+reports/lighthouse/
+
+# Chrome / headless user data that Lighthouse may create
+chrome-user-data/
+.chrome-user-data/
+
+# carpetas usadas por herramientas de CI/outputs locales
+lighthouse-results/
+.unlighthouse-reports/
