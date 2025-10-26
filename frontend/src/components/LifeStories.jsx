@@ -82,7 +82,7 @@ export default function LifeStories() {
                                         <div className="story-image">
                                             <img 
                                                 src={story.photoUrl} 
-                                                alt={story.personName}
+                                                alt={`Retrato de ${story.personName}${story.community ? `, miembro de la comunidad ${story.community}` : ''}, narrador del pueblo Baure`}
                                                 onError={(e) => {
                                                     e.target.style.display = 'none';
                                                 }}
@@ -108,7 +108,7 @@ export default function LifeStories() {
                                         {story.relatedThemes && story.relatedThemes.length > 0 && (
                                             <div className="story-themes">
                                                 {story.relatedThemes.map((theme, index) => (
-                                                    <span key={index} className="chip chip-secondary">
+                                                    <span key={index} className="tag tag-secondary">
                                                         {theme}
                                                     </span>
                                                 ))}

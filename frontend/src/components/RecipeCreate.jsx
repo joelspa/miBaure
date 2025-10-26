@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
-import ChipInput from './ui/ChipInput';
+import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 
 export default function RecipeCreate() {
@@ -121,7 +121,7 @@ export default function RecipeCreate() {
                 />
               </div>
 
-              <ChipInput
+              <TagInput
                 label="Ingredientes *"
                 placeholder="Ej. yuca"
                 values={ingredients}
@@ -129,14 +129,14 @@ export default function RecipeCreate() {
               />
               {errors.ingredients && <p className="error">{errors.ingredients}</p>}
 
-              <ChipInput
+              <TagInput
                 label="Utensilios"
                 placeholder="Ej. rallador"
                 values={utensils}
                 onChange={setUtensils}
               />
 
-              <ChipInput
+              <TagInput
                 label="Etiquetas"
                 placeholder="Ej. Tradicional"
                 values={tags}

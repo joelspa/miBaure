@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
-import ChipInput from './ui/ChipInput';
+import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 
 function CulturalDataCreate() {
@@ -115,14 +115,14 @@ function CulturalDataCreate() {
                 </select>
               </div>
 
-              <ChipInput
+              <TagInput
                 label="Fuentes"
                 placeholder="Ej. Relato de María López, 2024"
                 values={sources}
                 onChange={setSources}
               />
 
-              <ChipInput
+              <TagInput
                 label="Temas relacionados"
                 placeholder="Ej. Pesca"
                 values={relatedTopics}

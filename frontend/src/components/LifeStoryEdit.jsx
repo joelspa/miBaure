@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
-import ChipInput from './ui/ChipInput';
+import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 
@@ -174,7 +174,7 @@ export default function LifeStoryEdit() {
                 />
               </div>
 
-              <ChipInput
+              <TagInput
                 label="Temas relacionados"
                 placeholder="Ej. Río"
                 values={relatedThemes}

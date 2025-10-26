@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
-import ChipInput from './ui/ChipInput';
+import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 
@@ -147,14 +147,14 @@ function CulturalDataEdit() {
                 </select>
               </div>
 
-              <ChipInput
+              <TagInput
                 label="Fuentes"
                 placeholder="Ej. Relato de María López, 2024"
                 values={sources}
                 onChange={setSources}
               />
 
-              <ChipInput
+              <TagInput
                 label="Temas relacionados"
                 placeholder="Ej. Pesca"
                 values={relatedTopics}

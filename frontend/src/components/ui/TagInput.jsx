@@ -1,0 +1,115 @@
+import { useState, useRef } from 'react';
+
+export default function TagInput({ label, placeholder, values = [], onChange, max = 50 }) {
+  const [input, setInput] = useState('');
+  const listRef = useRef(null);
+
+  const normalize = (s) => s.trim().replace(/\s+/g, ' ');
+  const exists = (v) => values.map(x => x.toLowerCase()).includes(v.toLowerCase());
+
+  const addMany = (arr) => {
+    const cleaned = arr
+      .map(normalize)
+      .filter(Boolean)
+      .filter(v => !exists(v));
+
+    if (!cleaned.length) return;
+
+    const slots = Math.max(0, max - values.length);
+    const next = cleaned.slice(0, slots);
+    if (next.length) onChange([...values, ...next]);
+  };
+
+  const add = (val) => {
+    const v = normalize(val);
+    if (!v) return;
+    if (exists(v)) return;
+    if (values.length >= max) return;
+    onChange([...values, v]);
+    setInput('');
+  };
+
+  const remove = (val) => onChange(values.filter(x => x !== val));
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      add(input);
+    } else if (e.key === 'Backspace' && !input && values.length) {
+      remove(values[values.length - 1]);
+    }
+  };
+
+  const onPaste = (e) => {
+    const txt = e.clipboardData.getData('text');
+    const parts = txt.split(/,|\n|;/g);
+    if (parts.length > 1) {
+      e.preventDefault();
+      addMany(parts);
+      setInput('');
+    }
+  };
+
+  return (
+    <div className="field">
+      <label className="label">{label}</label>
+
+      <div
+        className="tag-input"
+        role="application"
+        aria-describedby={max ? 'tag-counter' : undefined}
+        onClick={() => listRef.current?.querySelector('input')?.focus()}
+      >
+        <div
+          className="tag-list"
+          ref={listRef}
+          role="listbox"
+          aria-label={label}
+        >
+          {values.map((v) => (
+            <span className="tag-pill" role="option" aria-selected="true" key={v} title={v}>
+              <span>{v}</span>
+              <button
+                type="button"
+                className="tag-remove"
+                onClick={() => remove(v)}
+                aria-label={`Quitar ${v}`}
+                title="Quitar"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+
+          <input
+            className="tag-text"
+            value={input}
+            inputMode="text"
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={onKeyDown}
+            onPaste={onPaste}
+            placeholder={placeholder}
+            aria-label={`${label} input`}
+          />
+        </div>
+
+        <button
+          type="button"
+          className="btn btn-outline"
+          onClick={() => add(input)}
+          disabled={!input.trim() || values.length >= max}
+          aria-label="Agregar"
+          title="Agregar"
+        >
+          +
+        </button>
+      </div>
+
+      {max && (
+        <div className="field-hint" id="tag-counter">
+          {values.length} / {max}
+        </div>
+      )}
+    </div>
+  );
+}

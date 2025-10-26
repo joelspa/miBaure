@@ -83,23 +83,25 @@ function AdminPanel() {
                                 onClick={() => navigate('/')}
                                 className="btn btn-outline"
                                 disabled={loading}
+                                aria-label="Volver a la página principal"
                             >
-                                <span className="material-symbols-outlined">arrow_back</span>
+                                <span className="material-symbols-outlined" aria-hidden="true">arrow_back</span>
                                 Volver
                             </button>
                             <button
                                 type="submit"
                                 className="btn btn-primary"
                                 disabled={loading || !password}
+                                aria-label="Acceder al panel de administración"
                             >
                                 {loading ? (
                                     <>
-                                        <span className="material-symbols-outlined spinning">sync</span>
+                                        <span className="material-symbols-outlined spinning" aria-hidden="true">sync</span>
                                         Verificando...
                                     </>
                                 ) : (
                                     <>
-                                        <span className="material-symbols-outlined">login</span>
+                                        <span className="material-symbols-outlined" aria-hidden="true">login</span>
                                         Acceder
                                     </>
                                 )}
@@ -120,8 +122,8 @@ function AdminPanel() {
                         <span className="material-symbols-outlined">admin_panel_settings</span>
                         <h1>Panel de Administración</h1>
                     </div>
-                    <button onClick={handleLogout} className="btn btn-outline">
-                        <span className="material-symbols-outlined">logout</span>
+                    <button onClick={handleLogout} className="btn btn-outline" aria-label="Cerrar sesión de administrador">
+                        <span className="material-symbols-outlined" aria-hidden="true">logout</span>
                         Cerrar sesión
                     </button>
                 </div>
