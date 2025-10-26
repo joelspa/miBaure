@@ -9,6 +9,17 @@ function RecipeList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+    // Categorías de filtrado
+    const categories = [
+        { value: 'Todos', label: 'Todos', icon: 'filter_list' },
+        { value: 'Yuca', label: 'Yuca', icon: 'agriculture' },
+        { value: 'Maíz', label: 'Maíz', icon: 'grain' },
+        { value: 'Pescado', label: 'Pescado', icon: 'set_meal' },
+        { value: 'Bebida', label: 'Bebida', icon: 'local_cafe' },
+        { value: 'Desaparecida', label: 'Desaparecida', icon: 'history' }
+    ];
 
     useEffect(() => {
         apiService.getAllRecipes()
@@ -25,9 +36,22 @@ function RecipeList() {
 
     const filteredRecipes = recipes.filter(recipe => {
         const searchLower = searchTerm.toLowerCase();
-        return recipe.name?.toLowerCase().includes(searchLower) ||
+        const matchesSearch = recipe.name?.toLowerCase().includes(searchLower) ||
             recipe.baureName?.toLowerCase().includes(searchLower) ||
-            recipe.description?.toLowerCase().includes(searchLower);
+            recipe.description?.toLowerCase().includes(searchLower) ||
+            recipe.ingredients?.some(ing => ing.toLowerCase().includes(searchLower));
+        
+        if (selectedCategory === 'Todos') return matchesSearch;
+        
+        // Filtrado por categoría
+        const categoryLower = selectedCategory.toLowerCase();
+        const matchesCategory = 
+            recipe.name?.toLowerCase().includes(categoryLower) ||
+            recipe.description?.toLowerCase().includes(categoryLower) ||
+            recipe.ingredients?.some(ing => ing.toLowerCase().includes(categoryLower)) ||
+            recipe.tags?.some(tag => tag.toLowerCase().includes(categoryLower));
+        
+        return matchesSearch && matchesCategory;
     });
 
     if (loading) return <Loading message={LOADING_MESSAGES.RECIPES} />;
@@ -45,6 +69,22 @@ function RecipeList() {
                         </span>
                         {filteredRecipes.length} recetas
                     </span>
+                </div>
+
+                {/* Category Filters */}
+                <div className="category-filters">
+                    {categories.map(cat => (
+                        <button
+                            key={cat.value}
+                            className={selectedCategory === cat.value ? 'chip chip-primary' : 'chip'}
+                            onClick={() => setSelectedCategory(cat.value)}
+                        >
+                            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>
+                                {cat.icon}
+                            </span>
+                            {cat.label}
+                        </button>
+                    ))}
                 </div>
 
                 {/* Search Bar */}
@@ -93,22 +133,25 @@ function RecipeList() {
                                 <div className="recipe-body">
                                     <h3 className="recipe-title">{recipe.name}</h3>
                                     {recipe.baureName && (
-                                        <p className="recipe-subtitle">{recipe.baureName}</p>
+                                        <p className="recipe-baure-name">{recipe.baureName}</p>
                                     )}
                                     {recipe.description && (
-                                        <p className="recipe-description">
-                                            {recipe.description.substring(0, 120)}...
+                                        <p className="recipe-description recipe-description-clamp">
+                                            {recipe.description}
                                         </p>
                                     )}
-                                    {recipe.ingredients && recipe.ingredients.length > 0 && (
-                                        <div className="recipe-tags">
-                                            {recipe.ingredients.slice(0, 3).map((ing, idx) => (
-                                                <span key={idx} className="tag tag-secondary">
-                                                    {ing.length > 20 ? ing.substring(0, 20) + '...' : ing}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    )}
+                                    <div className="recipe-tags">
+                                        {recipe.tags && recipe.tags.slice(0, 4).map((tag, idx) => (
+                                            <span key={idx} className="tag tag-primary">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                        {!recipe.tags && recipe.ingredients && recipe.ingredients.slice(0, 3).map((ing, idx) => (
+                                            <span key={idx} className="tag tag-secondary">
+                                                {ing.split(' ')[0]}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </Link>
                         </article>

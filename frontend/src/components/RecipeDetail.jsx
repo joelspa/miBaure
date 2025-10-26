@@ -103,6 +103,48 @@ function RecipeDetail() {
                 </div>
             </section>
 
+            {/* Quick Summary Infobox */}
+            <div className="recipe-infobox">
+                <div className="infobox-grid">
+                    {recipe.baureName && (
+                        <div className="infobox-item">
+                            <span className="infobox-label">
+                                <span className="material-symbols-outlined">translate</span>
+                                Nombre Baure
+                            </span>
+                            <span className="infobox-value">{recipe.baureName}</span>
+                        </div>
+                    )}
+                    <div className="infobox-item">
+                        <span className="infobox-label">
+                            <span className="material-symbols-outlined">category</span>
+                            Tipo
+                        </span>
+                        <span className="infobox-value">
+                            {recipe.tags && recipe.tags[0] ? recipe.tags[0] : 'Tradicional'}
+                        </span>
+                    </div>
+                    {recipe.sourcePerson && (
+                        <div className="infobox-item">
+                            <span className="infobox-label">
+                                <span className="material-symbols-outlined">person</span>
+                                Fuente
+                            </span>
+                            <span className="infobox-value">{recipe.sourcePerson}</span>
+                        </div>
+                    )}
+                    {recipe.ingredients && recipe.ingredients[0] && (
+                        <div className="infobox-item">
+                            <span className="infobox-label">
+                                <span className="material-symbols-outlined">stars</span>
+                                Ingrediente Principal
+                            </span>
+                            <span className="infobox-value">{recipe.ingredients[0]}</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {/* AI Actions */}
             <div className="recipe-actions">
                 <button 
@@ -110,7 +152,7 @@ function RecipeDetail() {
                     onClick={() => setShowChatbot(!showChatbot)}
                 >
                     <span className="material-symbols-outlined">auto_awesome</span>
-                    {showChatbot ? 'Cerrar Asistente' : 'Crear Variante'}
+                    {showChatbot ? 'Cerrar Asistente' : 'Consultar Asistente'}
                 </button>
                 {isAdmin && (
                     <>
@@ -165,7 +207,31 @@ function RecipeDetail() {
                         <span className="material-symbols-outlined">outdoor_grill</span>
                         Preparación
                     </h3>
-                    <p>{recipe.preparation}</p>
+                    {recipe.preparation.includes('1)') || recipe.preparation.includes('**') ? (
+                        <div className="preparation-steps">
+                            {recipe.preparation.split(/\d+\)\s*\*?\*?/).filter(step => step.trim()).map((step, index) => {
+                                const cleanStep = step.replace(/\*\*/g, '').trim();
+                                const parts = cleanStep.split(':');
+                                return (
+                                    <div key={index} className="preparation-step">
+                                        <div className="step-number">{index + 1}</div>
+                                        <div className="step-content">
+                                            {parts.length > 1 ? (
+                                                <>
+                                                    <h4 className="step-title">{parts[0].trim()}</h4>
+                                                    <p>{parts.slice(1).join(':').trim()}</p>
+                                                </>
+                                            ) : (
+                                                <p>{cleanStep}</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p className="preparation-text">{recipe.preparation}</p>
+                    )}
                 </section>
             )}
 

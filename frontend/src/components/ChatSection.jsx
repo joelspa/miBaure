@@ -36,7 +36,7 @@ export default function ChatSection({ recipe }) {
             
             let content = res.data.answer;
             if (res.data.usedWebSearch) {
-                content = `🌐 *Búsqueda web activada*\n\n${content}`;
+                content = `*Búsqueda web activada*\n\n${content}`;
             }
             
             const aiMessage = { role: 'assistant', content };
@@ -60,6 +60,9 @@ export default function ChatSection({ recipe }) {
                 <span className="material-symbols-outlined">smart_toy</span>
                 Asistente de Cocina
             </h3>
+            <p style={{ marginBottom: '1rem', color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>
+                Consulta sobre ingredientes, técnicas de preparación, variaciones o datos culturales de esta receta.
+            </p>
             
             <div className="chatbot-messages">
                 {chatHistory.map((msg, index) => (
@@ -73,12 +76,14 @@ export default function ChatSection({ recipe }) {
                             {msg.role === 'assistant' ? (
                                 <ReactMarkdown
                                     components={{
-                                        p: ({node, ...props}) => <p style={{margin: '0.5rem 0'}} {...props} />,
-                                        ul: ({node, ...props}) => <ul style={{margin: '0.5rem 0', paddingLeft: '1.25rem'}} {...props} />,
-                                        ol: ({node, ...props}) => <ol style={{margin: '0.5rem 0', paddingLeft: '1.25rem'}} {...props} />,
-                                        li: ({node, ...props}) => <li style={{margin: '0.25rem 0'}} {...props} />,
-                                        strong: ({node, ...props}) => <strong style={{color: 'var(--color-primary)', fontWeight: '700'}} {...props} />,
-                                        h3: ({node, ...props}) => <h3 style={{fontSize: '1rem', margin: '0.5rem 0'}} {...props} />,
+                                        p: ({node, ...props}) => <p {...props} />,
+                                        ul: ({node, ...props}) => <ul {...props} />,
+                                        ol: ({node, ...props}) => <ol {...props} />,
+                                        li: ({node, ...props}) => <li {...props} />,
+                                        strong: ({node, ...props}) => <strong {...props} />,
+                                        em: ({node, ...props}) => <em {...props} />,
+                                        h3: ({node, ...props}) => <h3 {...props} />,
+                                        h4: ({node, ...props}) => <h4 {...props} />,
                                     }}
                                 >
                                     {msg.content}
