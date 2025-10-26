@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import apiService from '../services/api.service';
 import Loading from './Loading';
@@ -9,6 +10,7 @@ export default function BaureCulture() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
 
     useEffect(() => {
         apiService.getAllCulturalData()
@@ -131,6 +133,17 @@ export default function BaureCulture() {
                                                 </span>
                                             ))}
                                         </div>
+                                    )}
+
+                                    {isAdmin && (
+                                        <Link 
+                                            to={`/cultura/${item._id}/edit`} 
+                                            className="btn btn-outline"
+                                            style={{ marginTop: '1rem' }}
+                                        >
+                                            <span className="material-symbols-outlined">edit</span>
+                                            Editar
+                                        </Link>
                                     )}
                                 </article>
                             ))}

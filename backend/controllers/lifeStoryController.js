@@ -106,3 +106,31 @@ exports.addExtraImages = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+// PUT /api/life-stories/:id - Actualizar recuento completo
+exports.updateLifeStory = async (req, res) => {
+  try {
+    const story = await LifeStory.findById(req.params.id);
+    if (!story) return res.status(404).json({ message: 'Recuento no encontrado' });
+
+    if (req.body.title) story.title = req.body.title.trim();
+    if (req.body.personName) story.personName = req.body.personName.trim();
+    if (req.body.age !== undefined) story.age = req.body.age;
+    if (req.body.community !== undefined) story.community = req.body.community;
+    if (req.body.story) story.story = req.body.story.trim();
+    if (req.body.recordedBy !== undefined) story.recordedBy = req.body.recordedBy;
+    
+    if (req.body.relatedThemes) story.relatedThemes = toArray(parseMaybe(req.body.relatedThemes));
+    if (req.body.recordedDate) story.recordedDate = new Date(req.body.recordedDate);
+    
+    if (req.file) {
+      story.photoUrl = buildPublicUrl(req, req.file.path);
+    }
+
+    await story.save();
+    res.json(story);
+  } catch (error) {
+    console.error('Error al actualizar recuento:', error);
+    res.status(400).json({ message: error.message });
+  }
+};

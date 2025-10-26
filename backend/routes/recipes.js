@@ -245,4 +245,48 @@ router.get('/', ctrl.getAllRecipes);
  */
 router.get('/:id', ctrl.getRecipeById);
 
+/**
+ * @openapi
+ * /api/recipes/{id}:
+ *   put:
+ *     tags: [Recetas]
+ *     summary: Actualizar receta completa
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               baureName:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               preparation:
+ *                 type: string
+ *               ingredients:
+ *                 type: string
+ *               utensils:
+ *                 type: string
+ *               tags:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Receta actualizada exitosamente
+ *       404:
+ *         description: Receta no encontrada
+ */
+router.put('/:id', upload.single('image'), ctrl.updateRecipe);
+
 module.exports = router;

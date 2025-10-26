@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import apiService from '../services/api.service';
 import Loading from './Loading';
 import { ERROR_MESSAGES, LOADING_MESSAGES, PLACEHOLDERS } from '../config/constants';
@@ -7,6 +8,7 @@ export default function LifeStories() {
     const [stories, setStories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
 
     useEffect(() => {
         apiService.getAllStories()
@@ -96,6 +98,16 @@ export default function LifeStories() {
                                                     </span>
                                                 ))}
                                             </div>
+                                        )}
+                                        {isAdmin && (
+                                            <Link 
+                                                to={`/recuentos/${story._id}/edit`} 
+                                                className="btn btn-outline"
+                                                style={{ marginTop: '1rem' }}
+                                            >
+                                                <span className="material-symbols-outlined">edit</span>
+                                                Editar
+                                            </Link>
                                         )}
                                     </div>
                                 </article>

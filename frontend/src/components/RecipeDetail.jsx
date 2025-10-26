@@ -10,6 +10,7 @@ function RecipeDetail() {
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showChatbot, setShowChatbot] = useState(false);
+    const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
 
     useEffect(() => {
         apiService.getRecipeById(id)
@@ -95,6 +96,12 @@ function RecipeDetail() {
                     <span className="material-symbols-outlined">auto_awesome</span>
                     {showChatbot ? 'Cerrar Asistente' : 'Crear Variante'}
                 </button>
+                {isAdmin && (
+                    <Link to={`/recipe/${id}/edit`} className="btn btn-outline">
+                        <span className="material-symbols-outlined">edit</span>
+                        Editar receta
+                    </Link>
+                )}
             </div>
 
             {/* Chatbot */}

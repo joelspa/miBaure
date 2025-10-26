@@ -6,13 +6,19 @@ import RecipeDetail from './components/RecipeDetail';
 import LifeStories from './components/LifeStories';
 import BaureCulture from './components/BaureCulture';
 import RecipeCreate from './components/RecipeCreate';
+import RecipeEdit from './components/RecipeEdit';
 import LifeStoryCreate from './components/LifeStoryCreate';
+import LifeStoryEdit from './components/LifeStoryEdit';
+import CulturalDataCreate from './components/CulturalDataCreate';
+import CulturalDataEdit from './components/CulturalDataEdit';
+import AdminPanel from './components/AdminPanel';
 
-import './App.css';
+import './styles/App.css';
 
 function AppHeader({ darkMode, toggleDarkMode }) {
   const location = useLocation();
   const isActive = (path) => (location.pathname === path ? 'nav-link active' : 'nav-link');
+  const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
 
   return (
     <>
@@ -28,14 +34,6 @@ function AppHeader({ darkMode, toggleDarkMode }) {
           </div>
 
           <div className="header-actions">
-            <Link to="/crear" className="btn btn-primary">
-              <span className="material-symbols-outlined">add</span>
-              Nueva receta
-            </Link>
-            <Link to="/recuentos/crear" className="btn btn-primary">
-              <span className="material-symbols-outlined">add</span>
-              Nuevo recuento
-            </Link>
             <button
               className="btn btn-outline"
               onClick={toggleDarkMode}
@@ -46,6 +44,12 @@ function AppHeader({ darkMode, toggleDarkMode }) {
                 {darkMode ? 'light_mode' : 'dark_mode'}
               </span>
             </button>
+            {isAdmin && (
+              <Link to="/admin-panel-baure" className="btn btn-primary">
+                <span className="material-symbols-outlined">admin_panel_settings</span>
+                Panel Admin
+              </Link>
+            )}
             <Link to="/" className="btn btn-outline">
               <span className="material-symbols-outlined">home</span>
               Inicio
@@ -113,10 +117,15 @@ function App() {
             <Routes>
               <Route path="/" element={<RecipeList />} />
               <Route path="/recipe/:id" element={<RecipeDetail />} />
+              <Route path="/recipe/:id/edit" element={<RecipeEdit />} />
               <Route path="/recuentos" element={<LifeStories />} />
+              <Route path="/recuentos/:id/edit" element={<LifeStoryEdit />} />
               <Route path="/recuentos/crear" element={<LifeStoryCreate />} />
               <Route path="/cultura" element={<BaureCulture />} />
+              <Route path="/cultura/:id/edit" element={<CulturalDataEdit />} />
+              <Route path="/cultura/crear" element={<CulturalDataCreate />} />
               <Route path="/crear" element={<RecipeCreate />} />
+              <Route path="/admin-panel-baure" element={<AdminPanel />} />
             </Routes>
           </div>
         </main>
