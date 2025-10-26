@@ -8,6 +8,30 @@ export default function ChatSection({ recipe }) {
     const [chatHistory, setChatHistory] = useState([]);
     const [isAskingAI, setIsAskingAI] = useState(false);
 
+    // Normaliza la respuesta en Markdown para evitar viñetas vacías y espacios extra
+    const normalizeAnswer = (text) => {
+        if (!text) return '';
+        let t = String(text).replace(/\r\n?/g, '\n');
+        // Eliminar líneas que son solo marcadores de lista ( -, *, • )
+        t = t.replace(/^\s*[-*•]\s*$/gm, '');
+        // Quitar espacios al inicio/fin de cada línea
+        t = t.replace(/^[\t ]+/gm, '').replace(/[\t ]+$/gm, '');
+        // Convertir bullets con "•" a listas markdown y separar en líneas
+        t = t
+          // Si un bloque empieza con "Puntos clave" u "Opciones recomendadas", forzar salto y bullets por línea
+          .replace(/(\*\*Puntos clave:?\*\*):\s*•\s*/i, '$1\n- ')
+          .replace(/(\*\*Opciones recomendadas:?\*\*):\s*•\s*/i, '$1\n- ')
+          // Bullets en nuevas líneas
+          .replace(/\n•\s+/g, '\n- ')
+          // Bullets en línea (p.ej. " ...: • item1 • item2 ...")
+          .replace(/\s•\s+/g, '\n- ');
+        // Asegurar salto de línea antes de listas numeradas en "Cómo hacerlo"
+        t = t.replace(/(\*\*C[oó]mo hacerlo:?\*\*):\s*(?=1\.)/i, '$1\n');
+        // Colapsar 3+ saltos a uno doble
+        t = t.replace(/\n{3,}/g, '\n\n');
+        return t.trim();
+    };
+
     const handleAskAI = async (e) => {
         e.preventDefault();
         if (!question.trim()) return;
@@ -38,7 +62,9 @@ export default function ChatSection({ recipe }) {
             if (res.data.usedWebSearch) {
                 content = `*Búsqueda web activada*\n\n${content}`;
             }
-            
+
+            content = normalizeAnswer(content);
+
             const aiMessage = { role: 'assistant', content };
             setChatHistory(prev => [...prev, aiMessage]);
 

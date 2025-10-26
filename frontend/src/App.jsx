@@ -12,6 +12,7 @@ import LifeStoryEdit from './components/LifeStoryEdit';
 import CulturalDataCreate from './components/CulturalDataCreate';
 import CulturalDataEdit from './components/CulturalDataEdit';
 import AdminPanel from './components/AdminPanel';
+import NotFound from './components/NotFound';
 
 import './styles/App.css';
 
@@ -131,6 +132,8 @@ function App() {
               <Route path="/cultura/crear" element={<CulturalDataCreate />} />
               <Route path="/crear" element={<RecipeCreate />} />
               <Route path="/admin-panel-baure" element={<AdminPanel />} />
+              {/* Ruta 404 - Debe ir al final */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </main>
