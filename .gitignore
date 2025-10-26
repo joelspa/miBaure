@@ -19,3 +19,6 @@ chrome-user-data/
 # carpetas usadas por herramientas de CI/outputs locales
 lighthouse-results/
 .unlighthouse-reports/
+
+# Ignorar reportes de Unlighthouse
+.unlighthouse
