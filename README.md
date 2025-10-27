@@ -1,85 +1,276 @@
 # Archivo Baure
 
-Plataforma web para preservar y difundir el patrimonio gastronómico y cultural del pueblo Baure.
+Este proyecto es una plataforma web para preservar y difundir el patrimonio gastronómico y cultural del pueblo Baure.
 
-**Tecnologías:** Node.js + Express + MongoDB (backend) | React + Vite (frontend) | Google Gemini AI (chatbot)
+La investigación "Acercamiento al mundo de la cocina baure" nos mostró que esta cultura está en riesgo. El conocimiento lo tienen principalmente los ancianos, y los jóvenes ya casi no conocen las recetas. Muchas preparaciones están "a punto de desaparecer".
+
+Nuestra solución es esta página web (una SPA) que funciona como un archivo digital. Aquí guardamos las recetas, las "historias de vida" de la gente, los utensilios que usaban (como el batán o el torno) y sus técnicas de cocina.
 
 ---
 
-## Instalación y Ejecución
+## Tecnologías usadas
 
-### Requisitos Previos
-- Node.js v18+
-- MongoDB
-- API key de Google Gemini
+- **Frontend:** React + Vite
+- **Backend:** Node.js + Express + MongoDB
+- **IA:** Google Gemini (para un chatbot de ayuda)
 
-### Instalación
+---
+
+## ¿Cómo instalar y ejecutar el proyecto?
+
+Necesitarás Node.js (v18+) y una conexión a MongoDB.
+
+### 1. El Backend (API)
 
 ```bash
-# Clonar repositorio
-git clone https://github.com/joelspa/miBaure.git
-cd miBaure
-
-# Backend
+# Entra a la carpeta del backend
 cd backend
-npm install
-cp .env.example .env  # Configurar variables (ver sección Variables de Entorno)
-node seedAll.js       # Poblar base de datos
-npm start             # http://localhost:5000
 
-# Frontend (en otra terminal)
-cd frontend
+# Instala las dependencias
 npm install
+
+# Copia el archivo de ejemplo .env
 cp .env.example .env
-npm run dev           # http://localhost:5173
+
+# (IMPORTANTE) Edita el archivo .env con tus claves de MongoDB y Gemini
+
+# (Opcional) Poblar base de datos con datos de ejemplo
+node seedAll.js
+
+# Inicia el servidor
+npm start
+
+# El servidor estará corriendo en http://localhost:5000
 ```
 
-### Acceso
-- **App:** http://localhost:5173
-- **Panel Admin:** http://localhost:5173/admin-panel-baure (contraseña: `baure2025`)
-- **API Docs:** http://localhost:5000/api-docs
+### 2. El Frontend (Aplicación Web)
+
+```bash
+# (En una nueva terminal) Entra a la carpeta del frontend
+cd frontend
+
+# Instala las dependencias
+npm install
+
+# Copia el archivo de ejemplo .env
+cp .env.example .env
+
+# (IMPORTANTE) Edita el .env para que apunte a tu API (VITE_API_URL=http://localhost:5000)
+
+# Inicia la aplicación
+npm run dev
+
+# La aplicación estará corriendo en http://localhost:5173
+```
+
+### 3. Acceso al Proyecto
+
+Una vez iniciados ambos servidores:
+
+- **Aplicación Web:** http://localhost:5173
+- **Panel de Administración:** http://localhost:5173/admin (contraseña por defecto: `baure-admin-token`)
+- **API Documentación:** http://localhost:5000/api-docs (Swagger)
 
 ---
 
-## Variables de Entorno
+## Variables de Entorno (.env)
 
-### Backend (`backend/.env`)
+Necesitas crear archivos `.env` en `frontend/` y `backend/`. Puedes copiar los `.env.example` que están en el proyecto.
+
+### backend/.env
+
 ```env
 MONGODB_URI=mongodb+srv://usuario:pass@cluster.mongodb.net/baure
 GEMINI_API_KEY=AIzaSy...  # Obtener en https://aistudio.google.com/app/apikey
 PORT=5000
-ADMIN_TOKEN=admin123
+ADMIN_TOKEN=baure-admin-token
 ```
 
-### Frontend (`frontend/.env`)
+### frontend/.env
+
 ```env
 VITE_API_URL=http://localhost:5000
 ```
 
 ---
 
-## Métricas UX Definidas
+## ¿Por qué el proyecto es así? (Trazabilidad)
 
-**Performance:** Se establecen objetivos para First Contentful Paint (FCP) de ≤1.8s desde los actuales 11.7s, Largest Contentful Paint (LCP) de ≤2.5s desde 21.5s, y Cumulative Layout Shift (CLS) de ≤0.1 desde 0.3. La verificación se realiza mediante Lighthouse CI para FCP, Web Vitals API para LCP, y Layout Shift API para CLS.
+Este proyecto no se inventó de cero. Se basa en la investigación sobre la cocina Baure (el "caso de estudio" de la evaluación).
 
-**Usabilidad:** El tiempo de creación de recetas en el panel admin debe ser ≤2 minutos, medido con `performance.mark()` al inicio y fin del formulario. La tasa de abandono de formularios debe mantenerse <10%, rastreada mediante eventos `form_start`, `form_abandon` y `form_submit`. La descubribilidad, medida con la tarea de encontrar "Sopa de bucheres", debe alcanzar ≥80% de éxito en ≤2 clics o ≤10 segundos, verificable con heatmaps (Hotjar/Clarity) y user testing. La navegación por teclado debe cubrir 100% de la funcionalidad, validada con testing manual y axe-core automated.
+La investigación nos dijo qué problemas había, y la página web los soluciona:
 
-## Métricas UX Definidas
+### 1. Transmisión oral en riesgo
 
-### Métricas de Performance
+**El problema:** El conocimiento se está perdiendo porque solo lo tienen los ancianos y no se está pasando a los jóvenes.
 
-| Métrica                          | Actual  | Objetivo  | Verificación          |
-|----------------------------------|---------|-----------|------------------------|
-| First Contentful Paint (FCP)     | 11.7s   | ≤ 1.8s    | Lighthouse CI          |
-| Largest Contentful Paint (LCP)   | 21.5s   | ≤ 2.5s    | Web Vitals API         |
-| Cumulative Layout Shift (CLS)    | 0.3     | ≤ 0.1     | Layout Shift API       |
+**La solución:** Creamos una ruta dinámica `/receta/:id`. Esta página no solo da la receta, sino que cuenta la "historia" de quién la compartió, guardando esa tradición oral.
 
-### Métricas de Usabilidad
+### 2. Recetas desconocidas
 
-| Métrica                                         | Objetivo                      | Verificación                                          |
-|-------------------------------------------------|-------------------------------|-------------------------------------------------------|
-| **Tiempo de creación de receta** (Admin)       | ≤ 2 min                       | `performance.mark()` inicio/fin formulario            |
-| **Tasa de abandono de formularios**            | < 10%                         | Eventos: `form_start`, `form_abandon`, `form_submit`  |
-| **Descubribilidad** (encontrar "Sopa de bucheres") | ≥ 80% en ≤ 2 clics o ≤ 10s    | Heatmaps (Hotjar/Clarity), user testing               |
-| **Navegación por teclado**                      | 100% funcionalidad            | Test manual + axe-core automated                      |
+**El problema:** Muchas recetas ya "están a punto de desaparecer" o son "desconocidas".
 
+**La solución:** La página tiene un buen buscador con filtros por categoría (Yuca, Maíz, Pescado, Bebida, Desaparecida) y un chatbot asistente con IA (Google Gemini) disponible en cada receta para responder preguntas. La idea es que la gente las encuentre fácil.
+
+### 3. Patrimonio integral
+
+**El problema:** La cultura no son solo recetas. También son "utensilios" (como el batán o el urupé) y "técnicas".
+
+**La solución:** Creamos secciones separadas en el modelo de datos (campo `utensils` en recetas) y una sección dedicada "Cultura Baure" (`/cultura`) para datos culturales complementarios. El archivo documenta el patrimonio de forma integral.
+
+### 4. Centralización de información
+
+**El problema:** Se necesita un "registro gastronómico" para centralizar la información.
+
+**La solución:** Creamos un panel de administración (`/admin`) protegido con contraseña donde se pueden añadir, editar y gestionar recetas, recuentos de vida y datos culturales (haciendo POST, PUT y DELETE a la API) usando autenticación por token.
+
+---
+
+
+## ¿Cómo medimos si la web funciona? (Métricas UX)
+
+Para saber si la web de verdad ayuda a preservar la cultura, definimos 2 métricas:
+
+### Métrica 1: Descubrimiento
+
+**¿La gente encuentra las recetas?**
+
+- **Prueba:** ¿Puedes encontrar la "Sopa de bucheres" en menos de 10 segundos?
+- **Objetivo:** El 80% de la gente debería poder.
+
+### Métrica 2: Contribución
+
+**¿Es fácil añadir nuevas recetas al sistema?**
+
+- **Prueba:** Medir cuánta gente abandona el formulario de "Añadir Receta" (el formulario POST).
+- **Objetivo:** Menos del 10% de abandono. Queremos que sea fácil guardar la información.
+
+---
+## Cómo Usar el Token de Autenticación
+Este proyecto usa un token simple para proteger las operaciones de crear, editar y eliminar contenido.
+---
+## TL;DR
+- Agrega el header: `Authorization: Bearer baure-admin-token`
+- O inicia sesión en el Panel Admin y el sistema lo hace por ti.
+---
+## ¿Qué es esto?
+Cuando quieres crear, editar o eliminar recetas, recuentos de vida o datos culturales, necesitas enviar un token de autorización. Es como una contraseña temporal que confirma que tienes permiso para hacer cambios.
+**Token por defecto:** `baure-admin-token`
+---
+## Rutas que Necesitan Token
+Solo las operaciones de escritura:
+- Crear, editar o eliminar **recetas**
+- Crear, editar o eliminar **recuentos de vida**
+- Crear, editar o eliminar **datos culturales**
+**NO necesitas token para:**
+- Ver recetas, recuentos o datos culturales (GET)
+- Usar el chatbot de IA
+---
+## Usar en la Aplicación Web
+### Forma Automática (Recomendada)
+1. Ve al panel de administración: `http://localhost:5173/admin-panel-baure` 
+2. Ingresa la contraseña (por defecto: `admin123`)
+3. Listo! El sistema guarda el token automáticamente
+4. Ahora puedes crear, editar y eliminar contenido sin problemas
+
+---
+
+## Probar con Postman
+
+### Endpoint de Prueba Rápida
+
+**POST** `http://localhost:5000/api/recipes`
+
+**Headers:**
+```bash
+Content-Type: application/json
+Authorization: Bearer baure-admin-token
+```
+
+**Body (JSON):**
+```json
+{
+  "name": "Prueba de Token",
+  "baureName": "Test Token",
+  "description": "Receta de prueba para verificar autenticación",
+  "ingredients": ["Ingrediente 1", "Ingrediente 2"],
+  "preparation": "Pasos de preparación de prueba",
+  "consumption": "Consumir inmediatamente",
+  "utensils": ["Olla", "Cuchara"],
+  "tags": ["Prueba"]
+}
+```
+
+**Respuesta Exitosa (201):**
+```json
+{
+  "_id": "...",
+  "name": "Prueba de Token",
+  "baureName": "Test Token",
+  "createdAt": "2025-10-26T..."
+}
+```
+
+**Error sin Token (401):**
+```json
+{
+  "message": "Token de autorización requerido"
+}
+```
+
+**Error con Token Incorrecto (403):**
+```json
+{
+  "message": "Token inválido"
+}
+```
+
+### Otros Endpoints Protegidos
+
+**Crear Recuento de Vida:**
+```bash
+POST http://localhost:5000/api/lifestories
+Authorization: Bearer baure-admin-token
+Content-Type: application/json
+
+Body:
+{
+  "title": "Historia de prueba",
+  "personName": "Nombre de la persona",
+  "story": "El relato de vida...",
+  "community": "Comunidad",
+  "age": 65
+}
+```
+
+**Crear Dato Cultural:**
+```bash
+POST http://localhost:5000/api/culturaldata
+Authorization: Bearer baure-admin-token
+Content-Type: application/json
+
+Body:
+{
+  "title": "Dato cultural de prueba",
+  "category": "Historia",
+  "content": "Contenido del dato cultural..."
+}
+```
+
+**Editar Receta:**
+```bash
+PUT http://localhost:5000/api/recipes/:id
+Authorization: Bearer baure-admin-token
+```
+
+**Eliminar Receta:**
+```bash
+DELETE http://localhost:5000/api/recipes/:id
+Authorization: Bearer baure-admin-token
+```
+```bash
+DELETE http://localhost:5000/api/recipes/:id
+Authorization: Bearer baure-admin-token
+```
+
+---
