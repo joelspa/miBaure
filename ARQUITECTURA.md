@@ -4,6 +4,17 @@ Descripción detallada de la arquitectura, patrones de diseño y decisiones téc
 
 ---
 
+## Resumen en 1 minuto
+
+- Frontend: React + Vite, componentes con rutas (`RecipeList`, `RecipeDetail`, `LifeStories`, `BaureCulture`, `AdminPanel`).
+- Backend: Express + Mongoose, rutas REST (`/api/recipes`, `/api/life-stories`, `/api/cultural-data`, `/api/chat`).
+- IA: Gemini Flash con prompts contextuales y detección simple de búsqueda web.
+- Datos: MongoDB Atlas (3 colecciones principales) y archivo de contexto `backend/context/baure-context.txt`.
+
+Si necesitas el detalle, sigue leyendo.
+
+---
+
 ## Tabla de Contenidos
 
 - [Visión General](#visión-general)
@@ -63,7 +74,7 @@ Descripción detallada de la arquitectura, patrones de diseño y decisiones téc
               │                            │
               ▼                            ▼
 ┌──────────────────────────┐  ┌──────────────────────────┐
-│   MongoDB Atlas (DB)     │  │  Google Gemini 2.0       │
+│   MongoDB (DB)           │  │  Google Gemini 2.0       │
 │  - Recipes Collection    │  │  - AI Assistant          │
 │  - LifeStories Collection│  │  - Web Search Grounding  │
 │  - CulturalData Collection  │  - Prompt Engineering    │

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import apiService from '../services/api.service';
 import Loading from './Loading';
 import { ERROR_MESSAGES, LOADING_MESSAGES, PLACEHOLDERS } from '../config/constants';
+import { useDebounce } from '../hooks/useDebounce';
 
 function RecipeList() {
     const [recipes, setRecipes] = useState([]);
@@ -10,6 +11,9 @@ function RecipeList() {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('Todos');
+    
+    // Debounce de búsqueda para mejor performance
+    const debouncedSearch = useDebounce(searchTerm, 300);
 
     // Categorías de filtrado
     const categories = [
@@ -35,8 +39,9 @@ function RecipeList() {
     }, []);
 
     const filteredRecipes = recipes.filter(recipe => {
-        const searchLower = searchTerm.toLowerCase();
-        const matchesSearch = recipe.name?.toLowerCase().includes(searchLower) ||
+        const searchLower = debouncedSearch.toLowerCase();
+        const matchesSearch = debouncedSearch === '' || 
+            recipe.name?.toLowerCase().includes(searchLower) ||
             recipe.baureName?.toLowerCase().includes(searchLower) ||
             recipe.description?.toLowerCase().includes(searchLower) ||
             recipe.ingredients?.some(ing => ing.toLowerCase().includes(searchLower));
@@ -121,6 +126,9 @@ function RecipeList() {
                                         <img 
                                             src={recipe.imageUrl} 
                                             alt={`Plato tradicional Baure: ${recipe.name}${recipe.baureTranslation ? ` (${recipe.baureTranslation})` : ''}`}
+                                            loading="lazy"
+                                            width="400"
+                                            height="340"
                                             onError={(e) => {
                                                 e.target.style.display = 'none';
                                                 e.target.parentElement.innerHTML = '<span class="material-symbols-outlined">restaurant_menu</span>';
