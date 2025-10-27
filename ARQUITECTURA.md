@@ -555,44 +555,44 @@ try {
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                       NAVEGADOR                               │
+│                       NAVEGADOR                              │
 │  ┌────────────────────────────────────────────────────┐      │
-│  │                   React App                         │      │
-│  │  ┌──────────────┐  ┌──────────────┐  ┌─────────┐  │      │
-│  │  │   Routes     │  │  Components  │  │ Services│  │      │
-│  │  │ - /          │  │ - RecipeList │  │ - API   │  │      │
-│  │  │ - /recipe/:id│  │ - RecipeDetail│ │ - Constants│     │
-│  │  │ - /recuentos │  │ - LifeStories│  └─────────┘  │      │
+│  │                   React App                        │      │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌─────────┐   │      │
+│  │  │   Routes     │  │  Components  │  │ Services│   │      │
+│  │  │ - /          │  │ - RecipeList │  │ - API   │   │      │
+│  │  │ - /recipe/:id│  │ - RecipeDetail│ │ - Constants │      │
+│  │  │ - /recuentos │  │ - LifeStories│  └─────────┘   │      │
 │  │  │ - /cultura   │  │ - BaureCulture                │      │
-│  │  │              │  │ - ChatSection │               │      │
-│  │  │              │  │ - Loading     │               │      │
-│  │  └──────────────┘  └──────────────┘               │      │
+│  │  │              │  │ - ChatSection│                │      │
+│  │  │              │  │ - Loading    │                │      │
+│  │  └──────────────┘  └──────────────┘                │      │
 │  └────────────────────────────────────────────────────┘      │
 └──────────────────────────────────────────────────────────────┘
                             │
                             │ REST API (HTTP/JSON)
                             ▼
 ┌──────────────────────────────────────────────────────────────┐
-│                    EXPRESS SERVER                             │
+│                    EXPRESS SERVER                            │
 │  ┌────────────────────────────────────────────────────┐      │
 │  │  Middleware: CORS, JSON Parser                     │      │
 │  └────────────────────────────────────────────────────┘      │
 │  ┌────────────────────────────────────────────────────┐      │
-│  │  Routes                                             │      │
+│  │  Routes                                            │      │
 │  │  - /api/recipes       → recipeController           │      │
 │  │  - /api/chat          → aiController               │      │
 │  │  - /api/life-stories  → lifeStoryController        │      │
 │  │  - /api/cultural-data → culturalDataController     │      │
 │  └────────────────────────────────────────────────────┘      │
 │  ┌────────────────────────────────────────────────────┐      │
-│  │  Controllers                                        │      │
+│  │  Controllers                                       │      │
 │  │  - Lógica de negocio                               │      │
-│  │  - Validación                                       │      │
+│  │  - Validación                                      │      │
 │  │  - Manejo de errores                               │      │
 │  └────────────────────────────────────────────────────┘      │
 │  ┌────────────────────────────────────────────────────┐      │
-│  │  Models (Mongoose)                                  │      │
-│  │  - Recipe Schema                                    │      │
+│  │  Models (Mongoose)                                 │      │
+│  │  - Recipe Schema                                   │      │
 │  │  - LifeStory Schema                                │      │
 │  │  - CulturalData Schema                             │      │
 │  └────────────────────────────────────────────────────┘      │
@@ -601,7 +601,7 @@ try {
           │                                    │
           ▼                                    ▼
 ┌──────────────────────┐           ┌─────────────────────────┐
-│   MongoDB Atlas      │           │  Google Gemini 2.0      │
+│       MongoDB        │           │  Google Gemini 2.0      │
 │  ┌────────────────┐  │           │  ┌──────────────────┐  │
 │  │ recipes        │  │           │  │ generateContent  │  │
 │  │ lifestories    │  │           │  │ googleSearch     │  │
@@ -611,36 +611,3 @@ try {
 ```
 
 ---
-
-## Escalabilidad
-
-### Horizontal Scaling
-
-- Backend stateless → Fácil de escalar horizontalmente
-- Load balancer para distribuir tráfico
-- MongoDB Atlas auto-scaling
-
-### Vertical Scaling
-
-- Aumentar recursos del servidor
-- Optimizar queries de MongoDB
-- Cache de respuestas frecuentes
-
-### Mejoras Futuras
-
-1. **Redis Cache** para recetas populares
-2. **CDN** para imágenes estáticas
-3. **Lazy Loading** de componentes React
-4. **Server-Side Rendering** con Next.js
-5. **GraphQL** en lugar de REST
-6. **Microservicios** para separar IA de API principal
-
----
-
-<div align="center">
-
-**Arquitectura diseñada para escalabilidad, mantenibilidad y rendimiento**
-
-[Volver arriba](#arquitectura-del-proyecto---archivo-baure)
-
-</div>

@@ -4,10 +4,12 @@ import apiService from '../services/api.service';
 import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
+import { useAuth } from '../hooks/useAuth';
 
 function CulturalDataEdit() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { isAuthenticated, loading: authLoading } = useAuth();
 
   const [loading, setLoading] = useState(true);
 
@@ -106,6 +108,16 @@ function CulturalDataEdit() {
       setTimeout(() => setToast(null), 3000);
     }
   };
+
+  // Mostrar loading mientras verifica autenticación
+  if (authLoading) {
+    return <Loading message="Verificando autenticación..." />;
+  }
+
+  // Si no está autenticado, useAuth ya redirigió a /admin
+  if (!isAuthenticated) {
+    return null;
+  }
 
   if (loading) {
     return <Loading />;

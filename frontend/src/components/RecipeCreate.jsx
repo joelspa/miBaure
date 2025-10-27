@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api.service';
 import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
+import Loading from './Loading';
+import { useAuth } from '../hooks/useAuth';
 
 export default function RecipeCreate() {
   const navigate = useNavigate();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [name, setName] = useState('');
   const [baureName, setBaureName] = useState('');
   const [description, setDescription] = useState('');
@@ -114,6 +117,16 @@ export default function RecipeCreate() {
       setTimeout(() => setToast(null), 3000);
     }
   };
+
+  // Mostrar loading mientras verifica autenticación
+  if (authLoading) {
+    return <Loading message="Verificando autenticación..." />;
+  }
+
+  // Si no está autenticado, useAuth ya redirigió a /admin
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="content-wrapper">
