@@ -1,146 +1,85 @@
-# Archivo Baure - Cocina, Memoria y Territorio
+# Archivo Baure
 
-Proyecto web para preservar la cocina y cultura del pueblo Baure de Bolivia.
+Plataforma web para preservar y difundir el patrimonio gastronómico y cultural del pueblo Baure.
 
-![React](https://img.shields.io/badge/React-19-blue) ![Node](https://img.shields.io/badge/Node-Express-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen) ![AI](https://img.shields.io/badge/AI-Gemini-purple)
-
----
-
-## ¿Qué es esto?
-
-Es una página web donde puedes:
-- Ver recetas tradicionales del pueblo Baure
-- Leer historias de vida de la comunidad
-- Aprender sobre su cultura e historia
-- Chatear con una IA que conoce sobre cocina tradicional
+**Tecnologías:** Node.js + Express + MongoDB (backend) | React + Vite (frontend) | Google Gemini AI (chatbot)
 
 ---
 
-## Tecnologías Usadas
+## Instalación y Ejecución
 
-**Frontend (la parte visual):**
-- React - para la interfaz
-- Vite - para desarrollo rápido
-- React Router - para navegación entre páginas
-- Axios - para llamar al backend
+### Requisitos Previos
+- Node.js v18+
+- MongoDB
+- API key de Google Gemini
 
-**Backend (el servidor):**
-- Node.js + Express - servidor API
-- MongoDB - base de datos
-- Gemini 2.0 - IA de Google para el chatbot
-- Multer - para subir imágenes
+### Instalación
 
----
+```bash
+# Clonar repositorio
+git clone https://github.com/joelspa/miBaure.git
+cd miBaure
 
-## Cómo Instalar
+# Backend
+cd backend
+npm install
+cp .env.example .env  # Configurar variables (ver sección Variables de Entorno)
+node seedAll.js       # Poblar base de datos
+npm start             # http://localhost:5000
 
-### Lo que necesitas tener instalado:
-- Node.js (versión 18 o mayor)
-- Una cuenta en MongoDB Atlas (es gratis)
-- Una API Key de Google Gemini (también gratis)
-
-### Pasos:
-
-1. **Clonar el repo:**
-   ```bash
-   git clone https://github.com/joelspa/miBaure.git
-   cd miBaure
-   ```
-
-2. **Backend:**
-   ```bash
-   cd backend
-   npm install
-   ```
-   
-   Crear archivo `.env` con:
-   ```env
-   MONGODB_URI=tu_conexion_mongodb
-   GEMINI_API_KEY=tu_api_key
-   PORT=5000
-   ADMIN_PASSWORD=admin123
-   ADMIN_TOKEN=baure-admin-token
-   ```
-
-3. **Frontend:**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-   
-   Crear archivo `.env` con:
-   ```env
-   VITE_API_URL=http://localhost:5000
-   ```
-
-4. **Cargar datos de ejemplo:**
-   ```bash
-   cd ../backend
-   node seedAll.js
-   ```
-
-5. **Iniciar todo:**
-   
-   En una terminal (backend):
-   ```bash
-   cd backend
-   npm run dev
-   ```
-   
-   En otra terminal (frontend):
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-La app se abre en `http://localhost:5173`
-
----
-
-## Cómo Usar
-
-### Ver Recetas
-- Entra a la página principal
-- Busca por nombre o ingredientes
-- Click en una receta para ver detalles
-
-### Usar el Chatbot
-- En el detalle de una receta, click en "Consulta Ancestral"
-- Pregunta lo que quieras (ej: "¿cómo hacer esto vegano?")
-- La IA responde con info útil
-
-### Panel Admin
-- Ve a `/admin-panel-baure`
-- Password: `admin123` (o el que pusiste en `.env`)
-- Desde ahí puedes crear, editar y eliminar contenido
-
----
-
-## Estructura del Proyecto
-
+# Frontend (en otra terminal)
+cd frontend
+npm install
+cp .env.example .env
+npm run dev           # http://localhost:5173
 ```
-miBaure/
-├── backend/
-│   ├── models/          # Schemas de MongoDB
-│   ├── controllers/     # Lógica de negocio
-│   ├── routes/          # Endpoints de API
-│   ├── middleware/      # Auth y validaciones
-│   └── server.js        # Servidor principal
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/  # Componentes React
-│   │   ├── services/    # Llamadas al API
-│   │   ├── styles/      # CSS
-│   │   └── App.jsx      # Componente principal
-│   └── public/          # Imágenes y assets
-│
-└── README.md            # Este archivo
+
+### Acceso
+- **App:** http://localhost:5173
+- **Panel Admin:** http://localhost:5173/admin-panel-baure (contraseña: `baure2025`)
+- **API Docs:** http://localhost:5000/api-docs
+
+---
+
+## Variables de Entorno
+
+### Backend (`backend/.env`)
+```env
+MONGODB_URI=mongodb+srv://usuario:pass@cluster.mongodb.net/baure
+GEMINI_API_KEY=AIzaSy...  # Obtener en https://aistudio.google.com/app/apikey
+PORT=5000
+ADMIN_TOKEN=admin123
+```
+
+### Frontend (`frontend/.env`)
+```env
+VITE_API_URL=http://localhost:5000
 ```
 
 ---
 
-## Documentación
+## Métricas UX Definidas
 
-- **[API.md](./API.md)** - Cómo usar el API
-- **[AUTENTICACION-TOKEN.md](./AUTENTICACION-TOKEN.md)** - Sistema de tokens
+**Performance:** Se establecen objetivos para First Contentful Paint (FCP) de ≤1.8s desde los actuales 11.7s, Largest Contentful Paint (LCP) de ≤2.5s desde 21.5s, y Cumulative Layout Shift (CLS) de ≤0.1 desde 0.3. La verificación se realiza mediante Lighthouse CI para FCP, Web Vitals API para LCP, y Layout Shift API para CLS.
+
+**Usabilidad:** El tiempo de creación de recetas en el panel admin debe ser ≤2 minutos, medido con `performance.mark()` al inicio y fin del formulario. La tasa de abandono de formularios debe mantenerse <10%, rastreada mediante eventos `form_start`, `form_abandon` y `form_submit`. La descubribilidad, medida con la tarea de encontrar "Sopa de bucheres", debe alcanzar ≥80% de éxito en ≤2 clics o ≤10 segundos, verificable con heatmaps (Hotjar/Clarity) y user testing. La navegación por teclado debe cubrir 100% de la funcionalidad, validada con testing manual y axe-core automated.
+
+## Métricas UX Definidas
+
+### Métricas de Performance
+
+| Métrica                          | Actual  | Objetivo  | Verificación          |
+|----------------------------------|---------|-----------|------------------------|
+| First Contentful Paint (FCP)     | 11.7s   | ≤ 1.8s    | Lighthouse CI          |
+| Largest Contentful Paint (LCP)   | 21.5s   | ≤ 2.5s    | Web Vitals API         |
+| Cumulative Layout Shift (CLS)    | 0.3     | ≤ 0.1     | Layout Shift API       |
+
+### Métricas de Usabilidad
+
+| Métrica                                         | Objetivo                      | Verificación                                          |
+|-------------------------------------------------|-------------------------------|-------------------------------------------------------|
+| **Tiempo de creación de receta** (Admin)       | ≤ 2 min                       | `performance.mark()` inicio/fin formulario            |
+| **Tasa de abandono de formularios**            | < 10%                         | Eventos: `form_start`, `form_abandon`, `form_submit`  |
+| **Descubribilidad** (encontrar "Sopa de bucheres") | ≥ 80% en ≤ 2 clics o ≤ 10s    | Heatmaps (Hotjar/Clarity), user testing               |
+| **Navegación por teclado**                      | 100% funcionalidad            | Test manual + axe-core automated                      |
+

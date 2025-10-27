@@ -4,6 +4,13 @@ Aquí está cómo funciona el backend y qué endpoints puedes usar.
 
 **URL Base**: `http://localhost:5000`
 
+## Resumen rápido
+
+- Endpoints públicos (GET): recetas, recuentos de vida y datos culturales.
+- Endpoints protegidos (POST/PUT/DELETE): usan header Authorization con `Bearer baure-admin-token`.
+- Chat IA: POST `/api/chat` con `{ question, recipeData? }`.
+Para token y panel admin, ver `AUTENTICACION-TOKEN.md`.
+
 ---
 
 ## Autenticación
@@ -200,30 +207,6 @@ Si todo sale bien, recibes un 201 con la receta creada que incluye el `_id` gene
 
 ---
 
-## Nota
-
-Para más detalles sobre autenticación, ver [AUTENTICACION-TOKEN.md](./AUTENTICACION-TOKEN.md)
-  "usedWebSearch": true
-}
-```
-
-**Campos de Respuesta**:
-- `answer` (string): Respuesta en formato Markdown
-- `usedWebSearch` (boolean): Indica si se usó búsqueda web
-
-**Errores**:
-- `400`: No se proporcionó pregunta
-- `500`: API Key no configurado o error de IA
-
-**Detección Automática de Búsqueda Web**:
-
-El sistema detecta automáticamente si la pregunta requiere búsqueda web basándose en palabras clave:
-- Dietas: vegana, vegetariana, sin gluten, sin lácteos
-- Nutrición: proteína, vitaminas, calorías
-- Modificaciones: alternativa, sustituto, reemplazar
-- Moderno: fitness, contemporáneo, fusión
-
----
 
 ## Endpoints de Recuentos de Vida
 

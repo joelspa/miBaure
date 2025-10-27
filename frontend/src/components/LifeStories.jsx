@@ -83,6 +83,9 @@ export default function LifeStories() {
                                             <img 
                                                 src={story.photoUrl} 
                                                 alt={`Retrato de ${story.personName}${story.community ? `, miembro de la comunidad ${story.community}` : ''}, narrador del pueblo Baure`}
+                                                loading="lazy"
+                                                width="400"
+                                                height="300"
                                                 onError={(e) => {
                                                     e.target.style.display = 'none';
                                                 }}

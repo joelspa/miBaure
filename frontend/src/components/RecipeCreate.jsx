@@ -26,6 +26,39 @@ export default function RecipeCreate() {
   const [progress, setProgress] = useState(0);
   const [toast, setToast] = useState(null);
 
+  // Validación en tiempo real
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    
+    switch (field) {
+      case 'name':
+        if (!value.trim()) {
+          newErrors.name = 'El nombre es obligatorio.';
+        } else {
+          delete newErrors.name;
+        }
+        break;
+      case 'ingredients':
+        if (value.length === 0) {
+          newErrors.ingredients = 'Agrega al menos un ingrediente.';
+        } else {
+          delete newErrors.ingredients;
+        }
+        break;
+      case 'preparation':
+        if (!value.trim()) {
+          newErrors.preparation = 'Describe los pasos de preparación.';
+        } else {
+          delete newErrors.preparation;
+        }
+        break;
+      default:
+        break;
+    }
+    
+    setErrors(newErrors);
+  };
+
   const validate = () => {
     const e = {};
     if (!name.trim()) e.name = 'El nombre es obligatorio.';
@@ -33,6 +66,11 @@ export default function RecipeCreate() {
     if (!preparation.trim()) e.preparation = 'Describe los pasos de preparación.';
     setErrors(e);
     return Object.keys(e).length === 0;
+  };
+
+  // Verificar si el formulario es válido
+  const isFormValid = () => {
+    return name.trim() && ingredients.length > 0 && preparation.trim();
   };
 
   const onSubmit = async (e) => {
@@ -94,7 +132,11 @@ export default function RecipeCreate() {
                 <input
                   className={`input ${errors.name ? 'input-error' : ''}`}
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    validateField('name', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('name', e.target.value)}
                   placeholder="Masaco de yuca"
                 />
                 {errors.name && <p className="error">{errors.name}</p>}
@@ -125,7 +167,10 @@ export default function RecipeCreate() {
                 label="Ingredientes *"
                 placeholder="Ej. yuca"
                 values={ingredients}
-                onChange={setIngredients}
+                onChange={(newIngredients) => {
+                  setIngredients(newIngredients);
+                  validateField('ingredients', newIngredients);
+                }}
               />
               {errors.ingredients && <p className="error">{errors.ingredients}</p>}
 
@@ -157,7 +202,11 @@ export default function RecipeCreate() {
                 <textarea
                   className={`textarea ${errors.preparation ? 'input-error' : ''}`}
                   value={preparation}
-                  onChange={(e) => setPreparation(e.target.value)}
+                  onChange={(e) => {
+                    setPreparation(e.target.value);
+                    validateField('preparation', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('preparation', e.target.value)}
                   rows={6}
                   placeholder="Rallar yuca, mezclar con queso, dorar…"
                 />
@@ -207,7 +256,11 @@ export default function RecipeCreate() {
               <span className="material-symbols-outlined">arrow_back</span>
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={submitting || !isFormValid()}
+            >
               <span className="material-symbols-outlined">save</span>
               {submitting ? 'Guardando…' : 'Crear receta'}
             </button>

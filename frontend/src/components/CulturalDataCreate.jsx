@@ -36,12 +36,43 @@ function CulturalDataCreate() {
     'Otro'
   ];
 
+  // Validación en tiempo real
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    
+    switch (field) {
+      case 'title':
+        if (!value.trim()) {
+          newErrors.title = 'El título es obligatorio.';
+        } else {
+          delete newErrors.title;
+        }
+        break;
+      case 'content':
+        if (!value.trim()) {
+          newErrors.content = 'El contenido es obligatorio.';
+        } else {
+          delete newErrors.content;
+        }
+        break;
+      default:
+        break;
+    }
+    
+    setErrors(newErrors);
+  };
+
   const validate = () => {
     const e = {};
     if (!title.trim()) e.title = 'El título es obligatorio.';
     if (!content.trim()) e.content = 'El contenido es obligatorio.';
     setErrors(e);
     return Object.keys(e).length === 0;
+  };
+
+  // Verificar si el formulario es válido
+  const isFormValid = () => {
+    return title.trim() && content.trim();
   };
 
   const onSubmit = async (e) => {
@@ -96,7 +127,11 @@ function CulturalDataCreate() {
                 <input
                   className={`input ${errors.title ? 'input-error' : ''}`}
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    validateField('title', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('title', e.target.value)}
                   placeholder="El río Iténez en la cosmovisión Baure"
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
@@ -143,7 +178,11 @@ function CulturalDataCreate() {
                 <textarea
                   className={`textarea ${errors.content ? 'input-error' : ''}`}
                   value={content}
-                  onChange={(e) => setContent(e.target.value)}
+                  onChange={(e) => {
+                    setContent(e.target.value);
+                    validateField('content', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('content', e.target.value)}
                   rows={10}
                   placeholder="Describe la información cultural de forma detallada…"
                 />
@@ -163,7 +202,11 @@ function CulturalDataCreate() {
               <span className="material-symbols-outlined">arrow_back</span>
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={submitting || !isFormValid()}
+            >
               <span className="material-symbols-outlined">save</span>
               {submitting ? 'Guardando…' : 'Crear dato cultural'}
             </button>

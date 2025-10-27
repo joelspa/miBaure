@@ -33,6 +33,16 @@ function RecipeDetail() {
             .then(res => {
                 setRecipe(res.data);
                 setLoading(false);
+                
+                // Preload LCP image para mejor rendimiento
+                if (res.data.imageUrl) {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = res.data.imageUrl;
+                    link.fetchPriority = 'high';
+                    document.head.appendChild(link);
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -77,6 +87,10 @@ function RecipeDetail() {
                         <img 
                             src={recipe.imageUrl} 
                             alt={`Fotografía de ${recipe.name}${recipe.baureTranslation ? ` (${recipe.baureTranslation} en lengua Baure)` : ''}, receta tradicional del pueblo Baure`}
+                            loading="eager"
+                            fetchpriority="high"
+                            width="1200"
+                            height="800"
                             onError={(e) => {
                                 e.target.style.display = 'none';
                                 e.target.parentElement.innerHTML = '<span class="material-symbols-outlined" style="font-size: 5rem;">outdoor_grill</span>';

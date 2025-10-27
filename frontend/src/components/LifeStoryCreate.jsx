@@ -53,6 +53,39 @@ export default function LifeStoryCreate() {
   const [progress, setProgress] = useState(0);
   const [toast, setToast] = useState(null);
 
+  // Validación en tiempo real
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    
+    switch (field) {
+      case 'title':
+        if (!value.trim()) {
+          newErrors.title = 'El título es obligatorio.';
+        } else {
+          delete newErrors.title;
+        }
+        break;
+      case 'personName':
+        if (!value.trim()) {
+          newErrors.personName = 'El nombre de la persona es obligatorio.';
+        } else {
+          delete newErrors.personName;
+        }
+        break;
+      case 'story':
+        if (!value.trim()) {
+          newErrors.story = 'El relato es obligatorio.';
+        } else {
+          delete newErrors.story;
+        }
+        break;
+      default:
+        break;
+    }
+    
+    setErrors(newErrors);
+  };
+
   const validate = () => {
     const e = {};
     if (!title.trim()) e.title = 'El título es obligatorio.';
@@ -60,6 +93,11 @@ export default function LifeStoryCreate() {
     if (!story.trim()) e.story = 'El relato es obligatorio.';
     setErrors(e);
     return Object.keys(e).length === 0;
+  };
+
+  // Verificar si el formulario es válido
+  const isFormValid = () => {
+    return title.trim() && personName.trim() && story.trim();
   };
 
   const onSubmit = async (e) => {
@@ -125,7 +163,11 @@ export default function LifeStoryCreate() {
                 <input
                   className={`input ${errors.title ? 'input-error' : ''}`}
                   value={title}
-                  onChange={e => setTitle(e.target.value)}
+                  onChange={e => {
+                    setTitle(e.target.value);
+                    validateField('title', e.target.value);
+                  }}
+                  onBlur={e => validateField('title', e.target.value)}
                   placeholder="La pesca en el Iténez"
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
@@ -136,7 +178,11 @@ export default function LifeStoryCreate() {
                 <input
                   className={`input ${errors.personName ? 'input-error' : ''}`}
                   value={personName}
-                  onChange={e => setPersonName(e.target.value)}
+                  onChange={e => {
+                    setPersonName(e.target.value);
+                    validateField('personName', e.target.value);
+                  }}
+                  onBlur={e => validateField('personName', e.target.value)}
                   placeholder="Adil Arredondo"
                 />
                 {errors.personName && <p className="error">{errors.personName}</p>}
@@ -208,7 +254,11 @@ export default function LifeStoryCreate() {
                   className={`textarea ${errors.story ? 'input-error' : ''}`}
                   rows={8}
                   value={story}
-                  onChange={e => setStory(e.target.value)}
+                  onChange={e => {
+                    setStory(e.target.value);
+                    validateField('story', e.target.value);
+                  }}
+                  onBlur={e => validateField('story', e.target.value)}
                   placeholder="Relato sobre la temporada de pesca…"
                 />
                 {errors.story && <p className="error">{errors.story}</p>}
@@ -227,7 +277,11 @@ export default function LifeStoryCreate() {
               <span className="material-symbols-outlined">arrow_back</span>
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={submitting || !isFormValid()}
+            >
               <span className="material-symbols-outlined">save</span>
               {submitting ? 'Guardando…' : 'Crear recuento'}
             </button>

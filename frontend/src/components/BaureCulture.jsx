@@ -127,6 +127,9 @@ export default function BaureCulture() {
                                                     <img 
                                                         src={image.url} 
                                                         alt={image.caption || `Imagen ilustrativa de ${item.title}, categoría ${item.category} de la cultura Baure`}
+                                                        loading="lazy"
+                                                        width="600"
+                                                        height="400"
                                                         onError={(e) => {
                                                             e.target.style.display = 'none';
                                                         }}

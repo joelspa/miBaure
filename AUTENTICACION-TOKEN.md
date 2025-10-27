@@ -4,6 +4,13 @@ Este proyecto usa un token simple para proteger las operaciones de crear, editar
 
 ---
 
+## TL;DR
+
+- Agrega el header: `Authorization: Bearer baure-admin-token`
+- O inicia sesión en el Panel Admin y el sistema lo hace por ti.
+
+---
+
 ## ¿Qué es esto?
 
 Cuando quieres crear, editar o eliminar recetas, recuentos de vida o datos culturales, necesitas enviar un token de autorización. Es como una contraseña temporal que confirma que tienes permiso para hacer cambios.
