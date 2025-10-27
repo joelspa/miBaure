@@ -104,6 +104,7 @@ function RecipeList() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         aria-label="Buscar recetas"
+                        autoComplete="off"
                     />
                     {searchTerm && (
                         <button

@@ -291,9 +291,123 @@ Authorization: Bearer baure-admin-token
 DELETE http://localhost:5000/api/recipes/:id
 Authorization: Bearer baure-admin-token
 ```
-```bash
-DELETE http://localhost:5000/api/recipes/:id
-Authorization: Bearer baure-admin-token
+
+---
+
+## Validaciones de Formularios
+
+El proyecto utiliza **Zod** para validar los formularios de manera robusta y segura.
+
+### Esquema de Validación para Recetas
+
+```javascript
+import { z } from 'zod';
+
+export const recipeSchema = z.object({
+  name: z.string()
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(100, 'El nombre no puede exceder 100 caracteres'),
+  
+  description: z.string()
+    .min(10, 'La descripción debe tener al menos 10 caracteres')
+    .max(500, 'La descripción no puede exceder 500 caracteres'),
+  
+  ingredients: z.array(z.string())
+    .min(1, 'Debe haber al menos 1 ingrediente')
+    .max(30, 'No puede haber más de 30 ingredientes'),
+  
+  instructions: z.string()
+    .min(20, 'Las instrucciones deben tener al menos 20 caracteres')
+    .max(2000, 'Las instrucciones no pueden exceder 2000 caracteres'),
+  
+  tags: z.array(z.string())
+    .max(10, 'No puede haber más de 10 tags')
+    .optional()
+});
+```
+
+### Validación en Tiempo Real
+
+Los formularios validan en tiempo real mientras el usuario escribe:
+
+- **onChange**: Valida al escribir
+- **onBlur**: Valida al salir del campo
+- **onSubmit**: Validación final antes de enviar
+
+```jsx
+// Ejemplo de uso en RecipeCreate.jsx
+const validateField = (field, value) => {
+  const error = validateRecipeField(field, value);
+  setErrors(prev => ({
+    ...prev,
+    [field]: error || undefined
+  }));
+};
+
+<input
+  value={name}
+  onChange={(e) => {
+    setName(e.target.value);
+    validateField('name', e.target.value);
+  }}
+  onBlur={(e) => validateField('name', e.target.value)}
+/>
+```
+
+### Reglas de Validación
+
+#### Recetas
+| Campo | Mínimo | Máximo | Obligatorio |
+|-------|--------|--------|-------------|
+| Nombre | 3 caracteres | 100 caracteres | ✅ Sí |
+| Descripción | 10 caracteres | 500 caracteres | ✅ Sí |
+| Ingredientes | 1 ingrediente | 30 ingredientes | ✅ Sí |
+| Instrucciones | 20 caracteres | 2000 caracteres | ✅ Sí |
+| Tags | - | 10 tags | ❌ No |
+
+#### Historias de Vida
+| Campo | Mínimo | Máximo | Obligatorio |
+|-------|--------|--------|-------------|
+| Título | 5 caracteres | 150 caracteres | ✅ Sí |
+| Nombre persona | 2 caracteres | 100 caracteres | ✅ Sí |
+| Historia | 50 caracteres | 5000 caracteres | ✅ Sí |
+| Comunidad | 2 caracteres | 100 caracteres | ❌ No |
+| Edad | 1 | 120 | ❌ No |
+| Tags | - | 10 tags | ❌ No |
+
+#### Datos Culturales
+| Campo | Mínimo | Máximo | Obligatorio |
+|-------|--------|--------|-------------|
+| Título | 5 caracteres | 150 caracteres | ✅ Sí |
+| Categoría | 3 caracteres | 50 caracteres | ✅ Sí |
+| Contenido | 20 caracteres | 3000 caracteres | ✅ Sí |
+| Fuente | 2 caracteres | 200 caracteres | ❌ No |
+| Tags | - | 10 tags | ❌ No |
+
+### Botón Submit Deshabilitado
+
+El botón de envío se deshabilita automáticamente cuando:
+- El formulario tiene errores de validación
+- Hay campos obligatorios vacíos
+- Se está enviando el formulario (previene doble envío)
+
+```jsx
+<button 
+  type="submit" 
+  disabled={submitting || !isFormValid()}
+>
+  {submitting ? 'Guardando…' : 'Crear receta'}
+</button>
+```
+
+### Contador de Caracteres
+
+Cada campo muestra un contador en tiempo real:
+
+```jsx
+<small className="field-hint">
+  {name.length}/100 caracteres
+</small>
 ```
 
 ---

@@ -5,6 +5,7 @@ import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 import { useAuth } from '../hooks/useAuth';
+import { validateLifeStoryField, validateLifeStoryForm } from '../schemas/lifeStorySchema';
 
 function MultiImagePicker({ onFilesSelected }) {
   const [list, setList] = useState([]);
@@ -56,50 +57,39 @@ export default function LifeStoryCreate() {
   const [progress, setProgress] = useState(0);
   const [toast, setToast] = useState(null);
 
-  // Validación en tiempo real
+  // Validación en tiempo real con Zod
   const validateField = (field, value) => {
-    const newErrors = { ...errors };
-    
-    switch (field) {
-      case 'title':
-        if (!value.trim()) {
-          newErrors.title = 'El título es obligatorio.';
-        } else {
-          delete newErrors.title;
-        }
-        break;
-      case 'personName':
-        if (!value.trim()) {
-          newErrors.personName = 'El nombre de la persona es obligatorio.';
-        } else {
-          delete newErrors.personName;
-        }
-        break;
-      case 'story':
-        if (!value.trim()) {
-          newErrors.story = 'El relato es obligatorio.';
-        } else {
-          delete newErrors.story;
-        }
-        break;
-      default:
-        break;
-    }
-    
-    setErrors(newErrors);
+    const error = validateLifeStoryField(field, value);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (error) {
+        newErrors[field] = error;
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
   };
 
   const validate = () => {
-    const e = {};
-    if (!title.trim()) e.title = 'El título es obligatorio.';
-    if (!personName.trim()) e.personName = 'El nombre de la persona es obligatorio.';
-    if (!story.trim()) e.story = 'El relato es obligatorio.';
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const formData = {
+      title: title.trim(),
+      personName: personName.trim(),
+      story: story.trim(),
+      community: community.trim(),
+      age: age.trim(),
+      date: recordedDate,
+      tags: relatedThemes,
+    };
+
+    const { isValid, errors: validationErrors } = validateLifeStoryForm(formData);
+    setErrors(validationErrors);
+    return isValid;
   };
 
-  // Verificar si el formulario es válido
+  // Verificar si el formulario es válido (solo para deshabilitar botón)
   const isFormValid = () => {
+    // Solo verificar que los campos obligatorios no estén completamente vacíos
     return title.trim() && personName.trim() && story.trim();
   };
 
@@ -181,9 +171,13 @@ export default function LifeStoryCreate() {
                     validateField('title', e.target.value);
                   }}
                   onBlur={e => validateField('title', e.target.value)}
-                  placeholder="La pesca en el Iténez"
+                  placeholder="La pesca en el Iténez (5-150 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
+                <small className="field-hint">
+                  {title.length}/150 caracteres
+                </small>
               </div>
 
               <div className="field">
@@ -196,31 +190,51 @@ export default function LifeStoryCreate() {
                     validateField('personName', e.target.value);
                   }}
                   onBlur={e => validateField('personName', e.target.value)}
-                  placeholder="Adil Arredondo"
+                  placeholder="Adil Arredondo (2-100 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.personName && <p className="error">{errors.personName}</p>}
+                <small className="field-hint">
+                  {personName.length}/100 caracteres
+                </small>
               </div>
 
               <div className="field">
                 <label className="label">Edad</label>
                 <input
-                  className="input"
+                  className={`input ${errors.age ? 'input-error' : ''}`}
                   type="number"
                   min="0"
+                  max="120"
                   value={age}
-                  onChange={e => setAge(e.target.value)}
-                  placeholder="54"
+                  onChange={e => {
+                    setAge(e.target.value);
+                    validateField('age', e.target.value);
+                  }}
+                  onBlur={e => validateField('age', e.target.value)}
+                  placeholder="54 (1-120)"
+                  autoComplete="off"
                 />
+                {errors.age && <p className="error">{errors.age}</p>}
               </div>
 
               <div className="field">
                 <label className="label">Comunidad</label>
                 <input
-                  className="input"
+                  className={`input ${errors.community ? 'input-error' : ''}`}
                   value={community}
-                  onChange={e => setCommunity(e.target.value)}
-                  placeholder="Baures"
+                  onChange={e => {
+                    setCommunity(e.target.value);
+                    validateField('community', e.target.value);
+                  }}
+                  onBlur={e => validateField('community', e.target.value)}
+                  placeholder="Baures (2-100 caracteres)"
+                  autoComplete="off"
                 />
+                {errors.community && <p className="error">{errors.community}</p>}
+                <small className="field-hint">
+                  {community.length}/100 caracteres
+                </small>
               </div>
 
               <TagInput
@@ -248,6 +262,7 @@ export default function LifeStoryCreate() {
                   className="input"
                   value={recordedDate}
                   onChange={e => setRecordedDate(e.target.value)}
+                  autoComplete="off"
                 />
               </div>
 
@@ -258,6 +273,7 @@ export default function LifeStoryCreate() {
                   value={recordedBy}
                   onChange={e => setRecordedBy(e.target.value)}
                   placeholder="Equipo de campo"
+                  autoComplete="off"
                 />
               </div>
 
@@ -272,9 +288,13 @@ export default function LifeStoryCreate() {
                     validateField('story', e.target.value);
                   }}
                   onBlur={e => validateField('story', e.target.value)}
-                  placeholder="Relato sobre la temporada de pesca…"
+                  placeholder="Cuenta la historia de vida… (mínimo 50 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.story && <p className="error">{errors.story}</p>}
+                <small className="field-hint">
+                  {story.length}/5000 caracteres
+                </small>
               </div>
             </div>
           </div>

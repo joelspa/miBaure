@@ -71,6 +71,7 @@ function AdminPanel() {
                                 className="form-input"
                                 autoFocus
                                 disabled={loading}
+                                autoComplete="off"
                             />
                         </div>
 

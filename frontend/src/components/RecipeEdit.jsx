@@ -5,6 +5,7 @@ import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 import { useAuth } from '../hooks/useAuth';
+import { validateRecipeField, validateRecipeForm } from '../schemas/recipeSchema';
 
 export default function RecipeEdit() {
   const navigate = useNavigate();
@@ -62,13 +63,38 @@ export default function RecipeEdit() {
     fetchRecipe();
   }, [id]);
 
+  // Validación en tiempo real con Zod
+  const validateField = (field, value) => {
+    const error = validateRecipeField(field, value);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (error) {
+        newErrors[field] = error;
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
+  };
+
   const validate = () => {
-    const e = {};
-    if (!name.trim()) e.name = 'El nombre es obligatorio.';
-    if (ingredients.length === 0) e.ingredients = 'Agrega al menos un ingrediente.';
-    if (!preparation.trim()) e.preparation = 'Describe los pasos de preparación.';
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const formData = {
+      name: name.trim(),
+      description: description.trim(),
+      ingredients,
+      instructions: preparation.trim(),
+      category: '',
+      tags,
+    };
+
+    const { isValid, errors: validationErrors } = validateRecipeForm(formData);
+    setErrors(validationErrors);
+    return isValid;
+  };
+
+  const isFormValid = () => {
+    // Solo verificar que los campos obligatorios no estén completamente vacíos
+    return name.trim() && description.trim() && ingredients.length > 0 && preparation.trim();
   };
 
   const onSubmit = async (e) => {
@@ -142,10 +168,18 @@ export default function RecipeEdit() {
                 <input
                   className={`input ${errors.name ? 'input-error' : ''}`}
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Masaco de yuca"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    validateField('name', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('name', e.target.value)}
+                  placeholder="Masaco de yuca (3-100 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.name && <p className="error">{errors.name}</p>}
+                <small className="field-hint">
+                  {name.length}/100 caracteres
+                </small>
               </div>
 
               <div className="field">
@@ -155,25 +189,38 @@ export default function RecipeEdit() {
                   value={baureName}
                   onChange={(e) => setBaureName(e.target.value)}
                   placeholder="Tunu Masako"
+                  autoComplete="off"
                 />
               </div>
 
               <div className="field">
-                <label className="label">Descripción</label>
+                <label className="label">Descripción *</label>
                 <textarea
-                  className="textarea"
+                  className={`textarea ${errors.description ? 'input-error' : ''}`}
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                    validateField('description', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('description', e.target.value)}
                   rows={3}
-                  placeholder="Plato tradicional con yuca y queso…"
+                  placeholder="Plato tradicional con yuca y queso… (mínimo 10 caracteres)"
+                  autoComplete="off"
                 />
+                {errors.description && <p className="error">{errors.description}</p>}
+                <small className="field-hint">
+                  {description.length}/500 caracteres
+                </small>
               </div>
 
               <TagInput
                 label="Ingredientes *"
                 placeholder="Ej. yuca"
                 values={ingredients}
-                onChange={setIngredients}
+                onChange={(newIngredients) => {
+                  setIngredients(newIngredients);
+                  validateField('ingredients', newIngredients);
+                }}
               />
               {errors.ingredients && <p className="error">{errors.ingredients}</p>}
 
@@ -204,13 +251,21 @@ export default function RecipeEdit() {
               <div className="field">
                 <label className="label">Preparación *</label>
                 <textarea
-                  className={`textarea ${errors.preparation ? 'input-error' : ''}`}
+                  className={`textarea ${errors.instructions ? 'input-error' : ''}`}
                   value={preparation}
-                  onChange={(e) => setPreparation(e.target.value)}
+                  onChange={(e) => {
+                    setPreparation(e.target.value);
+                    validateField('instructions', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('instructions', e.target.value)}
                   rows={6}
-                  placeholder="Rallar yuca, mezclar con queso, dorar…"
+                  placeholder="Rallar yuca, mezclar con queso, dorar… (mínimo 20 caracteres)"
+                  autoComplete="off"
                 />
-                {errors.preparation && <p className="error">{errors.preparation}</p>}
+                {errors.instructions && <p className="error">{errors.instructions}</p>}
+                <small className="field-hint">
+                  {preparation.length}/2000 caracteres
+                </small>
               </div>
 
               <div className="field">
@@ -220,6 +275,7 @@ export default function RecipeEdit() {
                   value={consumption}
                   onChange={(e) => setConsumption(e.target.value)}
                   placeholder="Consumir caliente"
+                  autoComplete="off"
                 />
               </div>
 
@@ -230,6 +286,7 @@ export default function RecipeEdit() {
                   value={conservation}
                   onChange={(e) => setConservation(e.target.value)}
                   placeholder="Refrigerar hasta 24h"
+                  autoComplete="off"
                 />
               </div>
 
@@ -240,6 +297,7 @@ export default function RecipeEdit() {
                   value={sourcePerson}
                   onChange={(e) => setSourcePerson(e.target.value)}
                   placeholder='Relato de: Adil Arredondo'
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -252,13 +310,17 @@ export default function RecipeEdit() {
           )}
 
           <div className="form-actions">
-            <button type="button" className="btn btn-outline" onClick={() => navigate(`/recipe/${id}`)}>
+            <button type="button" className="btn btn-outline" onClick={() => navigate(-1)}>
               <span className="material-symbols-outlined">arrow_back</span>
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={submitting || !isFormValid()}
+            >
               <span className="material-symbols-outlined">save</span>
-              {submitting ? 'Guardando…' : 'Guardar cambios'}
+              {submitting ? 'Guardando…' : 'Actualizar receta'}
             </button>
           </div>
 
