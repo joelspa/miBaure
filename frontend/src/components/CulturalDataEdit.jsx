@@ -5,6 +5,7 @@ import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 import { useAuth } from '../hooks/useAuth';
+import { validateCulturalDataField, validateCulturalDataForm } from '../schemas/culturalDataSchema';
 
 function CulturalDataEdit() {
   const navigate = useNavigate();
@@ -66,12 +67,37 @@ function CulturalDataEdit() {
     fetchCulturalData();
   }, [id]);
 
+  // Validación en tiempo real con Zod
+  const validateField = (field, value) => {
+    const error = validateCulturalDataField(field, value);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (error) {
+        newErrors[field] = error;
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
+  };
+
   const validate = () => {
-    const e = {};
-    if (!title.trim()) e.title = 'El título es obligatorio.';
-    if (!content.trim()) e.content = 'El contenido es obligatorio.';
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const formData = {
+      title: title.trim(),
+      category: category.trim(),
+      content: content.trim(),
+      source: sources.join(', '),
+      tags: relatedTopics,
+    };
+
+    const { isValid, errors: validationErrors } = validateCulturalDataForm(formData);
+    setErrors(validationErrors);
+    return isValid;
+  };
+
+  const isFormValid = () => {
+    // Solo verificar que los campos obligatorios no estén completamente vacíos
+    return title.trim() && category.trim() && content.trim();
   };
 
   const onSubmit = async (e) => {
@@ -140,23 +166,37 @@ function CulturalDataEdit() {
                 <input
                   className={`input ${errors.title ? 'input-error' : ''}`}
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="El río Iténez en la cosmovisión Baure"
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    validateField('title', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('title', e.target.value)}
+                  placeholder="El río Iténez en la cosmovisión Baure (5-150 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
+                <small className="field-hint">
+                  {title.length}/150 caracteres
+                </small>
               </div>
 
               <div className="field">
                 <label className="label">Categoría *</label>
                 <select
-                  className="input"
+                  className={`input ${errors.category ? 'input-error' : ''}`}
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                    validateField('category', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('category', e.target.value)}
+                  autoComplete="off"
                 >
                   {categories.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
+                {errors.category && <p className="error">{errors.category}</p>}
               </div>
 
               <TagInput
@@ -188,11 +228,19 @@ function CulturalDataEdit() {
                 <textarea
                   className={`textarea ${errors.content ? 'input-error' : ''}`}
                   value={content}
-                  onChange={(e) => setContent(e.target.value)}
+                  onChange={(e) => {
+                    setContent(e.target.value);
+                    validateField('content', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('content', e.target.value)}
                   rows={10}
-                  placeholder="Describe la información cultural de forma detallada…"
+                  placeholder="Describe el dato cultural… (mínimo 20 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.content && <p className="error">{errors.content}</p>}
+                <small className="field-hint">
+                  {content.length}/3000 caracteres
+                </small>
               </div>
             </div>
           </div>
@@ -204,13 +252,17 @@ function CulturalDataEdit() {
           )}
 
           <div className="form-actions">
-            <button type="button" className="btn btn-outline" onClick={() => navigate('/cultura')}>
+            <button type="button" className="btn btn-outline" onClick={() => navigate(-1)}>
               <span className="material-symbols-outlined">arrow_back</span>
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={submitting || !isFormValid()}
+            >
               <span className="material-symbols-outlined">save</span>
-              {submitting ? 'Guardando…' : 'Guardar cambios'}
+              {submitting ? 'Guardando…' : 'Actualizar dato'}
             </button>
           </div>
 

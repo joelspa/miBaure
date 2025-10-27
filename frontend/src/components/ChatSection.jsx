@@ -141,6 +141,7 @@ export default function ChatSection({ recipe }) {
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder={PLACEHOLDERS.ASK_AI}
                     disabled={isAskingAI}
+                    autoComplete="off"
                 />
                 <button type="submit" className="chatbot-send" disabled={isAskingAI || !question.trim()}>
                     <span className="material-symbols-outlined">send</span>

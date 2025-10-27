@@ -6,6 +6,7 @@ import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 import { useAuth } from '../hooks/useAuth';
+import { validateCulturalDataField, validateCulturalDataForm } from '../schemas/culturalDataSchema';
 
 function CulturalDataCreate() {
   const navigate = useNavigate();
@@ -39,43 +40,38 @@ function CulturalDataCreate() {
     'Otro'
   ];
 
-  // Validación en tiempo real
+  // Validación en tiempo real con Zod
   const validateField = (field, value) => {
-    const newErrors = { ...errors };
-    
-    switch (field) {
-      case 'title':
-        if (!value.trim()) {
-          newErrors.title = 'El título es obligatorio.';
-        } else {
-          delete newErrors.title;
-        }
-        break;
-      case 'content':
-        if (!value.trim()) {
-          newErrors.content = 'El contenido es obligatorio.';
-        } else {
-          delete newErrors.content;
-        }
-        break;
-      default:
-        break;
-    }
-    
-    setErrors(newErrors);
+    const error = validateCulturalDataField(field, value);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (error) {
+        newErrors[field] = error;
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
   };
 
   const validate = () => {
-    const e = {};
-    if (!title.trim()) e.title = 'El título es obligatorio.';
-    if (!content.trim()) e.content = 'El contenido es obligatorio.';
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const formData = {
+      title: title.trim(),
+      category: category.trim(),
+      content: content.trim(),
+      source: sources.join(', '),
+      tags: relatedTopics,
+    };
+
+    const { isValid, errors: validationErrors } = validateCulturalDataForm(formData);
+    setErrors(validationErrors);
+    return isValid;
   };
 
-  // Verificar si el formulario es válido
+  // Verificar si el formulario es válido (solo para deshabilitar botón)
   const isFormValid = () => {
-    return title.trim() && content.trim();
+    // Solo verificar que los campos obligatorios no estén completamente vacíos
+    return title.trim() && category.trim() && content.trim();
   };
 
   const onSubmit = async (e) => {
@@ -145,22 +141,32 @@ function CulturalDataCreate() {
                     validateField('title', e.target.value);
                   }}
                   onBlur={(e) => validateField('title', e.target.value)}
-                  placeholder="El río Iténez en la cosmovisión Baure"
+                  placeholder="El río Iténez en la cosmovisión Baure (5-150 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
+                <small className="field-hint">
+                  {title.length}/150 caracteres
+                </small>
               </div>
 
               <div className="field">
                 <label className="label">Categoría *</label>
                 <select
-                  className="input"
+                  className={`input ${errors.category ? 'input-error' : ''}`}
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                    validateField('category', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('category', e.target.value)}
+                  autoComplete="off"
                 >
                   {categories.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
+                {errors.category && <p className="error">{errors.category}</p>}
               </div>
 
               <TagInput
@@ -197,9 +203,13 @@ function CulturalDataCreate() {
                   }}
                   onBlur={(e) => validateField('content', e.target.value)}
                   rows={10}
-                  placeholder="Describe la información cultural de forma detallada…"
+                  placeholder="Describe el dato cultural… (mínimo 20 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.content && <p className="error">{errors.content}</p>}
+                <small className="field-hint">
+                  {content.length}/3000 caracteres
+                </small>
               </div>
             </div>
           </div>

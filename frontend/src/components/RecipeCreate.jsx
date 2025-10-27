@@ -5,6 +5,7 @@ import TagInput from './ui/TagInput';
 import ImageDropzone from './ui/ImageDropzone';
 import Loading from './Loading';
 import { useAuth } from '../hooks/useAuth';
+import { validateRecipeField, validateRecipeForm } from '../schemas/recipeSchema';
 
 export default function RecipeCreate() {
   const navigate = useNavigate();
@@ -29,51 +30,40 @@ export default function RecipeCreate() {
   const [progress, setProgress] = useState(0);
   const [toast, setToast] = useState(null);
 
-  // Validación en tiempo real
+  // Validación en tiempo real con Zod
   const validateField = (field, value) => {
-    const newErrors = { ...errors };
-    
-    switch (field) {
-      case 'name':
-        if (!value.trim()) {
-          newErrors.name = 'El nombre es obligatorio.';
-        } else {
-          delete newErrors.name;
-        }
-        break;
-      case 'ingredients':
-        if (value.length === 0) {
-          newErrors.ingredients = 'Agrega al menos un ingrediente.';
-        } else {
-          delete newErrors.ingredients;
-        }
-        break;
-      case 'preparation':
-        if (!value.trim()) {
-          newErrors.preparation = 'Describe los pasos de preparación.';
-        } else {
-          delete newErrors.preparation;
-        }
-        break;
-      default:
-        break;
-    }
-    
-    setErrors(newErrors);
+    const error = validateRecipeField(field, value);
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (error) {
+        newErrors[field] = error;
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
   };
 
   const validate = () => {
-    const e = {};
-    if (!name.trim()) e.name = 'El nombre es obligatorio.';
-    if (ingredients.length === 0) e.ingredients = 'Agrega al menos un ingrediente.';
-    if (!preparation.trim()) e.preparation = 'Describe los pasos de preparación.';
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const formData = {
+      name: name.trim(),
+      description: description.trim(),
+      ingredients,
+      instructions: preparation.trim(),
+      category: '',
+      tags,
+    };
+
+    const { isValid, errors: validationErrors } = validateRecipeForm(formData);
+    setErrors(validationErrors);
+    return isValid;
   };
 
-  // Verificar si el formulario es válido
+  // Verificar si el formulario es válido (solo para deshabilitar botón)
   const isFormValid = () => {
-    return name.trim() && ingredients.length > 0 && preparation.trim();
+    // Solo verificar que los campos obligatorios no estén completamente vacíos
+    // La validación detallada se hace en validate() al enviar
+    return name.trim() && description.trim() && ingredients.length > 0 && preparation.trim();
   };
 
   const onSubmit = async (e) => {
@@ -150,9 +140,13 @@ export default function RecipeCreate() {
                     validateField('name', e.target.value);
                   }}
                   onBlur={(e) => validateField('name', e.target.value)}
-                  placeholder="Masaco de yuca"
+                  placeholder="Masaco de yuca (3-100 caracteres)"
+                  autoComplete="off"
                 />
                 {errors.name && <p className="error">{errors.name}</p>}
+                <small className="field-hint">
+                  {name.length}/100 caracteres
+                </small>
               </div>
 
               <div className="field">
@@ -162,18 +156,28 @@ export default function RecipeCreate() {
                   value={baureName}
                   onChange={(e) => setBaureName(e.target.value)}
                   placeholder="Tunu Masako"
+                  autoComplete="off"
                 />
               </div>
 
               <div className="field">
-                <label className="label">Descripción</label>
+                <label className="label">Descripción *</label>
                 <textarea
-                  className="textarea"
+                  className={`textarea ${errors.description ? 'input-error' : ''}`}
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                    validateField('description', e.target.value);
+                  }}
+                  onBlur={(e) => validateField('description', e.target.value)}
                   rows={3}
-                  placeholder="Plato tradicional con yuca y queso…"
+                  placeholder="Plato tradicional con yuca y queso… (mínimo 10 caracteres)"
+                  autoComplete="off"
                 />
+                {errors.description && <p className="error">{errors.description}</p>}
+                <small className="field-hint">
+                  {description.length}/500 caracteres
+                </small>
               </div>
 
               <TagInput
@@ -213,17 +217,21 @@ export default function RecipeCreate() {
               <div className="field">
                 <label className="label">Preparación *</label>
                 <textarea
-                  className={`textarea ${errors.preparation ? 'input-error' : ''}`}
+                  className={`textarea ${errors.instructions ? 'input-error' : ''}`}
                   value={preparation}
                   onChange={(e) => {
                     setPreparation(e.target.value);
-                    validateField('preparation', e.target.value);
+                    validateField('instructions', e.target.value);
                   }}
-                  onBlur={(e) => validateField('preparation', e.target.value)}
+                  onBlur={(e) => validateField('instructions', e.target.value)}
                   rows={6}
-                  placeholder="Rallar yuca, mezclar con queso, dorar…"
+                  placeholder="Rallar yuca, mezclar con queso, dorar… (mínimo 20 caracteres)"
+                  autoComplete="off"
                 />
-                {errors.preparation && <p className="error">{errors.preparation}</p>}
+                {errors.instructions && <p className="error">{errors.instructions}</p>}
+                <small className="field-hint">
+                  {preparation.length}/2000 caracteres
+                </small>
               </div>
 
               <div className="field">
@@ -233,6 +241,7 @@ export default function RecipeCreate() {
                   value={consumption}
                   onChange={(e) => setConsumption(e.target.value)}
                   placeholder="Consumir caliente"
+                  autoComplete="off"
                 />
               </div>
 
@@ -243,6 +252,7 @@ export default function RecipeCreate() {
                   value={conservation}
                   onChange={(e) => setConservation(e.target.value)}
                   placeholder="Refrigerar hasta 24h"
+                  autoComplete="off"
                 />
               </div>
 
@@ -253,6 +263,7 @@ export default function RecipeCreate() {
                   value={sourcePerson}
                   onChange={(e) => setSourcePerson(e.target.value)}
                   placeholder='Relato de: Adil Arredondo'
+                  autoComplete="off"
                 />
               </div>
             </div>
