@@ -96,8 +96,7 @@ VITE_API_URL=http://localhost:5000
 
 ## ¿Por qué el proyecto es así? (Trazabilidad)
 
-Este proyecto no se inventó de cero. Se basa en la investigación sobre la cocina Baure (el "caso de estudio" de la evaluación).
-
+Se basa en la investigación sobre la cocina Baure.
 La investigación nos dijo qué problemas había, y la página web los soluciona:
 
 ### 1. Transmisión oral en riesgo
@@ -129,27 +128,51 @@ La investigación nos dijo qué problemas había, y la página web los soluciona
 
 ## ¿Cómo medimos si la web funciona? (Métricas UX)
 
-Para saber si la web de verdad ayuda a preservar la cultura, definimos 2 métricas:
+Para saber si la web de verdad ayuda a preservar la cultura, definimos estas métricas:
 
-### Métrica 1: Descubrimiento
+### Métrica 1: Descubribilidad de Contenido
 
-**¿La gente encuentra las recetas?**
+**¿La gente encuentra las recetas fácilmente?**
 
-- **Prueba:** ¿Puedes encontrar la "Sopa de bucheres" en menos de 10 segundos?
-- **Objetivo:** El 80% de la gente debería poder.
+- **Prueba:** Medir el tiempo que toma encontrar la "Sopa de bucheres" usando el buscador
+- **Objetivo:** 90% de usuarios en ≤ 10 segundos
+- **Verificación:** Google Analytics - Event tracking en búsquedas + Time to result
 
-### Métrica 2: Contribución
+### Métrica 2: Engagement con el Chatbot
 
-**¿Es fácil añadir nuevas recetas al sistema?**
+**¿La gente usa el asistente de IA para aprender más?**
 
-- **Prueba:** Medir cuánta gente abandona el formulario de "Añadir Receta" (el formulario POST).
-- **Objetivo:** Menos del 10% de abandono. Queremos que sea fácil guardar la información.
+- **Prueba:** Medir interacciones con el chatbot por visita
+- **Objetivo:** ≥ 30% de visitas a recetas abren el chatbot
+
+### Métrica 3: Performance Web (Core Web Vitals)
+
+**¿La aplicación carga rápido y es usable?**
+
+- **LCP (Largest Contentful Paint):** Actual: 21.5s → Objetivo: ≤ 2.5s
+- **FID (First Input Delay):** Objetivo: ≤ 100ms
+- **CLS (Cumulative Layout Shift):** Actual: 0.3 → Objetivo: ≤ 0.1
+- **Verificación:** Lighthouse
+
+### Métrica 4: Tasa de Éxito en Búsquedas
+
+**¿Los usuarios encuentran lo que buscan?**
+
+- **Prueba:** Búsquedas que resultan en clic vs búsquedas sin resultados
+
+### Métrica 5: Accesibilidad
+
+**¿La aplicación es accesible para todos?**
+
+- **Prueba:** Score de Lighthouse Accessibility
+- **Objetivo:** Mantener ≥ 90/100
+- **Verificación:** Lighthouse
+
 
 ---
 ## Cómo Usar el Token de Autenticación
 Este proyecto usa un token simple para proteger las operaciones de crear, editar y eliminar contenido.
----
-## TL;DR
+
 - Agrega el header: `Authorization: Bearer baure-admin-token`
 - O inicia sesión en el Panel Admin y el sistema lo hace por ti.
 ---
@@ -168,8 +191,8 @@ Solo las operaciones de escritura:
 ---
 ## Usar en la Aplicación Web
 ### Forma Automática (Recomendada)
-1. Ve al panel de administración: `http://localhost:5173/admin-panel-baure` 
-2. Ingresa la contraseña (por defecto: `admin123`)
+1. Ve al panel de administración: `http://localhost:5173/admin` 
+2. Ingresa la contraseña (por defecto: `baure2025`)
 3. Listo! El sistema guarda el token automáticamente
 4. Ahora puedes crear, editar y eliminar contenido sin problemas
 
