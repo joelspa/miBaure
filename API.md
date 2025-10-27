@@ -480,23 +480,6 @@ GEMINI_API_KEY=AIza...
 PORT=5000
 ```
 
-**Nunca** commitear archivos `.env` al repositorio.
-
-### Rate Limiting (Futuro)
-
-Se recomienda implementar rate limiting para proteger los endpoints de IA:
-
-```javascript
-const rateLimit = require('express-rate-limit');
-
-const chatLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 50 // límite de 50 requests
-});
-
-app.use('/api/chat', chatLimiter);
-```
-
 ---
 
 ## Notas Importantes
@@ -506,26 +489,3 @@ app.use('/api/chat', chatLimiter);
 3. **MongoDB**: Usa MongoDB Atlas o instancia local
 4. **Búsqueda Web**: Se activa automáticamente según palabras clave
 5. **Markdown**: Las respuestas del chatbot usan formato Markdown
-
----
-
-## Próximas Mejoras
-
-- [ ] Autenticación JWT
-- [ ] Endpoints de creación/edición de recetas (POST, PUT, DELETE)
-- [ ] Paginación en listados
-- [ ] Filtros avanzados (por ingredientes, tags, etc.)
-- [ ] Búsqueda full-text en recetas
-- [ ] Upload de imágenes
-- [ ] Sistema de favoritos
-- [ ] Comentarios y valoraciones
-
----
-
-<div align="center">
-
-**¿Preguntas?** Abre un issue en [GitHub](https://github.com/joelspa/miBaure/issues)
-
-[Volver arriba](#documentación-api---archivo-baure)
-
-</div>
