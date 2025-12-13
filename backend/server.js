@@ -13,7 +13,6 @@ app.use(compression()); // Comprimir respuestas HTTP (gzip)
 app.use(cors());
 app.use(cors({
   origin: ['https://mibaure.onrender.com'] // ¡Esta es tu URL de Vercel!
-  // , methods: ['GET', 'POST'], // Puedes añadir esto si es necesario
 }));
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads'), {
   maxAge: '1y', // Cache de imágenes por 1 año
