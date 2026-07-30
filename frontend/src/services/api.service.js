@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../config/constants';
+import { mockRecipes, mockLifeStories, mockCulturalData } from './mockData';
 
 // Helper: agrega Authorization si hay token en sessionStorage
 const withAuth = (headers = {}) => {
@@ -11,6 +12,66 @@ const withAuth = (headers = {}) => {
   } catch (_) { /* no-op en SSR/test */ }
   return headers;
 };
+
+// --- AXIOS INTERCEPTOR PARA MODO DEMO ---
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Si no hay respuesta (servidor caído) o es un error de red
+    if (!error.response || error.code === 'ERR_NETWORK') {
+      const url = error.config.url;
+      console.warn(`[Demo Mode] Intercepted failed request to: ${url}`);
+      
+      // Simular respuestas exitosas con mock data basado en la URL
+      if (url.includes('/api/recipes')) {
+        const match = url.match(/\/api\/recipes\/([^/]+)$/);
+        if (match && error.config.method === 'get') {
+           const id = match[1];
+           const recipe = mockRecipes.find(r => r._id === id);
+           return Promise.resolve({ data: recipe || mockRecipes[0] });
+        }
+        return Promise.resolve({ data: mockRecipes });
+      }
+      if (url.includes('/api/life-stories')) {
+        const match = url.match(/\/api\/life-stories\/([^/]+)$/);
+        if (match && error.config.method === 'get') {
+           const id = match[1];
+           const story = mockLifeStories.find(s => s._id === id);
+           return Promise.resolve({ data: story || mockLifeStories[0] });
+        }
+        return Promise.resolve({ data: mockLifeStories });
+      }
+      if (url.includes('/api/cultural-data')) {
+        const matchCategory = url.match(/\/api\/cultural-data\/category\/([^/]+)$/);
+        if (matchCategory && error.config.method === 'get') {
+           const category = decodeURIComponent(matchCategory[1]);
+           const filtered = category === 'all' 
+              ? mockCulturalData 
+              : mockCulturalData.filter(d => d.category.toLowerCase() === category.toLowerCase());
+           return Promise.resolve({ data: filtered });
+        }
+        
+        const matchId = url.match(/\/api\/cultural-data\/([^/]+)$/);
+        if (matchId && error.config.method === 'get' && !url.includes('/category/')) {
+           const id = matchId[1];
+           const data = mockCulturalData.find(d => d._id === id);
+           return Promise.resolve({ data: data || mockCulturalData[0] });
+        }
+        return Promise.resolve({ data: mockCulturalData });
+      }
+      if (url.includes('/api/chat')) {
+        return Promise.resolve({ data: { answer: "Modo demo: ¡Hola! Soy el asistente virtual (simulado). Esta es una respuesta de prueba ya que no hay conexión con el backend en este momento." } });
+      }
+      if (url.includes('/api/admin/validate')) {
+         return Promise.resolve({ data: { success: true, token: "demo-token-123" } });
+      }
+      
+      return Promise.resolve({ data: { success: true, message: "Acción simulada en modo demo" } });
+    }
+    return Promise.reject(error);
+  }
+);
+// ----------------------------------------
 
 // Servicio centralizado para todas las llamadas API
 const apiService = {
