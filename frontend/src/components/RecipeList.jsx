@@ -14,9 +14,15 @@ const categories = [
   { value: 'Desaparecida',label: 'Desaparecida',icon: 'history' },
 ];
 
-function RecipeCard({ recipe }) {
+function RecipeCard({ recipe, index }) {
+  // Para hacer que algunos items sean más grandes (estilo bento)
+  const isLarge = index % 5 === 0; // 1 de cada 5 items será más grande en grid
+
   return (
-    <article className="recipe-card">
+    <article 
+      className={`recipe-card bento-item ${isLarge ? 'bento-large' : ''}`} 
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
       <Link to={`/recipe/${recipe._id}`} className="recipe-link">
         <div className={recipe.imageUrl ? 'recipe-image' : 'recipe-image-placeholder'}>
           {recipe.imageUrl ? (
@@ -36,7 +42,7 @@ function RecipeCard({ recipe }) {
             <span className="material-symbols-outlined">restaurant_menu</span>
           )}
         </div>
-        <div className="recipe-body">
+        <div className="recipe-body glass-inner">
           <h3 className="recipe-title">{recipe.name}</h3>
           {recipe.baureName && (
             <p className="recipe-baure-name">{recipe.baureName}</p>
@@ -47,11 +53,11 @@ function RecipeCard({ recipe }) {
             </p>
           )}
           <div className="recipe-tags">
-            {recipe.tags?.slice(0, 4).map((tag, idx) => (
-              <span key={idx} className="tag tag-primary">{tag}</span>
+            {recipe.tags?.slice(0, 3).map((tag, idx) => (
+              <span key={idx} className="chip chip-primary">{tag}</span>
             ))}
             {!recipe.tags && recipe.ingredients?.slice(0, 3).map((ing, idx) => (
-              <span key={idx} className="tag tag-secondary">{ing.split(' ')[0]}</span>
+              <span key={idx} className="chip chip-secondary">{ing.split(' ')[0]}</span>
             ))}
           </div>
         </div>
@@ -62,7 +68,7 @@ function RecipeCard({ recipe }) {
 
 function EmptyState({ searchTerm, onClear }) {
   return (
-    <div className="empty-state">
+    <div className="empty-state glass">
       <div className="empty-state-icon">
         <span className="material-symbols-outlined" aria-hidden="true">search_off</span>
       </div>
@@ -121,7 +127,7 @@ export default function RecipeList() {
 
   if (error) {
     return (
-      <div className="empty-state" style={{ minHeight: '60vh' }}>
+      <div className="empty-state glass" style={{ minHeight: '60vh' }}>
         <div className="empty-state-icon">
           <span className="material-symbols-outlined">error</span>
         </div>
@@ -136,71 +142,62 @@ export default function RecipeList() {
   }
 
   return (
-    <div className="recipe-list">
-      {/* Hero banner */}
-      <div className="section-hero">
-        <p className="section-hero-eyebrow">
-          <span className="material-symbols-outlined" style={{ fontSize: '0.875rem' }} aria-hidden="true">
-            outdoor_grill
-          </span>
-          Pueblo Baure — Bolivia
-        </p>
-        <h2 className="section-hero-title">Recetas Tradicionales</h2>
-        <p className="section-hero-desc">
-          Un archivo vivo de sabores ancestrales: recetas recopiladas directamente
-          de la comunidad Baure para preservar su patrimonio gastronómico.
-        </p>
+    <div className="recipe-list animate-in">
+      {/* Hero banner Inmersivo */}
+      <div className="hero-immersive">
+        <div className="hero-content">
+          <p className="hero-eyebrow">
+            <span className="material-symbols-outlined" aria-hidden="true">eco</span>
+            Tesoros de la Selva
+          </p>
+          <h2 className="hero-title">Recetario Baure</h2>
+          <p className="hero-desc">
+            Un archivo vivo de sabores ancestrales. Explorá nuestra herencia culinaria, directamente de la comunidad Baure.
+          </p>
+          
+          {/* Search bar inside Hero */}
+          <div className="search-container hero-search glass">
+            <span className="material-symbols-outlined search-icon" aria-hidden="true">search</span>
+            <input
+              type="search"
+              className="search-input transparent-input"
+              placeholder={PLACEHOLDERS.SEARCH_RECIPE ?? 'Buscar receta, ingrediente…'}
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              aria-label="Buscar recetas"
+              autoComplete="off"
+            />
+            {searchTerm && (
+              <button className="search-clear" onClick={() => setSearchTerm('')} aria-label="Limpiar búsqueda">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="hero-overlay"></div>
       </div>
 
-      <div className="section">
+      <div className="section page-container">
         {/* Category filters */}
-        <div className="category-filters" role="group" aria-label="Filtrar recetas por categoría">
-          {categories.map(cat => (
-            <button
-              key={cat.value}
-              className={selectedCategory === cat.value ? 'tag tag-primary' : 'tag'}
-              onClick={() => setSelectedCategory(cat.value)}
-              aria-label={`Filtrar recetas: ${cat.label}`}
-              aria-pressed={selectedCategory === cat.value}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '1rem' }} aria-hidden="true">
-                {cat.icon}
-              </span>
-              {cat.label}
-            </button>
-          ))}
+        <div className="category-filters filters-container" role="group" aria-label="Filtrar recetas por categoría">
+          <ul className="filters-list">
+            {categories.map(cat => (
+              <li key={cat.value}>
+                <button
+                  className={selectedCategory === cat.value ? 'chip chip-primary' : 'chip chip-secondary'}
+                  onClick={() => setSelectedCategory(cat.value)}
+                  aria-label={`Filtrar recetas: ${cat.label}`}
+                  aria-pressed={selectedCategory === cat.value}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '1.125rem' }} aria-hidden="true">
+                    {cat.icon}
+                  </span>
+                  {cat.label}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-
-        {/* Search bar */}
-        <div className="search-container">
-          <span className="material-symbols-outlined search-icon" aria-hidden="true">search</span>
-          <input
-            type="search"
-            className="search-input"
-            placeholder={PLACEHOLDERS.SEARCH_RECIPE ?? 'Buscar receta, ingrediente…'}
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            aria-label="Buscar recetas"
-            autoComplete="off"
-          />
-          {searchTerm && (
-            <button className="search-clear" onClick={() => setSearchTerm('')} aria-label="Limpiar búsqueda">
-              <span className="material-symbols-outlined">close</span>
-            </button>
-          )}
-        </div>
-
-        {/* Count badge */}
-        {!loading && (
-          <div className="section-header" style={{ marginBottom: '1rem' }}>
-            <span className="category-badge badge-primary">
-              <span className="material-symbols-outlined" style={{ fontSize: '1rem' }} aria-hidden="true">
-                outdoor_grill
-              </span>
-              {filteredRecipes.length} receta{filteredRecipes.length !== 1 ? 's' : ''}
-            </span>
-          </div>
-        )}
 
         {/* Content */}
         {loading ? (
@@ -208,9 +205,9 @@ export default function RecipeList() {
         ) : filteredRecipes.length === 0 ? (
           <EmptyState searchTerm={debouncedSearch} onClear={() => { setSearchTerm(''); setSelectedCategory('Todos'); }} />
         ) : (
-          <div className="recipes-grid" role="list" aria-label="Lista de recetas">
-            {filteredRecipes.map(recipe => (
-              <RecipeCard key={recipe._id} recipe={recipe} />
+          <div className="bento-grid" role="list" aria-label="Lista de recetas">
+            {filteredRecipes.map((recipe, index) => (
+              <RecipeCard key={recipe._id} recipe={recipe} index={index} />
             ))}
           </div>
         )}

@@ -27,88 +27,90 @@ import { ToastProvider } from './context/ToastContext';
 
 import './styles/App.css';
 
-/* ─── Header ─────────────────────────────────────────────────── */
-function AppHeader({ darkMode, toggleDarkMode }) {
+/* ─── Sidebar (Desktop) & TopBar (Mobile fallback for branding) ─── */
+function AppSidebar({ darkMode, toggleDarkMode }) {
   const location = useLocation();
   const isActive = (path) =>
-    location.pathname === path ? 'nav-link active' : 'nav-link';
+    location.pathname === path ? 'sidebar-link active' : 'sidebar-link';
   const isAdmin = sessionStorage.getItem('adminAuth') === 'true';
 
   return (
     <>
-      <header className="header">
-        <div className="header-container">
-          {/* Logo — actúa como home link */}
-          <Link to="/" className="header-brand" aria-label="Ir a la página de inicio — Archivo Baure">
+      <aside className="app-sidebar glass">
+        <div className="sidebar-header">
+          <Link to="/" className="sidebar-brand" aria-label="Inicio — Archivo Baure">
             <span className="material-symbols-outlined brand-icon" aria-hidden="true">
-              outdoor_grill
+              eco
             </span>
             <div className="brand-text">
               <span className="brand-title">Archivo Baure</span>
-              <span className="brand-subtitle">Cocina, memoria y territorio</span>
+              <span className="brand-subtitle">Cocina y memoria</span>
             </div>
           </Link>
-
-          <div className="header-actions">
-            <button
-              className="btn btn-icon"
-              onClick={toggleDarkMode}
-              aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-              title={darkMode ? 'Modo claro' : 'Modo oscuro'}
-            >
-              <span className="material-symbols-outlined" aria-hidden="true">
-                {darkMode ? 'light_mode' : 'dark_mode'}
-              </span>
-            </button>
-
-            {isAdmin && (
-              <Link
-                to="/admin"
-                className="btn btn-outline btn-sm"
-                aria-label="Ir al panel de administración"
-              >
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  admin_panel_settings
-                </span>
-                <span className="btn-label-hide-xs">Admin</span>
-              </Link>
-            )}
-          </div>
         </div>
 
-        {/* Motif bar decorativa */}
-        <div className="motif-bar" aria-hidden="true" />
-      </header>
+        <nav className="sidebar-nav" aria-label="Navegación principal">
+          <ul className="sidebar-links">
+            <li>
+              <Link to="/" className={isActive('/')}>
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  restaurant_menu
+                </span>
+                Recetas
+              </Link>
+            </li>
+            <li>
+              <Link to="/recuentos" className={isActive('/recuentos')}>
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  auto_stories
+                </span>
+                Recuentos
+              </Link>
+            </li>
+            <li>
+              <Link to="/cultura" className={isActive('/cultura')}>
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  public
+                </span>
+                Cultura
+              </Link>
+            </li>
+          </ul>
+        </nav>
 
-      {/* Desktop navigation — oculta en mobile (reemplazada por BottomNav) */}
-      <nav className="navbar" aria-label="Navegación principal">
-        <ul className="nav-links">
-          <li>
-            <Link to="/" className={isActive('/')}>
+        <div className="sidebar-footer">
+          <button
+            className="btn btn-icon sidebar-theme-toggle"
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+          >
+            <span className="material-symbols-outlined" aria-hidden="true">
+              {darkMode ? 'light_mode' : 'dark_mode'}
+            </span>
+            <span className="toggle-label">{darkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
+          </button>
+
+          {isAdmin && (
+            <Link to="/admin" className="btn btn-outline sidebar-admin-btn">
               <span className="material-symbols-outlined" aria-hidden="true">
-                restaurant_menu
+                admin_panel_settings
               </span>
-              Recetas
+              Admin
             </Link>
-          </li>
-          <li>
-            <Link to="/recuentos" className={isActive('/recuentos')}>
-              <span className="material-symbols-outlined" aria-hidden="true">
-                history_edu
-              </span>
-              Recuentos de Vida
-            </Link>
-          </li>
-          <li>
-            <Link to="/cultura" className={isActive('/cultura')}>
-              <span className="material-symbols-outlined" aria-hidden="true">
-                account_balance
-              </span>
-              Cultura Baure
-            </Link>
-          </li>
-        </ul>
-      </nav>
+          )}
+        </div>
+      </aside>
+      
+      {/* Mobile Top Bar (Solo Logo y Theme Toggle) */}
+      <header className="mobile-topbar glass">
+         <Link to="/" className="mobile-brand">
+            <span className="material-symbols-outlined brand-icon" aria-hidden="true">eco</span>
+            <span className="brand-title">Archivo Baure</span>
+         </Link>
+         <button className="btn btn-icon" onClick={toggleDarkMode}>
+            <span className="material-symbols-outlined">{darkMode ? 'light_mode' : 'dark_mode'}</span>
+         </button>
+      </header>
     </>
   );
 }
@@ -141,7 +143,6 @@ function AnimatedRoutes() {
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
-    // Default: respetar preferencia del sistema si no hay nada guardado
     if (saved !== null) return saved === 'true';
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
@@ -156,31 +157,22 @@ function App() {
   return (
     <Router>
       <ToastProvider>
-        <div className="App">
-          {/* Skip to content — accesibilidad */}
+        <div className="app-layout">
           <a href="#main-content" className="skip-to-main">
             Saltar al contenido principal
           </a>
 
-          <AppHeader darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+          <AppSidebar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
-          <main id="main-content" className="main-content">
-            <div className="content-wrapper">
-              <AnimatedRoutes />
-            </div>
+          <main id="main-content" className="app-main">
+            <AnimatedRoutes />
+            
+            <footer className="app-footer">
+              <p>© 2025 Archivo Baure — Cocina y memoria amazónica</p>
+            </footer>
           </main>
 
-          <footer className="footer">
-            <div className="footer-container">
-              <p>© 2025 Archivo Baure — Cocina, memoria y territorio del pueblo Baure</p>
-              <p className="footer-sub">Preservando nuestra cultura gastronómica amazónica</p>
-            </div>
-          </footer>
-
-          {/* Mobile bottom navigation */}
           <BottomNav />
-
-          {/* Toast notifications */}
           <ToastContainer />
         </div>
       </ToastProvider>

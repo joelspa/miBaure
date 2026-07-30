@@ -8,23 +8,24 @@ import { useToast } from '../hooks/useToast';
 import { ERROR_MESSAGES, LOADING_MESSAGES, CULTURAL_CATEGORIES } from '../config/constants';
 
 function CulturalArticle({ item, isAdmin, onDelete }) {
-  const [open, setOpen] = useState(true); // start expanded
+  const [open, setOpen] = useState(true);
 
   return (
-    <article className="cultural-article">
-      {/* Collapsible header */}
-      <div className="cultural-header">
-        <span className="cultural-category">{item.category}</span>
-
+    <article className="museum-card glass">
+      <div className="museum-header" onClick={() => setOpen(v => !v)} style={{ cursor: 'pointer' }}>
+        <div className="museum-meta">
+          <span className="chip chip-primary">{item.category}</span>
+          <h2 className="museum-title">{item.title}</h2>
+        </div>
         <button
-          className="cultural-article-toggle"
-          onClick={() => setOpen(v => !v)}
+          className="btn-icon"
           aria-expanded={open}
           aria-controls={`article-body-${item._id}`}
+          onClick={(e) => { e.stopPropagation(); setOpen(v => !v); }}
         >
-          <h2 className="cultural-title">{item.title}</h2>
           <span
-            className="material-symbols-outlined toggle-icon"
+            className="material-symbols-outlined"
+            style={{ transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s ease' }}
             aria-hidden="true"
           >
             expand_more
@@ -34,75 +35,68 @@ function CulturalArticle({ item, isAdmin, onDelete }) {
 
       <div
         id={`article-body-${item._id}`}
-        className={`cultural-article-body${open ? '' : ' collapsed'}`}
+        className={`museum-body ${open ? 'open' : 'collapsed'}`}
       >
-        {/* Main content */}
-        <div className="cultural-main-content">
-          <ReactMarkdown>{item.content}</ReactMarkdown>
-        </div>
+        <div className="museum-content">
+          <div className="cultural-main-content">
+            <ReactMarkdown>{item.content}</ReactMarkdown>
+          </div>
 
-        {/* Subsections */}
-        {item.subsections?.length > 0 && (
-          <div className="cultural-subsections">
-            {item.subsections.map((sub, i) => (
-              <div key={i} className="subsection">
-                <h3 className="subsection-title">{sub.subtitle}</h3>
-                <p className="subsection-text">{sub.text}</p>
+          {item.subsections?.length > 0 && (
+            <div className="museum-subsections">
+              {item.subsections.map((sub, i) => (
+                <div key={i} className="museum-subsection">
+                  <h3 className="museum-subtitle">{sub.subtitle}</h3>
+                  <p>{sub.text}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {item.images?.length > 0 && (
+            <div className="museum-gallery">
+              {item.images.map((img, i) => (
+                <figure key={i} className="museum-figure">
+                  <img
+                    src={img.url}
+                    alt={img.caption || `Imagen ilustrativa de ${item.title}`}
+                    loading="lazy"
+                    onError={e => { e.target.style.display = 'none'; }}
+                  />
+                  {img.caption && <figcaption className="museum-caption">{img.caption}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          )}
+
+          {item.relatedTopics?.length > 0 && (
+            <div className="museum-topics">
+              <span className="topics-label">Temas relacionados:</span>
+              <div className="topics-list">
+                {item.relatedTopics.map((topic, i) => (
+                  <span key={i} className="chip chip-secondary">{topic}</span>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* Images */}
-        {item.images?.length > 0 && (
-          <div className="cultural-images">
-            {item.images.map((img, i) => (
-              <figure key={i} className="cultural-image">
-                <img
-                  src={img.url}
-                  alt={img.caption || `Imagen ilustrativa de ${item.title}, categoría ${item.category} — cultura Baure`}
-                  loading="lazy"
-                  width="600"
-                  height="400"
-                  onError={e => { e.target.style.display = 'none'; }}
-                />
-                {img.caption && <figcaption>{img.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
-        )}
-
-        {/* Related topics */}
-        {item.relatedTopics?.length > 0 && (
-          <div className="cultural-topics">
-            <span className="topics-label">Temas relacionados:</span>
-            {item.relatedTopics.map((topic, i) => (
-              <span key={i} className="tag tag-accent">{topic}</span>
-            ))}
-          </div>
-        )}
-
-        {/* Admin actions */}
-        {isAdmin && (
-          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
-            <Link
-              to={`/cultura/${item._id}/edit`}
-              className="btn btn-outline"
-              style={{ flex: 1 }}
-            >
-              <span className="material-symbols-outlined" aria-hidden="true">edit</span>
-              Editar
-            </Link>
-            <button
-              onClick={() => onDelete(item)}
-              className="btn btn-outline"
-              style={{ flex: 1, color: 'var(--color-error, #dc2626)' }}
-            >
-              <span className="material-symbols-outlined" aria-hidden="true">delete</span>
-              Eliminar
-            </button>
-          </div>
-        )}
+          {isAdmin && (
+            <div className="museum-admin-actions">
+              <Link to={`/cultura/${item._id}/edit`} className="btn btn-outline">
+                <span className="material-symbols-outlined" aria-hidden="true">edit</span>
+                Editar
+              </Link>
+              <button
+                onClick={() => onDelete(item)}
+                className="btn btn-outline"
+                style={{ color: 'var(--color-error)' }}
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">delete</span>
+                Eliminar
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </article>
   );
@@ -144,40 +138,43 @@ export default function BaureCulture() {
   };
 
   return (
-    <div className="content-wrapper">
-      <div className="page-container">
-        {/* Page header */}
-        <div className="page-header">
-          <span className="material-symbols-outlined hero-icon" aria-hidden="true">account_balance</span>
-          <h1 className="page-title">Cultura Baure</h1>
-          <p className="page-description">
-            Datos históricos, tradiciones y conocimientos de la cultura Baure
+    <div className="content-wrapper animate-in">
+      <div className="page-container museum-layout">
+        <div className="museum-page-header">
+          <p className="hero-eyebrow" style={{ color: 'var(--color-primary)' }}>
+            <span className="material-symbols-outlined" aria-hidden="true">account_balance</span>
+            Patrimonio Vivo
+          </p>
+          <h1 className="museum-page-title">Cultura Baure</h1>
+          <p className="museum-page-desc">
+            Explorá la sabiduría ancestral, la historia y la identidad viva del pueblo Baure.
           </p>
         </div>
 
-        {/* Category filters — horizontal scroll on mobile */}
-        <div className="category-filters" role="group" aria-label="Filtrar por categoría cultural">
-          {CULTURAL_CATEGORIES.map(cat => (
-            <button
-              key={cat.value}
-              className={selectedCategory === cat.value ? 'tag tag-primary' : 'tag'}
-              onClick={() => setSelectedCategory(cat.value)}
-              aria-pressed={selectedCategory === cat.value}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '1rem' }} aria-hidden="true">
-                {cat.icon}
-              </span>
-              {cat.label}
-            </button>
-          ))}
+        <div className="filters-container" role="group" aria-label="Filtrar por categoría cultural">
+          <ul className="filters-list">
+            {CULTURAL_CATEGORIES.map(cat => (
+              <li key={cat.value}>
+                <button
+                  className={selectedCategory === cat.value ? 'chip chip-primary' : 'chip chip-secondary'}
+                  onClick={() => setSelectedCategory(cat.value)}
+                  aria-pressed={selectedCategory === cat.value}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '1.125rem' }} aria-hidden="true">
+                    {cat.icon}
+                  </span>
+                  {cat.label}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Content */}
         <div className="culture-content">
           {loading ? (
             <Loading message={LOADING_MESSAGES.CULTURAL} />
           ) : error ? (
-            <div className="empty-state">
+            <div className="empty-state glass">
               <div className="empty-state-icon">
                 <span className="material-symbols-outlined">error</span>
               </div>
@@ -189,7 +186,7 @@ export default function BaureCulture() {
               </button>
             </div>
           ) : filteredData.length === 0 ? (
-            <div className="empty-state">
+            <div className="empty-state glass">
               <div className="empty-state-icon">
                 <span className="material-symbols-outlined">account_balance</span>
               </div>
@@ -204,7 +201,7 @@ export default function BaureCulture() {
               )}
             </div>
           ) : (
-            <div className="cultural-articles">
+            <div className="museum-articles">
               {filteredData.map(item => (
                 <CulturalArticle
                   key={item._id}
@@ -218,7 +215,6 @@ export default function BaureCulture() {
         </div>
       </div>
 
-      {/* Confirm delete modal */}
       <ConfirmModal
         open={!!confirmTarget}
         title="¿Eliminar dato cultural?"
