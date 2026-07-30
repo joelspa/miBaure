@@ -80,7 +80,7 @@ function AppSidebar({ darkMode, toggleDarkMode }) {
 
         <div className="sidebar-footer">
           <button
-            className="btn btn-icon sidebar-theme-toggle"
+            className="sidebar-theme-toggle"
             onClick={toggleDarkMode}
             aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
           >
@@ -107,7 +107,7 @@ function AppSidebar({ darkMode, toggleDarkMode }) {
             <span className="material-symbols-outlined brand-icon" aria-hidden="true">eco</span>
             <span className="brand-title">Archivo Baure</span>
          </Link>
-         <button className="btn btn-icon" onClick={toggleDarkMode}>
+         <button className="btn-icon" onClick={toggleDarkMode} aria-label="Cambiar tema" style={{ borderRadius: '50%' }}>
             <span className="material-symbols-outlined">{darkMode ? 'light_mode' : 'dark_mode'}</span>
          </button>
       </header>
