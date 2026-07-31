@@ -49,6 +49,7 @@
   
   --radius: 0.75rem;
   --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
   --radius-full: 9999px;
   
   --font-sans: 'Inter', sans-serif;
@@ -236,16 +237,7 @@ h1, h2, h3, h4, h5, h6 {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* Modo Oscuro - Del wireframe */
-body.dark {
-  --color-bg: #1c1917;             
-  --color-bg-alt: #292524;         
-  --color-surface: #292524;        
-  --color-border: #44403c;
-  --color-text: #fafaf9;           
-  --color-text-muted: #d6d3d1;
-  --color-text-light: #a8a29e;
-}
+
 
 /* Reset */
 *, *::before, *::after {
@@ -473,6 +465,13 @@ body.dark {
   }
   .app-layout {
     flex-direction: column;
+  }
+  /* Space for floating bottom-nav pill */
+  .app-main {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+  .app-footer {
+    margin-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -707,7 +706,7 @@ body.dark .search-input:focus {
 
 .chip-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-text);
+  color: #fafaf9;
   border-color: var(--color-primary-dark);
   box-shadow: var(--shadow-md);
   font-weight: 700;
@@ -957,9 +956,12 @@ body.dark .recipe-card:hover {
 }
 
 @media (max-width: 640px) {
-  .recipe-image,
+  .recipe-image {
+    padding-bottom: 56%; /* 16:9 ratio — less tall on mobile */
+  }
+
   .recipe-image-placeholder {
-    height: 160px;
+    height: 140px;
   }
   
   .recipe-image-placeholder .material-symbols-outlined {
@@ -2201,23 +2203,7 @@ body.dark .error-icon {
   border-color: var(--color-primary);
 }
 
-/* Material Icons */
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
+
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -2306,13 +2292,13 @@ input:focus-visible {
 
 /* Page Container para nuevas secciones */
 .page-container {
-  padding: 2rem 2rem;
+  padding: 1.25rem 1rem;
   width: 100%;
 }
 
 @media (min-width: 640px) {
   .page-container {
-    padding: 3rem 2.5rem;
+    padding: 2.5rem 2rem;
   }
 }
 
@@ -2471,6 +2457,15 @@ input:focus-visible {
   padding: 1.75rem;
 }
 
+@media (max-width: 640px) {
+  .story-image {
+    padding-bottom: 60%; /* 16:10 aspect ratio for mobile */
+  }
+  .story-content {
+    padding: 1.25rem 1rem;
+  }
+}
+
 .story-title {
   font-size: 1.375rem;
   font-weight: 700;
@@ -2501,6 +2496,8 @@ input:focus-visible {
   line-height: 1.8;
   margin: 1.5rem 0;
   white-space: pre-line;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .story-themes {
@@ -2577,10 +2574,19 @@ input:focus-visible {
 
 @media (max-width: 768px) {
   .museum-card {
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-lg);
   }
   .museum-page-title {
-    font-size: 2.25rem;
+    font-size: 1.875rem;
+  }
+  .museum-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .museum-title {
+    font-size: 1.5rem;
   }
 }
 
@@ -3791,9 +3797,16 @@ body.dark .skeleton-tag {
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem 0;
+  gap: 1rem;
+  padding: 0.5rem 0;
   width: 100%;
+}
+
+@media (min-width: 640px) {
+  .bento-grid {
+    gap: 1.5rem;
+    padding: 1rem 0;
+  }
 }
 
 @media (min-width: 768px) {
@@ -3849,8 +3862,8 @@ body.dark .skeleton-tag {
   padding: 3rem 2rem;
   text-align: center;
   background: 
-    linear-gradient(to bottom, rgba(45, 62, 53, 0.4), rgba(30, 42, 35, 0.8)),
-    url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=2074') center/cover no-repeat;
+    radial-gradient(circle at top right, rgba(193, 68, 14, 0.35), transparent 60%),
+    linear-gradient(135deg, rgba(45, 90, 61, 0.95) 0%, rgba(26, 40, 32, 0.98) 100%);
   box-shadow: var(--shadow-lg);
 }
 
@@ -3929,9 +3942,17 @@ body.dark .skeleton-tag {
 
 @media (max-width: 768px) {
   .hero-immersive {
-    min-height: 320px;
-    padding: 2rem 1rem;
+    min-height: 240px;
+    padding: 1.5rem 1rem;
     border-radius: var(--radius-lg);
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+
+  .hero-desc {
+    font-size: 0.9375rem;
   }
 }
 
