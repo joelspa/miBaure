@@ -11,7 +11,7 @@ export const mockRecipes = [
         conservation: "No se conserva, se consume en el día debido a que no lleva conservantes.",
         sourcePerson: "Adil Arredondo (Jasiaquiri)",
         tags: ["Río", "Tradicional", "Pescado"],
-        imageUrl: "https://images.unsplash.com/photo-1548943487-a2e4e43b4850?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        imageUrl: "/images/recipes/sopa-bucheres.png",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     },
@@ -27,7 +27,7 @@ export const mockRecipes = [
         conservation: "Se puede guardar refrigerado bastante tiempo o en manteca.",
         sourcePerson: "Dalia Durán (El Cairo)",
         tags: ["Festivo", "Carne", "Monte"],
-        imageUrl: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        imageUrl: "/images/recipes/asado-monte.png",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     },
@@ -43,7 +43,7 @@ export const mockRecipes = [
         conservation: "Se puede guardar una semana; cada día su fermentación aumenta.",
         sourcePerson: "Eloisa Sandoval (Baures)",
         tags: ["Yuca", "Bebida", "Fermento"],
-        imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        imageUrl: "/images/recipes/chicha-yuca.png",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     },
@@ -59,7 +59,7 @@ export const mockRecipes = [
         conservation: "Dura hasta el día siguiente si se refrigera.",
         sourcePerson: "Tradición popular Baure",
         tags: ["Arroz", "Carne seca", "Diario"],
-        imageUrl: "https://images.unsplash.com/photo-1596560548464-f010549b84d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        imageUrl: "",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     },
@@ -75,7 +75,7 @@ export const mockRecipes = [
         conservation: "Se conserva un par de días a temperatura ambiente.",
         sourcePerson: "Comunidad de Jasiaquiri",
         tags: ["Horneado", "Arroz", "Merienda"],
-        imageUrl: "https://images.unsplash.com/photo-1541529086526-db283c563270?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        imageUrl: "/images/recipes/pan-mentira.png",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     }
@@ -91,7 +91,7 @@ export const mockLifeStories = [
         community: "Concepción de Baures",
         story: "Sobre nuestra fuente de alimentación, teníamos arroz y comíamos comida de choclo, así en forma de pastel. Un dato muy interesante de mi juventud es cómo elaborábamos comida con turo (caracol gigante de agua dulce). Íbamos al río temprano, lo buscábamos entre las plantas, lo asábamos en las brasas y luego lo limpiábamos. Yo lo comía con chivé, y tenía un sabor muy parecido al churiqui de gallina.",
         relatedThemes: ["Maíz", "Caracol", "Cocina de recolección"],
-        photoUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        photoUrl: "",
         recordedBy: "Franziska Riedel (2012)",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -105,7 +105,7 @@ export const mockLifeStories = [
         community: "Concepción de Baures",
         story: "La fuente principal de nuestra alimentación era el chivé o harina de cusi. También recuerdo vívidamente cómo se preparaba el tamal de turo. El maíz se molía cuidadosamente en tacú y se entreveraba la carne del turo muy bien picada con su propio caldo, agregándole manteca para que no quede seco. Era una labor que hacíamos entre varias mujeres y nos llevaba toda la tarde.",
         relatedThemes: ["Cusi", "Turo", "Tamal", "Trabajo comunitario"],
-        photoUrl: "https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        photoUrl: "",
         recordedBy: "Franziska Riedel (2012)",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -119,7 +119,7 @@ export const mockLifeStories = [
         community: "El Cairo",
         story: "En la época de mi padre, cuando llegaba el tiempo de la zafra, hacíamos las moliendas de caña usando un trapiche de madera tirado por bueyes. Con ese jugo dulce hacíamos empanizao y melaza. Todo el pueblo olía a dulce. Nos levantábamos a las 4 de la mañana para prender los hornos.",
         relatedThemes: ["Caña de azúcar", "Molienda", "Zafra"],
-        photoUrl: "https://images.unsplash.com/photo-1615638210332-9c1c5a932c02?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        photoUrl: "",
         recordedBy: "Proyecto Voces Baure",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -133,7 +133,7 @@ export const mockLifeStories = [
         community: "San Francisco",
         story: "Mis abuelos siempre nos decían que el monte tiene dueño, 'El Jichi'. Cuando íbamos a cazar, no podíamos sacar más animales de los necesarios para comer esa semana. Si un cazador era ambicioso, se perdía en el monte. Por eso siempre pedíamos permiso antes de entrar a buscar pavas o troperos.",
         relatedThemes: ["Mitos y leyendas", "Caza", "Respeto a la naturaleza"],
-        photoUrl: "https://images.unsplash.com/photo-1598285994273-30b62e49d564?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        photoUrl: "",
         recordedBy: "Proyecto Voces Baure",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -150,7 +150,7 @@ export const mockCulturalData = [
             { subtitle: "Ubicación geográfica", text: "Municipio de Magdalena, Baures y Huacaraje." },
             { subtitle: "Organización social precolonial", text: "Estaban organizados bajo el mando de caciques poderosos, llamados 'arama'." }
         ],
-        images: [{ url: "https://images.unsplash.com/photo-1533596545283-4ee196b0521e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "Paisaje amazónico, territorio Baure." }],
+        images: [{ url: "", caption: "Paisaje amazónico, territorio Baure." }],
         sources: ["Investigación de campo 2012"],
         relatedTopics: ["Territorio", "Historia precolonial", "Llanos de Moxos"],
         createdAt: new Date().toISOString(),
@@ -165,7 +165,7 @@ export const mockCulturalData = [
             { subtitle: "Estado actual", text: "Lengua en peligro de extinción, mayormente hablada por adultos mayores, aunque se están abriendo escuelas comunitarias para su enseñanza." },
             { subtitle: "Palabras comunes de la cocina", text: "Woshor (sopa/caldo), Pulaqui (chicha)." }
         ],
-        images: [{ url: "https://images.unsplash.com/photo-1587422119106-7eeb783857d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "Libros y registros de revitalización lingüística." }],
+        images: [{ url: "", caption: "Libros y registros de revitalización lingüística." }],
         sources: ["Investigación lingüística Arawak"],
         relatedTopics: ["Lengua Arawak", "Identidad", "Revitalización"],
         createdAt: new Date().toISOString(),
@@ -179,7 +179,7 @@ export const mockCulturalData = [
         subsections: [
             { subtitle: "El plumaje", text: "El tocado se arma cuidadosamente con plumas de paraba roja y azul, que antiguamente se recolectaban sin hacer daño a las aves." }
         ],
-        images: [{ url: "https://images.unsplash.com/photo-1518001509172-e16e4dbb38be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "Bailarín con tocado tradicional de plumas." }],
+        images: [{ url: "", caption: "Bailarín con tocado tradicional de plumas." }],
         sources: ["Archivo Folklórico del Beni"],
         relatedTopics: ["Danzas", "Música", "Fiestas Patronales"],
         createdAt: new Date().toISOString(),
@@ -193,7 +193,7 @@ export const mockCulturalData = [
         subsections: [
             { subtitle: "Aceite de cusi", text: "Elaborado artesanalmente hirviendo la almendra machacada." }
         ],
-        images: [{ url: "https://images.unsplash.com/photo-1605553556012-706d9b4b03a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "Aceites e infusiones artesanales." }],
+        images: [{ url: "", caption: "Aceites e infusiones artesanales." }],
         sources: ["Conocimiento de ancianos curanderos"],
         relatedTopics: ["Plantas Medicinales", "Palmeras", "Cosmetología indígena"],
         createdAt: new Date().toISOString(),
