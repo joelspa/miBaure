@@ -7,9 +7,6 @@ import { useToast } from '../hooks/useToast';
 import { ERROR_MESSAGES, LOADING_MESSAGES } from '../config/constants';
 
 function StoryCard({ story, isAdmin, onDelete }) {
-  const [expanded, setExpanded] = useState(false);
-  const isLong = story.story && story.story.length > 300;
-
   return (
     <article className="story-card">
       {story.photoUrl && (
@@ -43,21 +40,9 @@ function StoryCard({ story, isAdmin, onDelete }) {
 
         {/* Expandable text */}
         {story.story && (
-          <>
-            <p className={`story-text-preview${expanded ? ' expanded' : ''}`}>
+            <p className="story-text-preview">
               {story.story}
             </p>
-            {isLong && (
-              <button
-                className={`story-expand-btn${expanded ? ' expanded' : ''}`}
-                onClick={() => setExpanded(v => !v)}
-                aria-expanded={expanded}
-              >
-                {expanded ? 'Leer menos' : 'Leer más'}
-                <span className="material-symbols-outlined" aria-hidden="true">expand_more</span>
-              </button>
-            )}
-          </>
         )}
 
         {/* Tags */}

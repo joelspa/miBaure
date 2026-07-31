@@ -101,8 +101,15 @@ export default function RecipeList() {
 
   useEffect(() => {
     apiService.getAllRecipes()
-      .then(res  => { setRecipes(res.data); setLoading(false); })
-      .catch(err => { console.error(err); setError('No se pudieron cargar las recetas.'); setLoading(false); });
+      .then(res  => { 
+         setRecipes(res.data || []); 
+         setLoading(false); 
+      })
+      .catch(err => { 
+         console.error("Error fetching recipes:", err); 
+         setError('No se pudieron cargar las recetas.'); 
+         setLoading(false); 
+      });
   }, []);
 
   const filteredRecipes = recipes.filter(recipe => {

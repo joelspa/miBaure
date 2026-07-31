@@ -17,8 +17,8 @@ const withAuth = (headers = {}) => {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Si no hay respuesta (servidor caído) o es un error de red
-    if (!error.response || error.code === 'ERR_NETWORK') {
+    // Si no hay respuesta, es error de red o error HTTP (404, 500), servir mock data
+    if (!error.response || error.code === 'ERR_NETWORK' || error.response.status >= 400) {
       const url = error.config.url;
       console.warn(`[Demo Mode] Intercepted failed request to: ${url}`);
       
